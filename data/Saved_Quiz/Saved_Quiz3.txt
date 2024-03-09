@@ -1,0 +1,22 @@
+Multiple Choice Quiz
+
+#1: What is the main goal of the Semantic Web?
+A) Enhancing web design aesthetics
+B) Making online data more meaningful and interconnected
+C) Developing new programming languages
+D) Improving internet speed and connectivity
+Answer: B) Making online data more meaningful and interconnected
+
+#2: Which technology is crucial for expressing relationships between different pieces of information on the Semantic Web?
+A) JavaScript
+B) Resource Description Framework (RDF)
+C) Hypertext Markup Language (HTML)
+D) Cascading Style Sheets (CSS)
+Answer: B) Resource Description Framework (RDF)
+
+#3: How does the Semantic Web enable applications to understand information more effectively?
+A) By focusing on visual presentation
+B) By using complex algorithms
+C) By linking data using standards like RDF and OWL
+D) By limiting data accessibility
+Answer: C) By linking data using standards like RDF and OWL

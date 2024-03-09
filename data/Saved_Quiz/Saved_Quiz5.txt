@@ -1,0 +1,22 @@
+Multiple Choice Quiz
+
+#1: What is the Semantic Web primarily focused on?
+A) Providing entertainment for users
+B) Making data more meaningful and interconnected
+C) Displaying visual content
+D) Sending messages between users
+Answer: B) Making data more meaningful and interconnected
+
+#2: Which technology is used to express relationships between different pieces of information on the Semantic Web?
+A) HTML
+B) JavaScript
+C) CSS
+D) RDF
+Answer: D) RDF
+
+#3: What does Web Ontology Language (OWL) allow for on the Semantic Web?
+A) Real-time communication between users
+B) Streaming video content
+C) Creation of ontologies defining concepts and relationships
+D) Code execution on web browsers
+Answer: C) Creation of ontologies defining concepts and relationships

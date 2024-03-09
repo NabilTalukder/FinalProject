@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.taskandquizscheduler.AddTaskController">
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="44.0" prefWidth="217.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="37.0" prefWidth="79.0" text="Add Task" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="44.0" prefWidth="183.0" />
+                  <VBox prefHeight="44.0" prefWidth="68.0">
+                     <children>
+                        <Hyperlink fx:id="cancelLink" focusTraversable="false" onAction="#cancelClick" prefHeight="37.0" prefWidth="59.0" text="Cancel" />
+                     </children></VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <BorderPane prefHeight="89.0" prefWidth="300.0">
+                     <top>
+                        <HBox prefHeight="27.0" prefWidth="263.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="300.0" text="        Task Name" />
+                           </children>
+                        </HBox>
+                     </top>
+                     <center>
+                        <TextField fx:id="taskNameField" prefHeight="28.0" prefWidth="266.0" BorderPane.alignment="TOP_LEFT" />
+                     </center>
+                     <left>
+                        <VBox prefHeight="76.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
+                     </left>
+                     <right>
+                        <VBox prefHeight="74.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
+                     </right>
+                  </BorderPane>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <BorderPane prefHeight="117.0" prefWidth="300.0">
+                     <top>
+                        <HBox prefHeight="27.0" prefWidth="263.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="300.0" text="        Due Date" />
+                           </children>
+                        </HBox>
+                     </top>
+                     <left>
+                        <VBox prefHeight="76.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
+                     </left>
+                     <right>
+                        <VBox prefHeight="74.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
+                     </right>
+                     <center>
+                        <DatePicker fx:id="dueDatePicker" prefHeight="28.0" prefWidth="266.0" BorderPane.alignment="TOP_LEFT" />
+                     </center>
+                  </BorderPane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="81.0" prefWidth="116.0" />
+            <Button fx:id="confirmTaskButton" mnemonicParsing="false" onAction="#confirmClick" text="Add Task" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

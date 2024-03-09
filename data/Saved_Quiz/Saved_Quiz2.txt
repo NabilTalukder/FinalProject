@@ -1,0 +1,21 @@
+Multiple Choice Quiz
+#1: What is the Semantic Web focused on?
+A) Presentation of information to humans
+B) Structured data understood by computers
+C) Sharing memes online
+D) Gaming industry developments
+Answer: B) Structured data understood by computers
+
+#2: Which technology provides a framework for expressing relationships between different pieces of information on the Semantic Web?
+A) Java
+B) Resource Description Framework (RDF)
+C) Python
+D) HTML
+Answer: B) Resource Description Framework (RDF)
+
+#3: What does the Semantic Web use to define concepts and relationships in specific domains?
+A) Google Docs
+B) Microsoft Excel
+C) Web Ontology Language (OWL)
+D) Facebook
+Answer: C) Web Ontology Language (OWL)

@@ -1,0 +1,22 @@
+Multiple Choice Quiz
+
+#1: What is the main goal of the Semantic Web?
+A) To increase social media use
+B) To focus on the presentation of information
+C) To make online data more meaningful and interconnected
+D) To develop new computer programming languages
+Answer: C) To make online data more meaningful and interconnected
+
+#2: Which technology allows for the creation of ontologies in the Semantic Web?
+A) Java
+B) Web Ontology Language (OWL)
+C) Python
+D) JavaScript
+Answer: B) Web Ontology Language (OWL)
+
+#3: How does the Semantic Web enable applications to better understand information?
+A) By providing entertainment content
+B) By using only unstructured data
+C) By linking, querying, and inferring data in an intelligent manner
+D) By avoiding structured data
+Answer: C) By linking, querying, and inferring data in an intelligent manner

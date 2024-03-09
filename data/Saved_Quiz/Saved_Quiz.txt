@@ -1,0 +1,22 @@
+Multiple Choice Quiz
+
+#1: What is the main focus of the Semantic Web?
+A) Presentation to humans
+B) Processing by computers
+C) Interconnected networks
+D) Data storage
+Answer: B) Processing by computers
+
+#2: Which technology is used to express relationships between pieces of information in the Semantic Web?
+A) JSON
+B) HTML
+C) RDF
+D) XML
+Answer: C) RDF
+
+#3: What does the Web Ontology Language (OWL) enable in the Semantic Web?
+A) Enhanced graphics
+B) Secure connections
+C) Data encryption
+D) Creation of ontologies
+Answer: D) Creation of ontologies

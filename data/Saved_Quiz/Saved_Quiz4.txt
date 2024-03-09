@@ -1,0 +1,22 @@
+Multiple Choice Quiz
+
+#1: What is the main focus of the Semantic Web?
+A) Presenting information to humans
+B) Interconnecting online data
+C) Structured data for computers
+D) Storing data locally
+Answer: C) Structured data for computers
+
+#2: Which technology is used in the Semantic Web for expressing relationships between information pieces?
+A) Hypertext Transfer Protocol (HTTP)
+B) Resource Description Framework (RDF)
+C) Cascading Style Sheets (CSS)
+D) JavaScript
+Answer: B) Resource Description Framework (RDF)
+
+#3: How does the Semantic Web enable applications to understand information better?
+A) By using search engines
+B) By following hyperlinks
+C) By linking, querying, and inferring data
+D) By displaying data visually
+Answer: C) By linking, querying, and inferring data
