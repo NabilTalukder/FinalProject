@@ -131,8 +131,6 @@ public class ScheduleController {
          *  every label needs an event handler like sidebar labels
          *  event handler calls EditTask
          *  EditTask brings up same window as AddTask but is already filled in
-         *
-         *
          * */
 
         //allow scheduleLabel on sidebar to be clicked to show Scheduler page
