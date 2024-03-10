@@ -126,7 +126,7 @@ public class ScheduleController {
 
         /* problems
          * cells need GridPane.Vgrow to hold multiple tasks
-         * datepicker should show current month/year on page because it's tedious and confusing otherwise
+         * datepicker should show current month/year on page for QoL
          * tasks need to be clickable, editable entities
          *  every label needs an event handler like sidebar labels
          *  event handler calls EditTask
