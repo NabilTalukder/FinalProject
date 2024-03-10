@@ -11,12 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -282,6 +282,7 @@ public class ScheduleController {
                 if (node instanceof VBox){
                     VBox vBox = (VBox) node;
                     //clear any task labels so they aren't duplicated upon navigating months
+                    //remove if >1 because if there's only 1 label, that is the date label (shouldn't remove)
                     if (vBox.getChildren().size() > 1){
                         vBox.getChildren().remove(1, vBox.getChildren().size());
                     }
@@ -314,6 +315,10 @@ public class ScheduleController {
                                 taskLabel.setText(" " + taskList.get(i).getTaskName());
                                 //add task to cell, contained within the cell's VBox
                                 vBox.getChildren().add(taskLabel);
+                                GridPane.setVgrow(vBox, Priority.ALWAYS);
+                                GridPane.setVgrow(taskLabel, Priority.ALWAYS);
+                                //VBox.setVgrow(taskLabel, Priority.ALWAYS);
+
                             }
                             //next day
                             day++;
