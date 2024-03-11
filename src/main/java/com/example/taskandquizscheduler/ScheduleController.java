@@ -126,13 +126,12 @@ public class ScheduleController {
         //calculate date positions on calendar grid
         calendarCalc();
 
-        /* problems
-         * datepicker should show current month/year on page for QoL
-         * tasks need to be clickable, editable entities
-         *  every label needs an event handler like sidebar labels
-         *  event handler calls EditTask
-         *  EditTask brings up same window as AddTask but is already filled in
-         * */
+        /*
+        * In the loop, once task label added to calendar, add "setOnMousePressed" function to it
+        * One eventHandler for all task labels
+        * Eventhandler calls EditTask
+        * EditTask brings up same window as AddTask but is already filled in
+        * */
 
         //allow scheduleLabel on sidebar to be clicked to show Scheduler page
         quizGenLabel.setOnMousePressed(quizGenHandler);
@@ -140,6 +139,9 @@ public class ScheduleController {
 
     //handle mouse event of clicking scheduleLabel
     EventHandler<? super MouseEvent> quizGenHandler = actionEvent -> quizGenClick(actionEvent);
+
+    //handle mouse event of clicking taskLabel
+    EventHandler<? super MouseEvent> editTaskHandler = actionEvent -> editTaskClick(actionEvent);
 
     @FXML
     protected void quizGenClick(MouseEvent event){
@@ -222,6 +224,8 @@ public class ScheduleController {
                             for (Task task : taskList) {
                                 Label taskLabel = new Label();
                                 taskLabel.setText(" " + task.getTaskName());
+                                //allow task label to be clicked so user can edit it
+                                taskLabel.setOnMousePressed(editTaskHandler);
                                 //add task to cell, contained within the cell's VBox
                                 vBox.getChildren().add(taskLabel);
                             }
@@ -272,17 +276,19 @@ public class ScheduleController {
     @FXML
     protected void addTaskClick(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("add-task-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("task-view.fxml"));
             Parent root = loader.load();
-            //send tasksMap to addTaskController, so it can be updated with a new task
-            AddTaskController addTaskController = loader.getController();
-            addTaskController.setTasksMap(tasksMap);
+            //send tasksMap to taskController, so it can be updated with a new task
+            TaskController taskController = loader.getController();
+            taskController.setTasksMap(tasksMap);
             //make date picker of the popup correspond to the calendar's month/year for ease of use
-            addTaskController.setMonthVal(monthVal);
-            addTaskController.setYearVal(yearVal);
-            addTaskController.setDueDatePicker();
-            //set instantiated schedulerController object to addTaskController so the tasksMap can be received
-            addTaskController.setScheduleController(this);
+            taskController.setMonthVal(monthVal);
+            taskController.setYearVal(yearVal);
+            taskController.setDueDatePicker();
+            //set task-view UI text
+            taskController.setTaskAction("Add");
+            //set instantiated schedulerController object to taskController so the tasksMap can be received
+            taskController.setScheduleController(this);
 
             //set border
             root.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
@@ -307,6 +313,13 @@ public class ScheduleController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    protected void editTaskClick(MouseEvent event){
+        System.out.println("edit task");
+        /*think if editTaskClick and addTaskClick should be combined as one method
+        * write algorithm for Edit Task to find out*/
     }
 
     public HashMap<String, ArrayList<Task>> getTasksMap() {
