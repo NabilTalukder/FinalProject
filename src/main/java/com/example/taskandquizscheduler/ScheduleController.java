@@ -1,10 +1,8 @@
 package com.example.taskandquizscheduler;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -75,20 +73,24 @@ public class ScheduleController {
     @FXML
     protected void initialize(){
         //get all the set tasks
-        //seems to be a blank dueDate / extra line in tasks.txt
         String line;
         String dueDateKey;
         try {
             br = new BufferedReader(new FileReader("data/tasks.txt"));
             while ((line = br.readLine()) != null) {
+                //tasks are delimited by commas in the file
                 String[] taskNames = line.split(",");
+                //the first element of each line is a date for which tasks have been set
                 dueDateKey = taskNames[0];
+                //collect tasks for the line being read
                 ArrayList<Task> taskListValues = new ArrayList<>();
+                //create new Task objects to reconstruct the HashMap used for updating calendar
                 for (int i = 1; i < taskNames.length; i++){
                     Task task = new Task();
                     task.setTaskName(taskNames[i]);
                     taskListValues.add(task);
                 }
+                //add the tasks and date for which they have been assigned to HashMap
                 tasksMap.put(dueDateKey, taskListValues);
             }
             br.close();
@@ -102,6 +104,7 @@ public class ScheduleController {
 
         //add empty label to every cell in the calendar grid
         int cell = 0;
+        //calendar has 42 cells to account for differences in position of first day of the month
         for (int row = 0; row <= 5; row++){
             for (int col = 0; col <= 6; col++){
                 Label dateLabel = new Label();
@@ -124,7 +127,6 @@ public class ScheduleController {
         calendarCalc();
 
         /* problems
-         * cells need GridPane.Vgrow to hold multiple tasks
          * datepicker should show current month/year on page for QoL
          * tasks need to be clickable, editable entities
          *  every label needs an event handler like sidebar labels
@@ -133,7 +135,7 @@ public class ScheduleController {
          * */
 
         //allow scheduleLabel on sidebar to be clicked to show Scheduler page
-        scheduleLabel.setOnMousePressed(quizGenHandler);
+        quizGenLabel.setOnMousePressed(quizGenHandler);
     }
 
     //handle mouse event of clicking scheduleLabel
@@ -158,91 +160,9 @@ public class ScheduleController {
         }
     }
 
-
-//    @FXML
-//    protected void calendarCalc(){
-//        //flag for when the for loop reaches the first day of the month to start displaying dates
-//        monthStart = false;
-//        //cell number of calendar grid
-//        int cell = 1;
-//        //month always begins on day 1
-//        day = 1;
-//        //num days in month; check if leap year to add extra day if February
-//        monthLength = Month.valueOf(monthLabel.getText()).length(Year.isLeap(Integer.valueOf(yearLabel.getText())));
-//        /*column containing the first weekday of the month
-//         * found by extracting month & year shown on calendar*/
-//        firstWeekdayCol = LocalDate.of(Integer.valueOf(yearLabel.getText()),
-//                Month.valueOf(monthLabel.getText()).getValue(),
-//                1).getDayOfWeek().getValue();
-//        //loop through each cell and paste date if it's a day of the month
-//        for (int row = 0; row <= 5; row++){
-//            for (int col = 0; col <= 6; col++){
-//                //get Label from cell
-//                Node node = calendarGrid.getChildren().get(cell);
-//
-//                if (node instanceof Label){
-//                    Label dateLabel = (Label) node;
-//                    //finding first weekday of the month means date can be shown in cell
-//                    if (cell == firstWeekdayCol){
-//                        monthStart = true;
-//                    }
-//
-//                    //fill out calendar for every day in the month
-//                    //(monthStart || col == firstWeekdayCol - 1) && day <= monthLength
-//                    if (monthStart && day <= monthLength){
-//                        //add day of the month to cell
-//                        dateLabel.setText(" " + String.valueOf(day));
-//                        System.out.println("day : " + day + " cell: " + cell);
-//                        //parse constructed date string to prepare for format conversion
-//                        LocalDate dueDateBase = LocalDate.parse(yearLabel.getText() + "-"
-//                                + Month.valueOf(monthLabel.getText()).getValue() + "-"
-//                                + day, DateTimeFormatter.ofPattern("yyyy-M-d"));
-//                        //format date so it can be used for tasksMap
-//                        String dueDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(dueDateBase);
-//                        //get tasks for current day
-//                        taskList = tasksMap.computeIfAbsent(dueDate, k -> new ArrayList<>());
-//                        //for each task, add a label (showing task name) to the cell
-//                        for (int i = 0; i < taskList.size(); i++){
-//                            Label taskLabel = new Label();
-//                            taskLabel.setText(" " + taskList.get(i).getTaskName());
-//                            //add task to cell (defined by column, row)
-//                            calendarGrid.add(taskLabel, col, row);
-//                            /*
-//                            /* problems
-//                            * label stays even when switching months
-//                            * label pasted again when switching back. Need to set label instead of creating?
-//                            * tasks need to be clickable, editable entities
-//                            * */
-//                        }
-//                        //next day
-//                        day++;
-//                    }
-//                    else {
-//                        //if it's not a day of the month, show empty cell
-//                        dateLabel.setText("");
-//                    }
-//                }
-//                //go to next cell in calendar grid
-//                cell++;
-//            }
-//        }
-//
-//        //delete
-//        for (int i = 0; i <= 5; i++){
-//            Node node = calendarGrid.getChildren().get(i);
-//            if (node instanceof Label){
-//                Label test = (Label) node;
-//                System.out.println("day in cell: " + test.getText());
-//                System.out.println("column: " + GridPane.getColumnIndex(test));
-//            }
-//        }
-//
-//
-//    }
-
     @FXML
     protected void calendarCalc(){
-        //flag for when the for loop reaches the first day of the month to start displaying dates
+        //flag for when dateTaskCalc() reaches first day of the month to start displaying dates
         monthStart = false;
         //cell number of calendar grid
         int cell = 0;
@@ -252,7 +172,7 @@ public class ScheduleController {
         monthLength = Month.valueOf(monthLabel.getText()).length(Year.isLeap(Integer.valueOf(yearLabel.getText())));
         /*column containing the first weekday of the month
          * found by extracting month & year shown on calendar
-         *  and then -1 to match calendarGrid index, which starts from 0*/
+         * and then -1 to match calendarGrid index, which starts from 0*/
         firstWeekdayCol = LocalDate.of(Integer.valueOf(yearLabel.getText()),
                 Month.valueOf(monthLabel.getText()).getValue(),
                 1).getDayOfWeek().getValue() - 1;
@@ -270,19 +190,21 @@ public class ScheduleController {
 //            calendarGrid.getRowConstraints().add(rowConstraint); // Add it to the GridPane
 //        }
 
+        //calendar has 42 cells to account for differences in position of first day of the month
         for (int row = 0; row <= 5; row++){
             for (int col = 0; col <= 6; col++){
                 //get VBox from cell, containing date label
                 Node node = calendarGrid.getChildren().get(cell);
                 if (node instanceof VBox){
                     VBox vBox = (VBox) node;
-                    //clear any task labels so they aren't duplicated upon navigating months
+                    //clear any task labels, so they aren't duplicated upon navigating months
                     //remove if >1 because if there's only 1 label, that is the date label (shouldn't remove)
                     if (vBox.getChildren().size() > 1){
                         vBox.getChildren().remove(1, vBox.getChildren().size());
                     }
+                    //Vbox containing Labels should expand to properly show set tasks
                     GridPane.setVgrow(vBox, Priority.ALWAYS);
-                    //VBox should only have index 0, containing dateLabel
+                    //VBox left with only index 0, containing dateLabel
                     Node dateNode = vBox.getChildren().get(0);
                     if (dateNode instanceof Label){
                         Label dateLabel = (Label) dateNode;
@@ -295,7 +217,6 @@ public class ScheduleController {
                         if (monthStart && day <= monthLength){
                             //add day of the month to cell
                             dateLabel.setText(" " + String.valueOf(day));
-                            //System.out.println("day : " + day + " cell: " + cell);
                             //parse constructed date string to prepare for format conversion
                             LocalDate dueDateBase = LocalDate.parse(yearLabel.getText() + "-"
                                     + Month.valueOf(monthLabel.getText()).getValue() + "-"
@@ -356,10 +277,10 @@ public class ScheduleController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("add-task-view.fxml"));
             Parent root = loader.load();
-            //send tasksMap to addTaskController so it can be updated with a new task
+            //send tasksMap to addTaskController, so it can be updated with a new task
             AddTaskController addTaskController = loader.getController();
             addTaskController.setTasksMap(tasksMap);
-            //set this schedulerController object to addTaskController so the tasksMap can be received
+            //set instantiated schedulerController object to addTaskController so the tasksMap can be received
             addTaskController.setScheduleController(this);
 
             //set border
