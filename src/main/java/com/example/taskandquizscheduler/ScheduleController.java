@@ -4,15 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -259,22 +258,18 @@ public class ScheduleController {
                 1).getDayOfWeek().getValue() - 1;
         //loop through each cell and add date label if it's a day of the month
         dateTaskCalc(cell);
-
-        //delete this
-        for (int i = 0; i <= 5; i++){
-            Node node = calendarGrid.getChildren().get(i);
-            if (node instanceof Label){
-                Label test = (Label) node;
-                System.out.println("day in cell: " + test.getText());
-                System.out.println("column: " + GridPane.getColumnIndex(test));
-            }
-        }
-
-
     }
 
     @FXML
     protected void dateTaskCalc(int cell){
+//        AI generated
+//        for (int i = 0; i <= 5; i++) {
+//            // Create a new row constraint with USE_COMPUTED_SIZE
+//            RowConstraints rowConstraint = new RowConstraints();
+//            rowConstraint.setPrefHeight(GridPane.USE_COMPUTED_SIZE);
+//            calendarGrid.getRowConstraints().add(rowConstraint); // Add it to the GridPane
+//        }
+
         for (int row = 0; row <= 5; row++){
             for (int col = 0; col <= 6; col++){
                 //get VBox from cell, containing date label
@@ -286,7 +281,7 @@ public class ScheduleController {
                     if (vBox.getChildren().size() > 1){
                         vBox.getChildren().remove(1, vBox.getChildren().size());
                     }
-
+                    GridPane.setVgrow(vBox, Priority.ALWAYS);
                     //VBox should only have index 0, containing dateLabel
                     Node dateNode = vBox.getChildren().get(0);
                     if (dateNode instanceof Label){
@@ -310,15 +305,11 @@ public class ScheduleController {
                             //get tasks for current day
                             taskList = tasksMap.computeIfAbsent(dueDate, k -> new ArrayList<>());
                             //for each task, add a label (showing task name) to the cell
-                            for (int i = 0; i < taskList.size(); i++){
+                            for (Task task : taskList) {
                                 Label taskLabel = new Label();
-                                taskLabel.setText(" " + taskList.get(i).getTaskName());
+                                taskLabel.setText(" " + task.getTaskName());
                                 //add task to cell, contained within the cell's VBox
                                 vBox.getChildren().add(taskLabel);
-                                GridPane.setVgrow(vBox, Priority.ALWAYS);
-                                GridPane.setVgrow(taskLabel, Priority.ALWAYS);
-                                //VBox.setVgrow(taskLabel, Priority.ALWAYS);
-
                             }
                             //next day
                             day++;

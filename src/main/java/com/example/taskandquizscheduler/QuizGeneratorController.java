@@ -108,7 +108,7 @@ public class QuizGeneratorController {
     protected void scheduleClick(MouseEvent event){
         //go to schedule page
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("schedule-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("schedule-view4.fxml"));
             root = loader.load();
             //scene transition
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
