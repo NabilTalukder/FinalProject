@@ -61,18 +61,9 @@
                            <top>
                               <HBox prefHeight="70.0" prefWidth="1138.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <VBox prefHeight="70.0" prefWidth="81.0">
+                                    <VBox prefHeight="70.0" prefWidth="300.0">
                                        <children>
-                                          <Label fx:id="monthLabel" prefHeight="70.0" prefWidth="71.0" text="Month">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </VBox>
-                                    <VBox prefHeight="70.0" prefWidth="81.0">
-                                       <children>
-                                          <Label fx:id="yearLabel" prefHeight="103.0" prefWidth="100.0" text="Year">
+                                          <Label fx:id="monthYearLabel" prefHeight="68.0" prefWidth="273.0" text="Month Year">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>

@@ -36,6 +36,8 @@ public class ScheduleController {
     private ArrayList<Task> taskList = new ArrayList<>();
     private HashMap<String, ArrayList<Task>> tasksMap = new HashMap<>();
     private BufferedReader br = null;
+    private String yearVal;
+    private String monthVal;
 
     @FXML
     private Label friendsLabel;
@@ -56,10 +58,7 @@ public class ScheduleController {
     private GridPane weekdayGrid;
 
     @FXML
-    private Label monthLabel;
-
-    @FXML
-    private Label yearLabel;
+    private Label monthYearLabel;
 
     @FXML
     private Button prevMonthButton;
@@ -98,9 +97,10 @@ public class ScheduleController {
             e.printStackTrace();
         }
 
-        //set current month, year
-        yearLabel.setText(String.valueOf(LocalDate.now().getYear()));
-        monthLabel.setText(String.valueOf(LocalDate.now().getMonth()));
+        //set current month, year; update corresponding label
+        yearVal = String.valueOf(LocalDate.now().getYear());
+        monthVal = String.valueOf(LocalDate.now().getMonth());
+        monthYearLabel.setText(monthVal + " " + yearVal);
 
         //add empty label to every cell in the calendar grid
         int cell = 0;
@@ -169,12 +169,12 @@ public class ScheduleController {
         //month always begins on day 1
         day = 1;
         //num days in month; check if leap year to add extra day if February
-        monthLength = Month.valueOf(monthLabel.getText()).length(Year.isLeap(Integer.valueOf(yearLabel.getText())));
+        monthLength = Month.valueOf(monthVal).length(Year.isLeap(Integer.parseInt(yearVal)));
         /*column containing the first weekday of the month
          * found by extracting month & year shown on calendar
          * and then -1 to match calendarGrid index, which starts from 0*/
-        firstWeekdayCol = LocalDate.of(Integer.valueOf(yearLabel.getText()),
-                Month.valueOf(monthLabel.getText()).getValue(),
+        firstWeekdayCol = LocalDate.of(Integer.parseInt(yearVal),
+                Month.valueOf(monthVal).getValue(),
                 1).getDayOfWeek().getValue() - 1;
         //loop through each cell and add date label if it's a day of the month
         dateTaskCalc(cell);
@@ -218,8 +218,8 @@ public class ScheduleController {
                             //add day of the month to cell
                             dateLabel.setText(" " + String.valueOf(day));
                             //parse constructed date string to prepare for format conversion
-                            LocalDate dueDateBase = LocalDate.parse(yearLabel.getText() + "-"
-                                    + Month.valueOf(monthLabel.getText()).getValue() + "-"
+                            LocalDate dueDateBase = LocalDate.parse(yearVal + "-"
+                                    + Month.valueOf(monthVal).getValue() + "-"
                                     + day, DateTimeFormatter.ofPattern("yyyy-M-d"));
                             //format date so it can be used for tasksMap
                             String dueDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(dueDateBase);
@@ -251,10 +251,12 @@ public class ScheduleController {
     @FXML
     protected void prevMonthClick(){
         //decrement month
-        monthLabel.setText(String.valueOf(Month.valueOf(monthLabel.getText()).minus(1)));
+        monthVal = String.valueOf(Month.valueOf(monthVal).minus(1));
+        monthYearLabel.setText(monthVal + " " + yearVal);
         //decrementing to December means year should decrement too
-        if (Month.valueOf(monthLabel.getText()) == Month.DECEMBER) {
-            yearLabel.setText(Integer.toString(Integer.parseInt(yearLabel.getText()) - 1));
+        if (Month.valueOf(monthVal) == Month.DECEMBER) {
+            yearVal = Integer.toString(Integer.parseInt(yearVal) - 1);
+            monthYearLabel.setText(monthVal + " " + yearVal);
         }
         //show dates for the current month
         calendarCalc();
@@ -263,10 +265,12 @@ public class ScheduleController {
     @FXML
     protected void nextMonthClick(){
         //increment month
-        monthLabel.setText(String.valueOf(Month.valueOf(monthLabel.getText()).plus(1)));
+        monthVal = String.valueOf(Month.valueOf(monthVal).plus(1));
+        monthYearLabel.setText(monthVal + " " + yearVal);
         //incrementing to January means year should increment too
-        if (Month.valueOf(monthLabel.getText()) == Month.JANUARY){
-            yearLabel.setText(Integer.toString(Integer.parseInt(yearLabel.getText()) + 1));
+        if (Month.valueOf(monthVal) == Month.JANUARY){
+            yearVal = Integer.toString(Integer.parseInt(yearVal) + 1);
+            monthYearLabel.setText(monthVal + " " + yearVal);
         }
         //show dates for the current month
         calendarCalc();
