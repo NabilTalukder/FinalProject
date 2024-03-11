@@ -119,7 +119,7 @@
                            <center>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <VBox prefHeight="64.0" prefWidth="1138.0">
+                                    <VBox prefHeight="33.0" prefWidth="1138.0">
                                        <children>
                                           <GridPane fx:id="weekdayGrid" gridLinesVisible="true">
                                             <columnConstraints>
@@ -146,7 +146,7 @@
                                           </GridPane>
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="350.0" prefWidth="1138.0">
+                                    <VBox prefHeight="416.0" prefWidth="1138.0">
                                        <children>
                                           <GridPane fx:id="calendarGrid" gridLinesVisible="true" maxHeight="474.0" prefHeight="278.0" prefWidth="1138.0" snapToPixel="false" VBox.vgrow="ALWAYS">
                                             <columnConstraints>
