@@ -182,13 +182,6 @@ public class ScheduleController {
 
     @FXML
     protected void dateTaskCalc(int cell){
-//        AI generated
-//        for (int i = 0; i <= 5; i++) {
-//            // Create a new row constraint with USE_COMPUTED_SIZE
-//            RowConstraints rowConstraint = new RowConstraints();
-//            rowConstraint.setPrefHeight(GridPane.USE_COMPUTED_SIZE);
-//            calendarGrid.getRowConstraints().add(rowConstraint); // Add it to the GridPane
-//        }
 
         //calendar has 42 cells to account for differences in position of first day of the month
         for (int row = 0; row <= 5; row++){
