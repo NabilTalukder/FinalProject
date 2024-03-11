@@ -13,7 +13,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class AddTaskController {
@@ -27,6 +31,8 @@ public class AddTaskController {
     private ScheduleController scheduleController;
     private BufferedReader br = null;
     private BufferedWriter bw = null;
+    private String yearVal;
+    private String monthVal;
 
     @FXML
     private Button confirmTaskButton;
@@ -39,6 +45,17 @@ public class AddTaskController {
 
     @FXML
     private Hyperlink cancelLink;
+
+    @FXML
+    protected void setDueDatePicker(){
+        /* set the date picker to the month being shown on the calendar for ease of use
+        * Date picker will be blank by default (next/prev month buttons not clicked)*/
+        if (Month.valueOf(monthVal) != LocalDate.now().getMonth()){
+            dueDatePicker.setValue(LocalDate.parse("1" + "-"
+                    + Month.valueOf(monthVal).getValue() + "-"
+                    + yearVal, DateTimeFormatter.ofPattern("d-M-yyyy")));
+        }
+    }
 
     @FXML
     protected void cancelClick(ActionEvent event){
@@ -56,7 +73,6 @@ public class AddTaskController {
         //create a new task and set the retrieved information
         Task task = new Task();
         task.setTaskName(taskName);
-
         //check if there are any tasks for the task's set due date
         //if there are no tasks, add the task to a new list to that date in tasksMap
         taskList = tasksMap.computeIfAbsent(dueDate, k -> new ArrayList<>());
@@ -119,5 +135,13 @@ public class AddTaskController {
 
     public void setScheduleController(ScheduleController scheduleController) {
         this.scheduleController = scheduleController;
+    }
+
+    public void setYearVal(String yearVal) {
+        this.yearVal = yearVal;
+    }
+
+    public void setMonthVal(String monthVal) {
+        this.monthVal = monthVal;
     }
 }

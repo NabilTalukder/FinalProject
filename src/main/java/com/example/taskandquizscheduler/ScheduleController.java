@@ -277,6 +277,10 @@ public class ScheduleController {
             //send tasksMap to addTaskController, so it can be updated with a new task
             AddTaskController addTaskController = loader.getController();
             addTaskController.setTasksMap(tasksMap);
+            //make date picker of the popup correspond to the calendar's month/year for ease of use
+            addTaskController.setMonthVal(monthVal);
+            addTaskController.setYearVal(yearVal);
+            addTaskController.setDueDatePicker();
             //set instantiated schedulerController object to addTaskController so the tasksMap can be received
             addTaskController.setScheduleController(this);
 
