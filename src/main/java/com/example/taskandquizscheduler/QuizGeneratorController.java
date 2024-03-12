@@ -28,7 +28,7 @@ public class QuizGeneratorController {
     private BufferedWriter bw = null;
     private PrintWriter pw;
     private BufferedReader br = null;
-    private ClientController clientCtrl;
+    private ClientController clientController;
     private Socket clientSocket;
     private String quizGenInput;
     private String quizGenOutput;
@@ -66,7 +66,7 @@ public class QuizGeneratorController {
     public QuizGeneratorController() {
         //set up client
         try {
-            clientCtrl = new ClientController();
+            clientController = new ClientController();
             clientSocket = new Socket("localhost", 3007);
 
             //set up to write to Python server
@@ -159,10 +159,10 @@ public class QuizGeneratorController {
         //retrieve the user inputted text
         quizGenInput = quizGenInputArea.getText();
         //send to ClientSocket to send to Python server
-        clientCtrl.setQuizGenInput(quizGenInput);
-        clientCtrl.sendInfo(pw);
+        clientController.setQuizGenInput(quizGenInput);
+        clientController.sendInfo(pw);
         //get outputted quiz from ClientSocket from Python server
-        quizGenOutput = clientCtrl.retrieveInfo(clientSocket);
+        quizGenOutput = clientController.retrieveInfo(clientSocket);
 
         //display string from Python file in quiz generator output area
         quizGenOutputArea.setText(String.valueOf(quizGenOutput));

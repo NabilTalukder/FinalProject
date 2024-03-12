@@ -91,7 +91,7 @@
                                     <VBox prefHeight="70.0" prefWidth="680.0" />
                                     <VBox prefHeight="70.0" prefWidth="127.0">
                                        <children>
-                                          <Button fx:id="addTaskButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#addTaskClick" prefHeight="25.0" prefWidth="104.0" text="Add Task">
+                                          <Button fx:id="addTaskButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Add Task">
                                              <VBox.margin>
                                                 <Insets left="17.0" top="22.0" />
                                              </VBox.margin>

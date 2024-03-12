@@ -1,5 +1,6 @@
 package com.example.taskandquizscheduler;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -135,13 +136,20 @@ public class ScheduleController {
 
         //allow scheduleLabel on sidebar to be clicked to show Scheduler page
         quizGenLabel.setOnMousePressed(quizGenHandler);
+
+        //allow addTaskButton to start process for adding task
+        //done this way instead of using SceneBuilder because of similar functionality to Editing Task
+        addTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
     }
 
     //handle mouse event of clicking scheduleLabel
-    EventHandler<? super MouseEvent> quizGenHandler = actionEvent -> quizGenClick(actionEvent);
+    EventHandler<? super MouseEvent> quizGenHandler = this::quizGenClick;
+
+    //handle mouse event of clicking Add Task button
+    EventHandler<? super ActionEvent> addTaskHandler = event -> showTaskView("Add");
 
     //handle mouse event of clicking taskLabel
-    EventHandler<? super MouseEvent> editTaskHandler = actionEvent -> editTaskClick(actionEvent);
+    EventHandler<? super MouseEvent> editTaskHandler = event -> showTaskView("Edit");
 
     @FXML
     protected void quizGenClick(MouseEvent event){
@@ -274,7 +282,7 @@ public class ScheduleController {
     }
 
     @FXML
-    protected void addTaskClick(){
+    protected void showTaskView(String taskAction){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("task-view.fxml"));
             Parent root = loader.load();
@@ -285,8 +293,8 @@ public class ScheduleController {
             taskController.setMonthVal(monthVal);
             taskController.setYearVal(yearVal);
             taskController.setDueDatePicker();
-            //set task-view UI text
-            taskController.setTaskAction("Add");
+            //set task-view behaviour based on if user wants to add/edit/delete/complete task
+            taskController.setTaskAction(taskAction);
             //set instantiated schedulerController object to taskController so the tasksMap can be received
             taskController.setScheduleController(this);
 
