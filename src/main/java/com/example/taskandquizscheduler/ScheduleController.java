@@ -319,7 +319,21 @@ public class ScheduleController {
     protected void editTaskClick(MouseEvent event){
         System.out.println("edit task");
         /*think if editTaskClick and addTaskClick should be combined as one method
-        * write algorithm for Edit Task to find out*/
+        * write algorithm for Edit Task to find out
+        *
+        * show task-view and set task action to Edit
+        *   taskAction field could be used by if statements in TaskController methods to decide if add/edit
+        *   can change the methods called when clicking confirmButton by using setOnAction
+        * get the selected task's name and date
+        * set fields with retrieved name and date
+        * once user clicks confirmButton (says Edit Task)
+        *   if taskName and/or dueDate are different
+        *       remove old entry from tasks.txt
+        *       replace with new task
+        *
+        * could combine addTaskClick and editTaskClick by using parameter to decide add or edit
+        * Since addTaskClick is tied to button, see if it can be tied programmatically
+        * instead of through SceneBuilder and pass a parameter like that?*/
     }
 
     public HashMap<String, ArrayList<Task>> getTasksMap() {
