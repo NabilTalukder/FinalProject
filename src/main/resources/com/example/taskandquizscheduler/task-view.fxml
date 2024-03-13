@@ -23,7 +23,7 @@
                   <VBox prefHeight="44.0" prefWidth="183.0" />
                   <VBox prefHeight="44.0" prefWidth="68.0">
                      <children>
-                        <Hyperlink fx:id="cancelLink" focusTraversable="false" onAction="#cancelClick" prefHeight="37.0" prefWidth="59.0" text="Cancel" />
+                        <Hyperlink fx:id="cancelLink" focusTraversable="false" onAction="#closeView" prefHeight="37.0" prefWidth="59.0" text="Cancel" />
                      </children></VBox>
                </children>
             </HBox>
@@ -78,7 +78,7 @@
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="81.0" prefWidth="116.0" />
-            <Button fx:id="confirmTaskButton" mnemonicParsing="false" onAction="#confirmClick" text="Confirm Task" />
+            <Button fx:id="confirmTaskButton" mnemonicParsing="false" text="Confirm Task" />
          </children>
       </HBox>
    </bottom>

@@ -1,11 +1,14 @@
 package com.example.taskandquizscheduler;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -19,15 +22,14 @@ public class TaskController {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    private String taskName;
-    private String dueDate;
     private ArrayList<Task> taskList = new ArrayList<>();
     private HashMap<String, ArrayList<Task>> tasksMap = new HashMap<>();
     private ScheduleController scheduleController;
     private BufferedReader br = null;
     private BufferedWriter bw = null;
-    private String yearVal;
-    private String monthVal;
+    private String taskAction;
+    private String oldTaskName;
+    private String oldDueDate;
 
     @FXML
     private Label taskTypeLabel;
@@ -45,7 +47,7 @@ public class TaskController {
     private Hyperlink cancelLink;
 
     @FXML
-    protected void setDueDatePicker(){
+    protected void addTask(String monthVal, String yearVal){
         /* set the date picker to the month being shown on the calendar for ease of use
         * Date picker will be blank by default (next/prev month buttons not clicked)*/
         if (Month.valueOf(monthVal) != LocalDate.now().getMonth()){
@@ -53,21 +55,52 @@ public class TaskController {
                     + Month.valueOf(monthVal).getValue() + "-"
                     + yearVal, DateTimeFormatter.ofPattern("d-M-yyyy")));
         }
+
+        //allow Confirm (Add) Task button to process a new task
+        confirmTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
     }
 
+    //handle mouse event of clicking Add Task button
+    EventHandler<? super ActionEvent> addTaskHandler = this::confirmAddTask;
+
     @FXML
-    protected void cancelClick(ActionEvent event){
-        //get the stage from which the cancel button was clicked
+    protected void editTask(Event taskEvent, String monthVal, String yearVal){
+        //retrieve task label
+        Label taskLabel = (Label) taskEvent.getSource();
+        //retrieve date label from cell (VBox) containing task label
+        Label dateLabel = (Label) ((VBox) taskLabel.getParent()).getChildren().get(0);
+        //display task name in task-view popup's text field
+        taskNameField.setText(taskLabel.getText());
+        //task name of selected task label - required for editing task
+        oldTaskName = taskLabel.getText();
+        //reconstruct and display due date of task
+        dueDatePicker.setValue(LocalDate.parse(dateLabel.getText() + "-"
+                + Month.valueOf(monthVal).getValue() + "-"
+                + yearVal, DateTimeFormatter.ofPattern("d-M-yyyy")));
+        //due date of selected task label - required for editing task
+        oldDueDate = dueDatePicker.getValue().toString();
+
+        //allow Confirm (Edit) Task button to process an edited task
+        confirmTaskButton.setOnAction((EventHandler<ActionEvent>) editTaskHandler);
+    }
+
+    //handle mouse event of clicking Edit Task button
+    EventHandler<? super ActionEvent> editTaskHandler = this::confirmEditTask;
+
+
+    @FXML
+    protected void closeView(ActionEvent event){
+        //get the stage from which the button that called this method was clicked
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        //close stage (window)
+        //close stage (task-view window)
         stage.close();
     }
 
     @FXML
-    protected void confirmClick(ActionEvent event){
+    protected void confirmAddTask(ActionEvent event){
         //get the task name and due date
-        taskName = taskNameField.getText();
-        dueDate = dueDatePicker.getValue().toString();
+        String taskName = taskNameField.getText();
+        String dueDate = dueDatePicker.getValue().toString();
         //create a new task and set the retrieved information
         Task task = new Task();
         task.setTaskName(taskName);
@@ -80,43 +113,234 @@ public class TaskController {
         scheduleController.setTasksMap(tasksMap);
         //update calendar with new task
         scheduleController.calendarCalc();
-        //update tasks file
-        saveTask(task, dueDate);
-
-
-        //get the stage from which the confirm button was clicked
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        //close stage because tasksMap has been updated
-        stage.close();
+        //update tasks file with newly created task
+        updateTasksFile(taskName, dueDate);
+        //process complete, so close task-view popup
+        closeView(event);
     }
 
-    public void saveTask(Task task, String dueDate) {
-        String line;
+    @FXML
+    protected void confirmEditTask(ActionEvent event){
+        //get entered task name and due date, so they can be compared with original values
+        String newTaskName = taskNameField.getText();
+        String newDueDate = dueDatePicker.getValue().toString();
+
+        /* upon clicking Confirm (Edit) Task button, if task name and due date were unchanged
+         * close view / Edit Task popup*/
+        if (oldTaskName.equals(newTaskName) &&
+                oldDueDate.equals(newDueDate)){
+            closeView(event);
+        }
+        //if only either task name or due date was changed
+        else {
+            //get the due date for which the task was set
+            taskList = tasksMap.get(newDueDate);
+
+            //if date or both name and date was changed
+            if (!oldDueDate.equals(newDueDate)){
+                /*remove the task's old name for the due date
+                * because changing date is effectively removing then adding new task*/
+                taskList.removeIf(task -> task.getTaskName().equals(oldTaskName));
+                //remove due date if there are no longer any tasks associated with it
+                if (taskList.size() == 0){
+                    tasksMap.remove(oldDueDate);
+                }
+                /*remove the task name from the tasks file for the old due date
+                * so the change is preserved upon application restart*/
+                removeTaskName(oldDueDate);
+                /*old task has been removed, so now add new task
+                * changing taskAction so the process for adding a task is followed
+                * instead of editing a task, which doesn't apply here as the date
+                * was changed*/
+                taskAction = "Add";
+                //add the task with its new name and/or new due date
+                confirmAddTask(event);
+            }
+            //if only task name was changed
+            else {
+                for (int i = 0; i < taskList.size(); i++) {
+                    //find the task with the same name
+                    if (taskList.get(i).getTaskName().equals(oldTaskName)){
+                        //replace the name with the new name
+                        taskList.get(i).setTaskName(taskNameField.getText());
+                    }
+                }
+                //send updated tasksMap back to schedulerController
+                scheduleController.setTasksMap(tasksMap);
+                //update calendar with new task
+                scheduleController.calendarCalc();
+                /*update tasks file by replacing old task name
+                * newDueDate is interchangeable with oldDueDate here */
+                updateTasksFile(newTaskName, newDueDate);
+                //process complete, so close task-view popup
+                closeView(event);
+            }
+
+            /*problems
+            * editing task date removes all tasks with the old date
+            * editing task name doesn't retain position
+            * tasks file isn't updated with edits, so everything comes back upon restart
+            * */
+
+            /*new method that does the following
+             * find due date
+             * find old task name
+             * replace old task name with new task name*/
+
+            /* split saveTask() -> updateTasksFile()
+             * everything in try block before br.close into a new method, only used by an if statement
+             * updateTasksFile() should have a parameter that is used in this if statement
+             * Meaning confirmAddTask needs to give an argument to updateTasksFile()
+             *  to allow the task to be added
+             *
+             * Also, the new method above this comment should be within an else-if block of updateTasksFile()
+             *
+             * The if statement that does the process for date and name being changed
+             * should call a new method removeFromTaskFile() before calling confirmAddTask()
+             * That process already removes the task from the hashmap and then adds a new one
+             * but it also needs to be done for the tasks file
+             * Since it calls confirmAddTask, it needs to set taskAction to Add or it'll follow
+             * the replaceTask path*/
+        }
+    }
+
+    public void updateTasksFile(String taskName, String dueDate) {
         StringBuilder sb = new StringBuilder();
-        boolean dueDateFound = false;
-        //search for dueDate to see if that date already has tasks assigned
         try {
             br = new BufferedReader(new FileReader("data/tasks.txt"));
-            while ((line = br.readLine()) != null) {
-                if (line.contains(dueDate)){
-                    dueDateFound = true;
-                    //edit the line containing the matching due date to include new task
-                    //use comma delimiters to separate tasks
-                    line = line.replace(line, line + "," + task.getTaskName());
-                }
-                //copy the line (both edited and unedited) with \n to preserve file's structure
-                sb.append(line + "\n");
+            //if a task was added, add task name to corresponding due date in file
+            System.out.println("task action: " + taskAction);
+            if (taskAction.equals("Add")){
+                System.out.println("adding new task");
+                appendTask(taskName, dueDate, sb);
             }
-            //append dueDate and task name if there were no tasks for the chosen date
-            //again, using \n to preserve structure
-            if (!dueDateFound){
-                sb.append(dueDate + "," + task.getTaskName() + "\n");
+            //if a task was edited, replace the task with the new one
+            else if (taskAction.equals("Edit")){
+                replaceTaskName(taskName, dueDate, sb);
             }
+
             br.close();
             //deleting old file so it can be replaced
             File oldFile = new File("data\\tasks.txt");
             oldFile.delete();
             //create updated tasks file with new task added
+            bw = new BufferedWriter(new FileWriter("data\\tasks.txt"));
+            bw.write(sb.toString());
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void appendTask(String taskName, String dueDate, StringBuilder sb){
+        String line;
+        boolean dueDateFound = false;
+        try {
+            //search for dueDate to see if that date already has tasks assigned
+            while ((line = br.readLine()) != null) {
+                if (line.contains(dueDate)){
+                    dueDateFound = true;
+                    //edit the line containing the matching due date to include new task
+                    //use comma delimiters to separate tasks
+                    line = line.replace(line, line + "," + taskName);
+                }
+                //copy the line (both edited and unedited) with \n to preserve file's structure
+                sb.append(line).append("\n");
+            }
+            //append dueDate and task name if there were no tasks for the chosen date
+            //again, using \n to preserve structure
+            if (!dueDateFound){
+                sb.append(dueDate + "," + taskName + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void replaceTaskName(String taskName, String dueDate, StringBuilder sb){
+        String line;
+        try {
+            //search for dueDate so the old task name can be replaced
+            while ((line = br.readLine()) != null) {
+                if (line.contains(dueDate)){
+                    //edit the line containing the matching due date to replace it
+                    line = line.replace(oldTaskName, taskName);
+                }
+                //copy the line (both edited and unedited) with \n to preserve file's structure
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeTaskName(String dueDate){
+        StringBuilder sb = new StringBuilder();
+        String line;
+        boolean dateHasTasks;
+        try {
+            br = new BufferedReader(new FileReader("data/tasks.txt"));
+            //search for dueDate so the old task name can be replaced
+            while ((line = br.readLine()) != null) {
+                dateHasTasks = true;
+                if (line.contains(dueDate)){
+                    /*account for oldTaskName appearing between other tasks by removing
+                    * comma delimiter along with it*/
+                    if (line.contains(oldTaskName + ",")){
+                        line = line.replace(oldTaskName + ",", "");
+                    }
+                    //remove if oldTaskName appears at end of line
+                    else if (line.contains(oldTaskName)){
+                        line = line.replace(oldTaskName, "");
+                        System.out.println("removed");
+                    }
+                }
+                /*if there's only a due date remaining on the line (no more tasks)
+                 * remove line*/
+                if (line.length() == 11){
+                    dateHasTasks = false;
+                    System.out.println("11 lines");
+                }
+                /*copy the line (both edited and unedited) with \n to preserve file's structure
+                 * but only for lines (due dates) that still have tasks associated with them*/
+                if (dateHasTasks){
+                    sb.append(line).append("\n");
+                }
+            }
+            br.close();
+            //deleting old file so it can be replaced
+            File oldFile = new File("data\\tasks.txt");
+            oldFile.delete();
+            //create updated tasks file with task removed
+            bw = new BufferedWriter(new FileWriter("data\\tasks.txt"));
+            bw.write(sb.toString());
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeDueDate(String dueDate) {
+        String line;
+        StringBuilder sb = new StringBuilder();
+        //search for dueDate
+        try {
+            br = new BufferedReader(new FileReader("data/tasks.txt"));
+            while ((line = br.readLine()) != null) {
+                if (line.contains(dueDate)){
+                    //edit the line containing the matching due date to include new task
+                    //use comma delimiters to separate tasks
+                    line.replace(line, "\n");
+                }
+                //copy the line (both edited and unedited) with \n to preserve file's structure
+                sb.append(line + "\n");
+            }
+            br.close();
+            //deleting old file so it can be replaced
+            File oldFile = new File("data\\tasks.txt");
+            oldFile.delete();
+            //create updated tasks file with due date removed
             bw = new BufferedWriter(new FileWriter("data\\tasks.txt"));
             bw.write(sb.toString());
             bw.close();
@@ -135,15 +359,9 @@ public class TaskController {
         this.scheduleController = scheduleController;
     }
 
-    public void setYearVal(String yearVal) {
-        this.yearVal = yearVal;
-    }
-
-    public void setMonthVal(String monthVal) {
-        this.monthVal = monthVal;
-    }
-
     public void setTaskAction(String taskAction) {
+        this.taskAction = taskAction;
+        //updating labels used in the text-view popup for user benefit
         taskTypeLabel.setText(taskAction + " Task");
         confirmTaskButton.setText(taskAction + " Task");
     }

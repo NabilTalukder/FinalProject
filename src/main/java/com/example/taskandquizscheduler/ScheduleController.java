@@ -1,9 +1,11 @@
 package com.example.taskandquizscheduler;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -127,13 +129,6 @@ public class ScheduleController {
         //calculate date positions on calendar grid
         calendarCalc();
 
-        /*
-        * In the loop, once task label added to calendar, add "setOnMousePressed" function to it
-        * One eventHandler for all task labels
-        * Eventhandler calls EditTask
-        * EditTask brings up same window as AddTask but is already filled in
-        * */
-
         //allow scheduleLabel on sidebar to be clicked to show Scheduler page
         quizGenLabel.setOnMousePressed(quizGenHandler);
 
@@ -146,10 +141,10 @@ public class ScheduleController {
     EventHandler<? super MouseEvent> quizGenHandler = this::quizGenClick;
 
     //handle mouse event of clicking Add Task button
-    EventHandler<? super ActionEvent> addTaskHandler = event -> showTaskView("Add");
+    EventHandler<? super ActionEvent> addTaskHandler = taskEvent -> showTaskView("Add", taskEvent);
 
     //handle mouse event of clicking taskLabel
-    EventHandler<? super MouseEvent> editTaskHandler = event -> showTaskView("Edit");
+    EventHandler<? super MouseEvent> editTaskHandler = taskEvent -> showTaskView("Edit", taskEvent);
 
     @FXML
     protected void quizGenClick(MouseEvent event){
@@ -219,7 +214,10 @@ public class ScheduleController {
                         //fill out calendar for every day in the month
                         if (monthStart && day <= monthLength){
                             //add day of the month to cell
-                            dateLabel.setText(" " + String.valueOf(day));
+                            dateLabel.setText(String.valueOf(day));
+                            //add left padding to date label
+                            Insets cellInsets = new Insets(0, 0, 0, 5);
+                            dateLabel.setPadding(cellInsets);
                             //parse constructed date string to prepare for format conversion
                             LocalDate dueDateBase = LocalDate.parse(yearVal + "-"
                                     + Month.valueOf(monthVal).getValue() + "-"
@@ -231,7 +229,9 @@ public class ScheduleController {
                             //for each task, add a label (showing task name) to the cell
                             for (Task task : taskList) {
                                 Label taskLabel = new Label();
-                                taskLabel.setText(" " + task.getTaskName());
+                                taskLabel.setText(task.getTaskName());
+                                //add left padding to task label
+                                taskLabel.setPadding(cellInsets);
                                 //allow task label to be clicked so user can edit it
                                 taskLabel.setOnMousePressed(editTaskHandler);
                                 //add task to cell, contained within the cell's VBox
@@ -282,19 +282,26 @@ public class ScheduleController {
     }
 
     @FXML
-    protected void showTaskView(String taskAction){
+    protected void showTaskView(String taskAction, Event taskEvent){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("task-view.fxml"));
             Parent root = loader.load();
             //send tasksMap to taskController, so it can be updated with a new task
             TaskController taskController = loader.getController();
             taskController.setTasksMap(tasksMap);
-            //make date picker of the popup correspond to the calendar's month/year for ease of use
-            taskController.setMonthVal(monthVal);
-            taskController.setYearVal(yearVal);
-            taskController.setDueDatePicker();
             //set task-view behaviour based on if user wants to add/edit/delete/complete task
             taskController.setTaskAction(taskAction);
+
+            //determine process based on task action
+            if (taskAction.equals("Add")){
+                //make preparations in task-view for adding task
+                taskController.addTask(monthVal, yearVal);
+            }
+            else if (taskAction.equals("Edit")){
+                //retrieve relevant info for editing task
+                taskController.editTask(taskEvent, monthVal, yearVal);
+            }
+
             //set instantiated schedulerController object to taskController so the tasksMap can be received
             taskController.setScheduleController(this);
 
@@ -326,16 +333,15 @@ public class ScheduleController {
     @FXML
     protected void editTaskClick(MouseEvent event){
         System.out.println("edit task");
-        /*think if editTaskClick and addTaskClick should be combined as one method
-        * write algorithm for Edit Task to find out
-        *
+        /*
         * show task-view and set task action to Edit
         *   taskAction field could be used by if statements in TaskController methods to decide if add/edit
-        *   can change the methods called when clicking confirmButton by using setOnAction
+        *   can change the methods called when clicking confirmButton in task-view by using setOnAction
         * get the selected task's name and date
+        *
         * set fields with retrieved name and date
         * once user clicks confirmButton (says Edit Task)
-        *   if taskName and/or dueDate are different
+        *   if taskName and/or dueDate were changed
         *       remove old entry from tasks.txt
         *       replace with new task
         *
