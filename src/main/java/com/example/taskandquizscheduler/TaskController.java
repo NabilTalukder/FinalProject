@@ -85,17 +85,12 @@ public class TaskController {
 
         //show delete link because a created task should be able to be deleted
         deleteTaskLink.setVisible(true);
-        //deleteTaskLink.setOnAction((EventHandler<ActionEvent>) deleteTaskHandler);
         //allow Confirm (Edit) Task button to process an edited task
         confirmTaskButton.setOnAction((EventHandler<ActionEvent>) editTaskHandler);
     }
 
     //handle event of clicking Edit Task button
     EventHandler<? super ActionEvent> editTaskHandler = this::confirmEditTask;
-
-    //handle event of clicking Delete Link
-    //EventHandler<? super ActionEvent> deleteTaskHandler = deleteTask(de);
-
 
     @FXML
     protected void closeView(ActionEvent event){
