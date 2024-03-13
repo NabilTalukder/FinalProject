@@ -175,32 +175,6 @@ public class TaskController {
                 //process complete, so close task-view popup
                 closeView(event);
             }
-
-            /*problems
-            * editing task date removes all tasks with the old date
-            * editing task name doesn't retain position
-            * tasks file isn't updated with edits, so everything comes back upon restart
-            * */
-
-            /*new method that does the following
-             * find due date
-             * find old task name
-             * replace old task name with new task name*/
-
-            /* split saveTask() -> updateTasksFile()
-             * everything in try block before br.close into a new method, only used by an if statement
-             * updateTasksFile() should have a parameter that is used in this if statement
-             * Meaning confirmAddTask needs to give an argument to updateTasksFile()
-             *  to allow the task to be added
-             *
-             * Also, the new method above this comment should be within an else-if block of updateTasksFile()
-             *
-             * The if statement that does the process for date and name being changed
-             * should call a new method removeFromTaskFile() before calling confirmAddTask()
-             * That process already removes the task from the hashmap and then adds a new one
-             * but it also needs to be done for the tasks file
-             * Since it calls confirmAddTask, it needs to set taskAction to Add or it'll follow
-             * the replaceTask path*/
         }
     }
 
@@ -209,9 +183,7 @@ public class TaskController {
         try {
             br = new BufferedReader(new FileReader("data/tasks.txt"));
             //if a task was added, add task name to corresponding due date in file
-            System.out.println("task action: " + taskAction);
             if (taskAction.equals("Add")){
-                System.out.println("adding new task");
                 appendTask(taskName, dueDate, sb);
             }
             //if a task was edited, replace the task with the new one
@@ -281,7 +253,7 @@ public class TaskController {
         boolean dateHasTasks;
         try {
             br = new BufferedReader(new FileReader("data/tasks.txt"));
-            //search for dueDate so the old task name can be replaced
+            //search for dueDate so the old task name can be removed
             while ((line = br.readLine()) != null) {
                 dateHasTasks = true;
                 if (line.contains(dueDate)){
@@ -293,14 +265,12 @@ public class TaskController {
                     //remove if oldTaskName appears at end of line
                     else if (line.contains(oldTaskName)){
                         line = line.replace(oldTaskName, "");
-                        System.out.println("removed");
                     }
                 }
                 /*if there's only a due date remaining on the line (no more tasks)
                  * remove line*/
                 if (line.length() == 11){
                     dateHasTasks = false;
-                    System.out.println("11 lines");
                 }
                 /*copy the line (both edited and unedited) with \n to preserve file's structure
                  * but only for lines (due dates) that still have tasks associated with them*/
@@ -320,36 +290,6 @@ public class TaskController {
             e.printStackTrace();
         }
     }
-
-    public void removeDueDate(String dueDate) {
-        String line;
-        StringBuilder sb = new StringBuilder();
-        //search for dueDate
-        try {
-            br = new BufferedReader(new FileReader("data/tasks.txt"));
-            while ((line = br.readLine()) != null) {
-                if (line.contains(dueDate)){
-                    //edit the line containing the matching due date to include new task
-                    //use comma delimiters to separate tasks
-                    line.replace(line, "\n");
-                }
-                //copy the line (both edited and unedited) with \n to preserve file's structure
-                sb.append(line + "\n");
-            }
-            br.close();
-            //deleting old file so it can be replaced
-            File oldFile = new File("data\\tasks.txt");
-            oldFile.delete();
-            //create updated tasks file with due date removed
-            bw = new BufferedWriter(new FileWriter("data\\tasks.txt"));
-            bw.write(sb.toString());
-            bw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void setTasksMap(HashMap<String, ArrayList<Task>> tasksMap) {
         this.tasksMap = tasksMap;
