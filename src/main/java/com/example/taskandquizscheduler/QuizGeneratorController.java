@@ -102,13 +102,13 @@ public class QuizGeneratorController {
     }
 
     //handle mouse event of clicking scheduleLabel
-    EventHandler<? super MouseEvent> scheduleHandler = actionEvent -> scheduleClick(actionEvent);
+    EventHandler<? super MouseEvent> scheduleHandler = this::scheduleClick;
 
     @FXML
     protected void scheduleClick(MouseEvent event){
         //go to schedule page
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("schedule-view4.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("schedule-view.fxml"));
             root = loader.load();
             //scene transition
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -205,7 +205,7 @@ public class QuizGeneratorController {
 
         //change to type File so the while loop below can check if it exists
         File f = new File(fileName);
-        Integer fileNumber = 1;
+        int fileNumber = 1;
         //if file exists, add a number to the name, repeat until file doesn't exist
         while (f.isFile()){
             //increment for the next cycle of the loop

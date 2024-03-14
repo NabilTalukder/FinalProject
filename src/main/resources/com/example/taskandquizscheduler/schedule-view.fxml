@@ -61,18 +61,9 @@
                            <top>
                               <HBox prefHeight="70.0" prefWidth="1138.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <VBox prefHeight="70.0" prefWidth="81.0">
+                                    <VBox prefHeight="70.0" prefWidth="300.0">
                                        <children>
-                                          <Label fx:id="monthLabel" prefHeight="70.0" prefWidth="71.0" text="Month">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </VBox>
-                                    <VBox prefHeight="70.0" prefWidth="81.0">
-                                       <children>
-                                          <Label fx:id="yearLabel" prefHeight="103.0" prefWidth="100.0" text="Year">
+                                          <Label fx:id="monthYearLabel" prefHeight="68.0" prefWidth="273.0" text="Month Year">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -100,7 +91,7 @@
                                     <VBox prefHeight="70.0" prefWidth="680.0" />
                                     <VBox prefHeight="70.0" prefWidth="127.0">
                                        <children>
-                                          <Button fx:id="addTaskButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#addTaskClick" prefHeight="25.0" prefWidth="104.0" text="Add Task">
+                                          <Button fx:id="addTaskButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Add Task">
                                              <VBox.margin>
                                                 <Insets left="17.0" top="22.0" />
                                              </VBox.margin>
@@ -119,7 +110,7 @@
                            <center>
                               <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <VBox prefHeight="64.0" prefWidth="1138.0">
+                                    <VBox prefHeight="33.0" prefWidth="1138.0">
                                        <children>
                                           <GridPane fx:id="weekdayGrid" gridLinesVisible="true">
                                             <columnConstraints>
@@ -146,9 +137,9 @@
                                           </GridPane>
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="466.0" prefWidth="1138.0">
+                                    <VBox prefHeight="416.0" prefWidth="1138.0">
                                        <children>
-                                          <GridPane fx:id="calendarGrid" gridLinesVisible="true" maxHeight="474.0" prefHeight="278.0" prefWidth="1138.0" snapToPixel="false">
+                                          <GridPane fx:id="calendarGrid" gridLinesVisible="true" maxHeight="474.0" prefHeight="278.0" prefWidth="1138.0" snapToPixel="false" VBox.vgrow="ALWAYS">
                                             <columnConstraints>
                                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -159,55 +150,56 @@
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                             </columnConstraints>
                                             <rowConstraints>
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                                              <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+                                              <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+                                              <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+                                                <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+                                                <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                                             </rowConstraints>
                                              <children>
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="163.0" GridPane.columnIndex="3" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
-                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="1" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="2" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="3" GridPane.vgrow="ALWAYS" />
+                                                <VBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="5" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="6" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="4" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="5" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="6" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="5" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="6" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="4" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="5" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                                                <VBox GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="4" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="5" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.columnIndex="6" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+                                                <VBox GridPane.rowIndex="5" />
+                                                <VBox GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                                <VBox GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                                <VBox GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                                <VBox GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                                                <VBox GridPane.columnIndex="5" GridPane.rowIndex="5" />
+                                                <VBox GridPane.columnIndex="6" GridPane.rowIndex="5" />
                                              </children>
                                           </GridPane>
                                        </children>
