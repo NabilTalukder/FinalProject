@@ -143,6 +143,23 @@ public class ScheduleController {
         //allow addTaskButton to start process for adding task
         //done this way instead of using SceneBuilder because of similar functionality to Editing Task
         addTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
+
+        /*Add Quiz
+        * similar to view for Add Task
+        * has due date but no task name
+        * instead of entering task name, dropdown of quizzes
+        *   should be changed later because dropdown is inconvenient for many quizzes
+        *   maybe a search bar
+        *
+        * Added quiz appears same way as added task label but there should be a visual distinction
+        *
+        * quiz should be saved as a Task object in the hashmap but with a field indicating that
+        * it's a quiz
+        * In the tasks file, there should be another delimiter denoting it's a quiz
+        *
+        * Editing quiz allows user to take quiz, moving to Quiz page and returning to Scheduler
+        * upon completion
+        * */
     }
 
     //handle mouse event of clicking scheduleLabel

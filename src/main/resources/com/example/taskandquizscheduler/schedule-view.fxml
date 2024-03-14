@@ -61,16 +61,16 @@
                            <top>
                               <HBox prefHeight="70.0" prefWidth="1138.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <VBox prefHeight="70.0" prefWidth="300.0">
+                                    <VBox prefHeight="70.0" prefWidth="165.0">
                                        <children>
-                                          <Label fx:id="monthYearLabel" prefHeight="68.0" prefWidth="273.0" text="Month Year">
+                                          <Label fx:id="monthYearLabel" prefHeight="68.0" prefWidth="167.0" text="Month Year">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="70.0" prefWidth="85.0">
+                                    <VBox prefHeight="70.0" prefWidth="87.0">
                                        <children>
                                           <Button fx:id="prevMonthButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#prevMonthClick" prefHeight="25.0" prefWidth="48.0" text="/\">
                                              <VBox.margin>
@@ -88,8 +88,8 @@
                                           </Button>
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="70.0" prefWidth="680.0" />
-                                    <VBox prefHeight="70.0" prefWidth="127.0">
+                                    <VBox prefHeight="70.0" prefWidth="664.0" />
+                                    <VBox prefHeight="70.0" prefWidth="134.0">
                                        <children>
                                           <Button fx:id="addTaskButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Add Task">
                                              <VBox.margin>
@@ -100,6 +100,15 @@
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
+                                    </VBox>
+                                    <VBox prefHeight="70.0" prefWidth="134.0">
+                                       <children>
+                                          <Button fx:id="addTaskButton1" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Add Quiz">
+                                             <VBox.margin>
+                                                <Insets left="17.0" top="22.0" />
+                                             </VBox.margin>
+                                          </Button>
+                                       </children>
                                     </VBox>
                                  </children>
                               </HBox>
