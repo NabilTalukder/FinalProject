@@ -13,18 +13,36 @@
    <top>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="44.0" prefWidth="217.0">
+            <HBox prefHeight="68.0" prefWidth="300.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox prefHeight="68.0" prefWidth="300.0">
                      <children>
-                        <Label fx:id="taskTypeLabel" alignment="CENTER" prefHeight="37.0" prefWidth="79.0" text="Task Type" />
+                        <HBox prefHeight="36.0" prefWidth="300.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label fx:id="taskTypeLabel" alignment="CENTER" prefHeight="37.0" prefWidth="79.0" text="Task Type" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="44.0" prefWidth="183.0" />
+                              <VBox prefHeight="44.0" prefWidth="68.0">
+                                 <children>
+                                    <Hyperlink fx:id="cancelLink" focusTraversable="false" onAction="#closeView" prefHeight="37.0" prefWidth="59.0" text="Cancel" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="34.0" prefWidth="300.0">
+                           <children>
+                              <VBox prefHeight="33.0" prefWidth="302.0">
+                                 <children>
+                                    <Hyperlink fx:id="completeLink" alignment="CENTER" onAction="#completeTask" prefHeight="23.0" prefWidth="302.0" text="Mark as Complete" visible="false" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
-                  <VBox prefHeight="44.0" prefWidth="183.0" />
-                  <VBox prefHeight="44.0" prefWidth="68.0">
-                     <children>
-                        <Hyperlink fx:id="cancelLink" focusTraversable="false" onAction="#closeView" prefHeight="37.0" prefWidth="59.0" text="Cancel" />
-                     </children></VBox>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
@@ -51,7 +69,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <BorderPane prefHeight="117.0" prefWidth="300.0">
+                  <BorderPane prefHeight="99.0" prefWidth="300.0">
                      <top>
                         <HBox prefHeight="27.0" prefWidth="263.0" BorderPane.alignment="CENTER">
                            <children>

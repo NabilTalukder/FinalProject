@@ -230,6 +230,13 @@ public class ScheduleController {
                             for (Task task : taskList) {
                                 Label taskLabel = new Label();
                                 taskLabel.setText(task.getTaskName());
+                                //change colour of task label to mark completion
+                                if (task.isComplete()){
+                                    taskLabel.setStyle("-fx-background-color: rgb(168, 235, 52);");
+                                }
+                                //make the label occupy all available width in the cell
+                                taskLabel.setMaxWidth(Double.MAX_VALUE);
+                                taskLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);
                                 //add left padding to task label
                                 taskLabel.setPadding(cellInsets);
                                 //allow task label to be clicked so user can edit it

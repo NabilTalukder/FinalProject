@@ -50,6 +50,9 @@ public class TaskController {
     private Hyperlink deleteTaskLink;
 
     @FXML
+    private Hyperlink completeLink;
+
+    @FXML
     protected void addTask(String monthVal, String yearVal){
         /* set the date picker to the month being shown on the calendar for ease of use
         * Date picker will be blank by default (next/prev month buttons not clicked)*/
@@ -85,6 +88,8 @@ public class TaskController {
 
         //show delete link because a created task should be able to be deleted
         deleteTaskLink.setVisible(true);
+        //show complete link because a created task should be able to be marked as complete
+        completeLink.setVisible(true);
         //allow Confirm (Edit) Task button to process an edited task
         confirmTaskButton.setOnAction((EventHandler<ActionEvent>) editTaskHandler);
     }
@@ -114,6 +119,37 @@ public class TaskController {
         //process finished, so close task-view popup
         closeView(event);
     }
+
+    @FXML
+    protected void completeTask(ActionEvent event){
+        /*complete task
+         * click on task label
+         * click "complete" - where should it go in fxml file?
+         * task-view popup closes
+         * task label appearance changes to "complete"*/
+
+
+        /*get the due date for which the task was set
+        * using oldDueDate instead of the entered due date within field
+        * because the user may have changed the date
+        * but then decided to complete task*/
+        taskList = tasksMap.get(oldDueDate);
+        for (Task task : taskList) {
+            //find the task with the same name and set as complete
+            if (task.getTaskName().equals(oldTaskName)) {
+                task.setComplete(true);
+                break;
+            }
+        }
+        //send updated tasksMap back to schedulerController
+        scheduleController.setTasksMap(tasksMap);
+        //update calendar with task as complete
+        scheduleController.calendarCalc();
+        //process finished, so close task-view popup
+        closeView(event);
+
+    }
+
 
     @FXML
     protected void confirmAddTask(ActionEvent event){
