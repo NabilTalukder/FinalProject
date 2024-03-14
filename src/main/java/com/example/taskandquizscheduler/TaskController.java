@@ -122,13 +122,6 @@ public class TaskController {
 
     @FXML
     protected void completeTask(ActionEvent event){
-        /*complete task
-         * click on task label
-         * click "complete" - where should it go in fxml file?
-         * task-view popup closes
-         * task label appearance changes to "complete"*/
-
-
         /*get the due date for which the task was set
         * using oldDueDate instead of the entered due date within field
         * because the user may have changed the date

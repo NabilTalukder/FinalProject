@@ -113,8 +113,7 @@ public class ScheduleController {
                 Label dateLabel = new Label();
                 //every cell in calendar grid has a VBox which will contain labels
                 Node node = calendarGrid.getChildren().get(cell);
-                if (node instanceof VBox){
-                    VBox vBox = (VBox) node;
+                if (node instanceof VBox vBox){
                     //add empty date label to VBox
                     vBox.getChildren().add(dateLabel);
                 }
@@ -193,8 +192,7 @@ public class ScheduleController {
             for (int col = 0; col <= 6; col++){
                 //get VBox from cell, containing date label
                 Node node = calendarGrid.getChildren().get(cell);
-                if (node instanceof VBox){
-                    VBox vBox = (VBox) node;
+                if (node instanceof VBox vBox){
                     //clear any task labels, so they aren't duplicated upon navigating months
                     //remove if >1 because if there's only 1 label, that is the date label (shouldn't remove)
                     if (vBox.getChildren().size() > 1){
@@ -204,13 +202,11 @@ public class ScheduleController {
                     GridPane.setVgrow(vBox, Priority.ALWAYS);
                     //VBox left with only index 0, containing dateLabel
                     Node dateNode = vBox.getChildren().get(0);
-                    if (dateNode instanceof Label){
-                        Label dateLabel = (Label) dateNode;
+                    if (dateNode instanceof Label dateLabel){
                         //finding first weekday of the month means date can be shown in cell
                         if (cell == firstWeekdayCol){
                             monthStart = true;
                         }
-
                         //fill out calendar for every day in the month
                         if (monthStart && day <= monthLength){
                             //add day of the month to cell
@@ -335,26 +331,6 @@ public class ScheduleController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    protected void editTaskClick(MouseEvent event){
-        System.out.println("edit task");
-        /*
-        * show task-view and set task action to Edit
-        *   taskAction field could be used by if statements in TaskController methods to decide if add/edit
-        *   can change the methods called when clicking confirmButton in task-view by using setOnAction
-        * get the selected task's name and date
-        *
-        * set fields with retrieved name and date
-        * once user clicks confirmButton (says Edit Task)
-        *   if taskName and/or dueDate were changed
-        *       remove old entry from tasks.txt
-        *       replace with new task
-        *
-        * could combine addTaskClick and editTaskClick by using parameter to decide add or edit
-        * Since addTaskClick is tied to button, see if it can be tied programmatically
-        * instead of through SceneBuilder and pass a parameter like that?*/
     }
 
     public HashMap<String, ArrayList<Task>> getTasksMap() {
