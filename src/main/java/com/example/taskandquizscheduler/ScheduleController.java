@@ -89,7 +89,16 @@ public class ScheduleController {
                 //create new Task objects to reconstruct the HashMap used for updating calendar
                 for (int i = 1; i < taskNames.length; i++){
                     Task task = new Task();
-                    task.setTaskName(taskNames[i]);
+                    //completed tasks are delimited with semi-colon
+                    String [] taskPair = taskNames[i].split(";");
+                    //the first part of the pair is the task name
+                    task.setTaskName(taskPair[0]);
+                    //if there is another character after the task name
+                    //the task was marked as complete in the file
+                    if (taskPair.length > 1){
+                        //set task as complete accordingly, so it can be marked on the calendar
+                        task.setComplete(true);
+                    }
                     taskListValues.add(task);
                 }
                 //add the tasks and date for which they have been assigned to HashMap

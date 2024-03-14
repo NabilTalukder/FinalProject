@@ -138,6 +138,8 @@ public class TaskController {
         scheduleController.setTasksMap(tasksMap);
         //update calendar with task as complete
         scheduleController.calendarCalc();
+        //update tasks file with completed task
+        markComplete();
         //process finished, so close task-view popup
         closeView(event);
 
@@ -327,6 +329,36 @@ public class TaskController {
                 /*copy the line (both edited and unedited) with \n to preserve file's structure
                  * but only for lines (due dates) that still have tasks associated with them*/
                 if (dateHasTasks) sb.append(line).append("\n");
+            }
+            br.close();
+            //deleting old file so it can be replaced
+            File oldFile = new File("data\\tasks.txt");
+            oldFile.delete();
+            //create updated tasks file with task removed
+            bw = new BufferedWriter(new FileWriter("data\\tasks.txt"));
+            bw.write(sb.toString());
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void markComplete(){
+        StringBuilder sb = new StringBuilder();
+        String line;
+        try {
+            br = new BufferedReader(new FileReader("data/tasks.txt"));
+            /* search for dueDate so the corresponding task can be marked complete
+            * using oldDueDate and oldtaskName because the user may have edited these fields
+            * but then chose to mark the task as complete without confirming the edits*/
+            while ((line = br.readLine()) != null) {
+                if (line.contains(oldDueDate)){
+                    //edit the line containing the matching due date
+                    //;c denotes completion
+                    line = line.replace(oldTaskName, oldTaskName + ";c");
+                }
+                //copy the line (both edited and unedited) with \n to preserve file's structure
+                sb.append(line).append("\n");
             }
             br.close();
             //deleting old file so it can be replaced
