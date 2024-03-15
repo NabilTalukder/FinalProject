@@ -18,58 +18,69 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-
+//handles loading and generating quizzes from user input
 public class QuizGeneratorController {
 
+    //main window of JavaFX application
     private Stage stage;
+    //container for organising UI elements in window
     private Scene scene;
+    //top-level class for handling nodes (UI elements/containers) in JavaFX
     private Parent root;
+    //the questions generated and received from the Python program
     private ArrayList<ArrayList<String>> questionList;
+    //used for saving generated quiz outputs
     private BufferedWriter bw = null;
+    //used for writing to Python server
     private PrintWriter pw;
+    //used for retrieving previously generated quizzes
     private BufferedReader br = null;
+    //used for connecting to and requesting from Python program for generating quizzes
     private ClientController clientController;
+    //used for enabling client-server communication to Python program
     private Socket clientSocket;
+    //input from the user to be used in the prompt to generate a quiz
     private String quizGenInput;
+    //the output of the prompt (generated quiz)
     private String quizGenOutput;
 
+    //sidebar labels to navigate to the main screens of the application
     @FXML
     private Label webBlockerLabel;
-
     @FXML
     private Label scheduleLabel;
-
     @FXML
     private Label quizGenLabel;
-
     @FXML
     private Label friendsLabel;
 
+    //button to generate a quiz
     @FXML
     private Button generateButton;
-
+    //button to take the quiz that was loaded or generated
     @FXML
     private Button startQuizButton = new Button();
-
+    //button to save the generated or edited quiz so it can be accessed later
     @FXML
     private Button saveQuizButton = new Button();
-
+    //holds saved quizzes
     @FXML
     private ComboBox<String> quizComboBox = new ComboBox<>();
-
+    //input area for user to enter text to be used in the prompt to generate a quiz
     @FXML
     private TextArea quizGenInputArea;
-
+    //output area showing the generated or loaded quiz that can be edited
     @FXML
     private TextArea quizGenOutputArea;
 
+    //set up intial UI layout
     public QuizGeneratorController() {
         //set up client
         try {
             clientController = new ClientController();
             clientSocket = new Socket("localhost", 3007);
 
-            //set up to write to Python server
+            //set up to write to Python program
             pw = new PrintWriter(clientSocket.getOutputStream(), true);
 
         } catch (IOException e) {
@@ -83,6 +94,7 @@ public class QuizGeneratorController {
 
     }
 
+    //set up initial UI behaviours
     @FXML
     public void initialize(){
         //retrieve previously saved quizzes and insert into quizComboBox
@@ -104,10 +116,11 @@ public class QuizGeneratorController {
     //handle mouse event of clicking scheduleLabel
     EventHandler<? super MouseEvent> scheduleHandler = this::scheduleClick;
 
+    //process for clicking schedule sidebar button
     @FXML
     protected void scheduleClick(MouseEvent event){
-        //go to schedule page
         try {
+            //get FXML file for schedule page and display
             FXMLLoader loader = new FXMLLoader(getClass().getResource("schedule-view.fxml"));
             root = loader.load();
             //scene transition
@@ -124,7 +137,7 @@ public class QuizGeneratorController {
 
     }
 
-
+    //upon selecting a previously saved quiz, it is retrieved
     @FXML
     protected void loadQuizClick(){
         //load quiz - get file name of selected quiz
@@ -153,15 +166,15 @@ public class QuizGeneratorController {
 
     }
 
-
+    //sends the user input text as a prompt to the Python program to generate and display a quiz
     @FXML
     protected void generateClick() {
         //retrieve the user inputted text
         quizGenInput = quizGenInputArea.getText();
-        //send to ClientSocket to send to Python server
+        //send to ClientSocket to send to Python program
         clientController.setQuizGenInput(quizGenInput);
         clientController.sendInfo(pw);
-        //get outputted quiz from ClientSocket from Python server
+        //get outputted quiz from ClientSocket from Python program
         quizGenOutput = clientController.retrieveInfo(clientSocket);
 
         //display string from Python file in quiz generator output area
@@ -171,6 +184,7 @@ public class QuizGeneratorController {
         startQuizButton.setDisable(false);
     }
 
+    //formats the retrieved quiz so it can be used by QuizController to start the quiz process
     public void prepareQuiz(){
         //split up the string of questions into separate strings, using # as delimiter
         String[] questions = quizGenOutput.split("#");
@@ -193,11 +207,9 @@ public class QuizGeneratorController {
             questionNumber += 1;
 
         }
-        System.out.println("0: " + questionList.get(0));
-        System.out.println("1: " + questionList.get(1));
-        System.out.println("2: " + questionList.get(2));
     }
 
+    //stores generated or edited quiz so it can be accessed later
     @FXML
     protected void saveQuizClick() {
         String quizToSave = quizGenOutputArea.getText();
@@ -225,19 +237,19 @@ public class QuizGeneratorController {
         }
     }
 
-
+    //starts the quiz process by transitioning to the quiz page
     @FXML
     protected void startQuizClick(ActionEvent event) {
-        //convert quiz to ArrayList so it can be sent to QuizController to start quiz
+        //convert quiz to ArrayList so it can be sent to QuizExecutor to start quiz
         prepareQuiz();
 
-        //start the quiz by showing the quiz page
         try {
+            //get FXML file for quiz page and display to start the quiz
             FXMLLoader loader = new FXMLLoader(getClass().getResource("quiz-view.fxml"));
             root = loader.load();
             //pass on the question list for the quiz to start
-            QuizController quizController = loader.getController();
-            quizController.setQuestionList(questionList);
+            QuizExecutor quizExecutor = loader.getController();
+            quizExecutor.setQuestionList(questionList);
             //scene transition
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             stage.getScene().setRoot(root);
@@ -250,6 +262,4 @@ public class QuizGeneratorController {
             e.printStackTrace();
         }
     }
-
-
 }

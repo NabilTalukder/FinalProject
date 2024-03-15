@@ -3,17 +3,21 @@ package com.example.taskandquizscheduler;
 import java.io.*;
 import java.net.Socket;
 
+//handles sending and receiving data from the Python program
 public class ClientController {
 
+    //the input text to be used in the prompt to generate a quiz
     private String quizGenInput;
+    //the outputted quiz from the Python program
     private String quizGenOutput;
 
+    //send user inputted text to Python program to generate questions
     public void sendInfo(PrintWriter pw) {
-        //send user inputted text to Python server to generate questions
         pw.println(quizGenInput);
         System.out.println("sent");
     }
 
+    //retrieve the result of the prompt being sent to the Python program
     public String retrieveInfo(Socket clientSocket) {
         //reset output string to prepare for new output from Python server
         quizGenOutput = "";

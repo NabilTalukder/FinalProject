@@ -8,10 +8,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+//temporarily functions as initial page
 public class QuizGenerator extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        //get FXML file for quiz generator and display
         Parent root = FXMLLoader.load(getClass().getResource("quiz-gen-view.fxml"));
         Scene scene = new Scene(root, 1280, 720);
         stage.setTitle("Task and Quiz Scheduler");

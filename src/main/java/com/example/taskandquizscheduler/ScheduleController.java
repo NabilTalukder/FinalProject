@@ -26,52 +26,64 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//handles scheduling and managing of tasks and quizzes on a calendar
 public class ScheduleController {
 
+    //main window of JavaFX application
     private Stage stage;
+    //container for organising UI elements in window
     private Scene scene;
+    //top-level class for handling nodes (UI elements/containers) in JavaFX
     private Parent root;
+    //flag for when the days can start being displayed in the calendar cells
     private boolean monthStart = false;
+    //used as an iterator for every day in the month being shown
     private int day = 1;
+    //the max number of days in the month being shown on the calendar
     private int monthLength = 0;
+    //used for helping the calendar algorithm to decide when to start showing the days of the month
     private int firstWeekdayCol = 0;
+    //offset of the task-view popup which allow it to be dragged across the screen
     private double xOffset, yOffset;
+    //holds tasks set for each day in the calendar - used for displaying and modifying them
     private ArrayList<Task> taskList = new ArrayList<>();
+    //contains all dates on the calendar and their associated tasks
     private HashMap<String, ArrayList<Task>> tasksMap = new HashMap<>();
+    //reads txt file containing set tasks information
     private BufferedReader br = null;
+    //month and year displayed on the calendar - used for calculations requiring dates
     private String yearVal;
     private String monthVal;
 
+    //sidebar labels to navigate to the main screens of the application
     @FXML
     private Label friendsLabel;
-
     @FXML
     private Label quizGenLabel;
-
     @FXML
     private Label scheduleLabel;
-
     @FXML
     private Label webBlockerLabel;
 
+    //grid containing calendar dates and associated set tasks and quizzes
     @FXML
     private GridPane calendarGrid;
-
+    //header grid to show weekdays above the calendar date cells
     @FXML
     private GridPane weekdayGrid;
-
+    //label showing the month and year above the calendar
     @FXML
     private Label monthYearLabel;
-
+    //navigate across months
     @FXML
     private Button prevMonthButton;
-
     @FXML
     private Button nextMonthButton;
 
     @FXML
     private Button addTaskButton;
 
+    //retrieve all set tasks and quizzes, so they can be displayed on the calendar
     @FXML
     protected void initialize(){
         //get all the set tasks
@@ -147,6 +159,9 @@ public class ScheduleController {
         /*Add Quiz
         * similar to view for Add Task
         * has due date but no task name
+        *   use different fxml so task-view isn't crowded
+        *   use different controller because methods will need to adhere to fxml
+        *
         * instead of entering task name, dropdown of quizzes
         *   should be changed later because dropdown is inconvenient for many quizzes
         *   maybe a search bar
@@ -159,6 +174,26 @@ public class ScheduleController {
         *
         * Editing quiz allows user to take quiz, moving to Quiz page and returning to Scheduler
         * upon completion
+        *
+        * Quiz and Task inherit from Schedulable
+        * QuizController and TaskController inherit from SchedulableController
+        * reason - some methods are shared but most methods between QuizController and TaskController
+        * while similar, will have different implementations because TaskController uses a text field
+        * for Task name while QuizController will use a dropdown to select quizzes
+        * If done this way, the algorithms used to handle Tasks will need to be refactored to handle
+        * Schedulables so both Task and Quiz objects can be processed in the hashmap and txt file
+        * Much clearer than making Quiz inherit from Task
+        *
+        * problem is existing algorithms for adding, editing and deleting task with respect to txt file
+        * will need to account for quizzes.
+        * Is all that extra work necessary or can I just implement database?
+        * I implemented the txt file as a way to demonstrate persistence between application restarts
+        * It ended up being more complicated than I thought but I did meet my objective
+        * I thought that eventually, database queries would be for initial data retrieval and everything else
+        * would be handled by txt file but that might be tedious now with quiz implementation
+        * Is querying each time for data really that bad or should I still use a combination of txt file
+        * and database as originally intended?
+        *
         * */
     }
 
@@ -171,10 +206,11 @@ public class ScheduleController {
     //handle mouse event of clicking taskLabel
     EventHandler<? super MouseEvent> editTaskHandler = taskEvent -> showTaskView("Edit", taskEvent);
 
+    //transition to quiz generator page
     @FXML
     protected void quizGenClick(MouseEvent event){
-        //go to schedule page
         try {
+            //get FXML file for quiz generator page and display
             FXMLLoader loader = new FXMLLoader(getClass().getResource("quiz-gen-view.fxml"));
             root = loader.load();
             //scene transition
@@ -190,13 +226,14 @@ public class ScheduleController {
         }
     }
 
+    //initialisations for calendar algorithm
     @FXML
     protected void calendarCalc(){
         //flag for when dateTaskCalc() reaches first day of the month to start displaying dates
         monthStart = false;
-        //cell number of calendar grid
+        //iterator for cell number of calendar grid
         int cell = 0;
-        //month always begins on day 1
+        //iterator for day of month - day always begins on day 1
         day = 1;
         //num days in month; check if leap year to add extra day if February
         monthLength = Month.valueOf(monthVal).length(Year.isLeap(Integer.parseInt(yearVal)));
@@ -210,6 +247,7 @@ public class ScheduleController {
         dateTaskCalc(cell);
     }
 
+    //iterate through calendar grid, adding dates and set tasks as necessary
     @FXML
     protected void dateTaskCalc(int cell){
 
@@ -266,7 +304,6 @@ public class ScheduleController {
                                 //add task to cell, contained within the cell's VBox
                                 vBox.getChildren().add(taskLabel);
                             }
-                            //next day
                             day++;
                         }
                         else {
@@ -281,7 +318,7 @@ public class ScheduleController {
         }
     }
 
-
+    //show previous month and its associated tasks/quizzes
     @FXML
     protected void prevMonthClick(){
         //decrement month
@@ -296,6 +333,7 @@ public class ScheduleController {
         calendarCalc();
     }
 
+    //show next month and its associated tasks/quizzes
     @FXML
     protected void nextMonthClick(){
         //increment month
@@ -310,9 +348,11 @@ public class ScheduleController {
         calendarCalc();
     }
 
+    //show UI popup that allows user to manage a task
     @FXML
     protected void showTaskView(String taskAction, Event taskEvent){
         try {
+            //get FXML file for task popup and display
             FXMLLoader loader = new FXMLLoader(getClass().getResource("task-view.fxml"));
             Parent root = loader.load();
             //send tasksMap to taskController, so it can be updated with a new task

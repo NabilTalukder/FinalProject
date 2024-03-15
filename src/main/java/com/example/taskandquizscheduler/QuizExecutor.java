@@ -1,8 +1,6 @@
 package com.example.taskandquizscheduler;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -12,44 +10,52 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class QuizController {
+//handles the quiz process by showing a question and options for the user to select
+public class QuizExecutor {
 
+    //main window of JavaFX application
     private Stage stage;
+    //container for organising UI elements in window
     private Scene scene;
+    //top-level class for handling nodes (UI elements/containers) in JavaFX
     private Parent root;
+    //the questions generated and received from the Python program
     private ArrayList<ArrayList<String>> questionList;
+    //question number to iterate through the quiz
     private int currentQuestion = 0;
+    //number of questions user answered correctly
     private int score = 0;
+    //the answer of the current question being displayed
     private String answer;
+    //the option the user selected as their answer
     private String userAnswer;
 
+    //header showing the type of quiz
     @FXML
     private Label quizTitle;
-
+    //the actual text for the question being shown
     @FXML
     private Label questionDesc;
-
+    //displays score out of number of questions
     @FXML
     private Label scoreCounter;
-
+    //shows number of questions completed as a bar
     @FXML
     private ProgressBar quizProgress;
-
+    //buttons for user to choose an answer
     @FXML
     private ToggleButton option1Button;
-
     @FXML
     private ToggleButton option2Button;
-
     @FXML
     private ToggleButton option3Button;
-
     @FXML
     private ToggleButton option4Button;
 
-    public QuizController(){
+    public QuizExecutor(){
     }
 
+    //submit and compare user answer to actual answer
     @FXML
     protected void optionClick(){
         //get the text corresponding to the selected button
@@ -82,8 +88,8 @@ public class QuizController {
         nextQuestion();
     }
 
+    //iterate through the questions
     private void nextQuestion(){
-        //increment to go to next question
         currentQuestion += 1;
         System.out.println("current question: " + currentQuestion);
         //update progress bar to represent percentage of questions
@@ -108,6 +114,7 @@ public class QuizController {
         return questionList;
     }
 
+    //set up retrieved questions to start quiz
     public void setQuestionList(ArrayList<ArrayList<String>> questionList) {
         this.questionList = questionList;
         //set progress bar to 0 initially

@@ -18,40 +18,55 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//handles adding, editing, deleting and completion of tasks
 public class TaskController {
+    //main window of JavaFX application
     private Stage stage;
+    //container for organising UI elements in window
     private Scene scene;
+    //top-level class for handling nodes (UI elements/containers) in JavaFX
     private Parent root;
+    //holds tasks set for each day in the calendar - used for displaying and modifying them
     private ArrayList<Task> taskList = new ArrayList<>();
+    //contains all dates on the calendar and their associated tasks
     private HashMap<String, ArrayList<Task>> tasksMap = new HashMap<>();
+    //used to send information processed in this class back to the calendar so it can be updated
     private ScheduleController scheduleController;
+    //used for reading from tasks txt file to retrieve task information
     private BufferedReader br = null;
+    //used for editing the tasks txt file
     private BufferedWriter bw = null;
+    //used to identify if the user is adding or editing a task so the correct process can be followed
     private String taskAction;
+    //the original name of a task before the user changes it
     private String oldTaskName;
+    //the original due date of a task befoe the user changes it
     private String oldDueDate;
 
+    //label for giving the user feedback if they're adding or editing a task
     @FXML
     private Label taskTypeLabel;
-
+    //used for confirming changes done to a task, be it adding or editing
     @FXML
     private Button confirmTaskButton;
-
+    //allows user to select the date a task should be due and thus,
+    // where in the calendar it should be shown
     @FXML
     private DatePicker dueDatePicker;
 
     @FXML
     private TextField taskNameField;
-
+    //button for cancelling changes done to a task but styled as a link
     @FXML
     private Hyperlink cancelLink;
 
     @FXML
     private Hyperlink deleteTaskLink;
-
+    //button for marking a task as complete, styled as a link
     @FXML
     private Hyperlink completeLink;
 
+    //prepare UI elements to add a task to the calendae
     @FXML
     protected void addTask(String monthVal, String yearVal){
         /* set the date picker to the month being shown on the calendar for ease of use
@@ -69,6 +84,7 @@ public class TaskController {
     //handle event of clicking Add Task button
     EventHandler<? super ActionEvent> addTaskHandler = this::confirmAddTask;
 
+    //Retrieve task information for the selected task on the calendar
     @FXML
     protected void editTask(Event taskEvent, String monthVal, String yearVal){
         //retrieve task label
@@ -97,6 +113,7 @@ public class TaskController {
     //handle event of clicking Edit Task button
     EventHandler<? super ActionEvent> editTaskHandler = this::confirmEditTask;
 
+
     @FXML
     protected void closeView(ActionEvent event){
         //get the stage from which the button that called this method was clicked
@@ -105,6 +122,7 @@ public class TaskController {
         stage.close();
     }
 
+    //remove the selected task from the calendar
     @FXML
     protected void confirmDeleteTask(ActionEvent event){
         //removeTaskName() requires the due date for which the task was set
@@ -120,6 +138,7 @@ public class TaskController {
         closeView(event);
     }
 
+    //mark a task as complete on the calendar
     @FXML
     protected void completeTask(ActionEvent event){
         /*get the due date for which the task was set
@@ -145,7 +164,7 @@ public class TaskController {
 
     }
 
-
+    //update the calendar with the new task
     @FXML
     protected void confirmAddTask(ActionEvent event){
         //get the task name and due date
@@ -169,6 +188,7 @@ public class TaskController {
         closeView(event);
     }
 
+    //update the calendar with the changes made to the task
     @FXML
     protected void confirmEditTask(ActionEvent event){
         //get entered task name and due date, so they can be compared with original values
@@ -221,6 +241,7 @@ public class TaskController {
         }
     }
 
+    //update tasks txt file for persistence of data upon application restart
     public void updateTasksFile(String taskName, String dueDate) {
         StringBuilder sb = new StringBuilder();
         try {
@@ -248,6 +269,7 @@ public class TaskController {
         }
     }
 
+    //add the new tasks to correct due date in the tasks txt file
     public void appendTask(String taskName, String dueDate, StringBuilder sb){
         String line;
         boolean dueDateFound = false;
@@ -273,6 +295,7 @@ public class TaskController {
         }
     }
 
+    //tasks txt file is updated with edited task name
     public void replaceTaskName(String taskName, String dueDate, StringBuilder sb){
         String line;
         try {
@@ -290,6 +313,7 @@ public class TaskController {
         }
     }
 
+    //tasks txt file is updated with edited with task removed
     @FXML
     protected void removeTaskName(String dueDate){
         //remove the task's old name for the old due date in the tasks hashmap
@@ -343,6 +367,7 @@ public class TaskController {
         }
     }
 
+    ////tasks txt file is updated with task marked as complete
     public void markComplete(){
         StringBuilder sb = new StringBuilder();
         String line;
@@ -381,6 +406,7 @@ public class TaskController {
         this.scheduleController = scheduleController;
     }
 
+    //defines course of action for Task algorithms based on if user is adding ot editing a task
     public void setTaskAction(String taskAction) {
         this.taskAction = taskAction;
         //updating labels used in the text-view popup for user benefit
