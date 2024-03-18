@@ -73,7 +73,7 @@ public class QuizGeneratorController {
     @FXML
     private TextArea quizGenOutputArea;
 
-    //set up intial UI layout
+    //set up initial UI layout
     public QuizGeneratorController() {
         //set up client
         try {

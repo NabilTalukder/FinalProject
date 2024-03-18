@@ -23,7 +23,7 @@ public class QuizGenerator extends Application {
         stage.show();
     }
 
-    //main is here for now but will be in login page once that's created
+    //main is here for now but will be in separate Start class later
     public static void main(String[] args) {
         launch();
     }
