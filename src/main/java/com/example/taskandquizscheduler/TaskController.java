@@ -184,6 +184,8 @@ public class TaskController {
         scheduleController.calendarCalc();
         //update tasks file with newly created task
         updateTasksFile(taskName, dueDate);
+        //update database with newly created task
+        updateTasksDB(taskName, dueDate);
         //process complete, so close task-view popup
         closeView(event);
     }
@@ -268,6 +270,9 @@ public class TaskController {
             e.printStackTrace();
         }
     }
+
+    public void updateTasksDB(String taskName, String dueDate){}
+
 
     //add the new tasks to correct due date in the tasks txt file
     public void appendTask(String taskName, String dueDate, StringBuilder sb){
