@@ -271,7 +271,9 @@ public class TaskController {
         }
     }
 
-    public void updateTasksDB(String taskName, String dueDate){}
+    public void updateTasksDB(String taskName, String dueDate){
+
+    }
 
 
     //add the new tasks to correct due date in the tasks txt file
