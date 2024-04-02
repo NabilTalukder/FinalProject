@@ -5,7 +5,7 @@ public class Task {
     private String taskName;
 
     //used for marking the task as complete on the calendar if the user has completed it
-    private boolean complete;
+    private String status;
 
     public String getTaskName() {
         return taskName;
@@ -15,11 +15,10 @@ public class Task {
         this.taskName = taskName;
     }
 
-    public boolean isComplete() {
-        return complete;
+    public String getStatus(){
+        return status;
     }
 
-    public void setComplete(boolean complete) {
-        this.complete = complete;
-    }
+    public void setStatus(String status) { this.status = status;}
+
 }

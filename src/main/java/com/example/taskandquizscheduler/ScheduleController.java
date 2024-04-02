@@ -19,6 +19,7 @@ import javafx.stage.StageStyle;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
@@ -89,37 +90,75 @@ public class ScheduleController {
         //get all the set tasks
         String line;
         String dueDateKey;
+//        try {
+//            br = new BufferedReader(new FileReader("data/tasks.txt"));
+//            while ((line = br.readLine()) != null) {
+//                //tasks are delimited by commas in the file
+//                String[] taskNames = line.split(",");
+//                //the first element of each line is a date for which tasks have been set
+//                dueDateKey = taskNames[0];
+//                //collect tasks for the line being read
+//                ArrayList<Task> taskListValues = new ArrayList<>();
+//                //create new Task objects to reconstruct the HashMap used for updating calendar
+//                for (int i = 1; i < taskNames.length; i++){
+//                    Task task = new Task();
+//                    //completed tasks are delimited with semi-colon
+//                    String [] taskPair = taskNames[i].split(";");
+//                    //the first part of the pair is the task name
+//                    task.setTaskName(taskPair[0]);
+//                    //if there is another character after the task name
+//                    //the task was marked as complete in the file
+//                    if (taskPair.length > 1){
+//                        //set task as complete accordingly, so it can be marked on the calendar
+//                        task.setStatus("complete");
+//                    }
+//                    else {
+//                        task.setStatus("incomplete");
+//                    }
+//                    taskListValues.add(task);
+//                }
+//                //add the tasks and date for which they have been assigned to HashMap
+//                tasksMap.put(dueDateKey, taskListValues);
+//            }
+//            br.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        //get all set tasks from database
         try {
-            br = new BufferedReader(new FileReader("data/tasks.txt"));
-            while ((line = br.readLine()) != null) {
-                //tasks are delimited by commas in the file
-                String[] taskNames = line.split(",");
-                //the first element of each line is a date for which tasks have been set
-                dueDateKey = taskNames[0];
-                //collect tasks for the line being read
-                ArrayList<Task> taskListValues = new ArrayList<>();
-                //create new Task objects to reconstruct the HashMap used for updating calendar
-                for (int i = 1; i < taskNames.length; i++){
-                    Task task = new Task();
-                    //completed tasks are delimited with semi-colon
-                    String [] taskPair = taskNames[i].split(";");
-                    //the first part of the pair is the task name
-                    task.setTaskName(taskPair[0]);
-                    //if there is another character after the task name
-                    //the task was marked as complete in the file
-                    if (taskPair.length > 1){
-                        //set task as complete accordingly, so it can be marked on the calendar
-                        task.setComplete(true);
-                    }
-                    taskListValues.add(task);
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
+                    "root", "");
+            String sql = "SELECT due_date, task_name, completion_status FROM task WHERE" +
+                    " assigner_ID = 1 AND assignee_ID = 1 ORDER BY due_date;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            String returnedDueDate;
+            String prevReturnedDueDate = "";
+            String dueDateKeyDB = "";
+            ArrayList<Task> taskListValuesDB = new ArrayList<>();
+
+            while (resultSet.next()){
+                Task task = new Task();
+                returnedDueDate = resultSet.getString("due_date");
+                if (!returnedDueDate.equals(prevReturnedDueDate)){
+                    dueDateKeyDB = returnedDueDate;
+                    taskListValuesDB = new ArrayList<>();
                 }
-                //add the tasks and date for which they have been assigned to HashMap
-                tasksMap.put(dueDateKey, taskListValues);
+                task.setTaskName(resultSet.getString("task_name"));
+                task.setStatus(resultSet.getString("completion_status"));
+                taskListValuesDB.add(task);
+                tasksMap.put(dueDateKeyDB, taskListValuesDB);
+                prevReturnedDueDate = returnedDueDate;
             }
-            br.close();
-        } catch (IOException e) {
+
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("retrieved tasks");
 
         //set current month, year; update corresponding label
         yearVal = String.valueOf(LocalDate.now().getYear());
@@ -291,7 +330,7 @@ public class ScheduleController {
                                 Label taskLabel = new Label();
                                 taskLabel.setText(task.getTaskName());
                                 //change colour of task label to mark completion
-                                if (task.isComplete()){
+                                if (task.getStatus().equals("complete")){
                                     taskLabel.setStyle("-fx-background-color: rgb(168, 235, 52);");
                                 }
                                 //make the label occupy all available width in the cell
