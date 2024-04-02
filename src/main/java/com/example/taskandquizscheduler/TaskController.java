@@ -129,7 +129,7 @@ public class TaskController {
         //send updated tasksMap back to schedulerController
         scheduleController.setTasksMap(tasksMap);
         //update calendar with task removed
-        scheduleController.calendarCalc();
+        scheduleController.refreshCalendar();
         //process finished, so close task-view popup
         closeView(event);
     }
@@ -152,7 +152,7 @@ public class TaskController {
         //send updated tasksMap back to scheduleController
         scheduleController.setTasksMap(tasksMap);
         //update calendar with task as complete
-        scheduleController.calendarCalc();
+        scheduleController.refreshCalendar();
         //update database with task marked as complete
         completeTaskDB(oldTaskName, oldDueDate);
         //process finished, so close task-view popup
@@ -177,7 +177,7 @@ public class TaskController {
         //send updated tasksMap back to scheduleController
         scheduleController.setTasksMap(tasksMap);
         //update calendar with new task
-        scheduleController.calendarCalc();
+        scheduleController.refreshCalendar();
         //update database with newly created task
         addTaskDB(taskName, dueDate);
         //process complete, so close task-view popup
@@ -239,7 +239,7 @@ public class TaskController {
             //send updated tasksMap back to scheduleController
             scheduleController.setTasksMap(tasksMap);
             //update calendar with new task
-            scheduleController.calendarCalc();
+            scheduleController.refreshCalendar();
             //update database with edited task
             editTaskDB(oldTaskName, newTaskName, oldDueDate, newDueDate);
             //process complete, so close task-view popup

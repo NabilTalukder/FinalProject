@@ -87,6 +87,27 @@ public class ScheduleController {
     @FXML
     protected void initialize(){
         //get all set tasks from database
+        prepareSchedule();
+
+        //set current month, year; update corresponding label
+        yearVal = String.valueOf(LocalDate.now().getYear());
+        monthVal = String.valueOf(LocalDate.now().getMonth());
+        monthYearLabel.setText(monthVal + " " + yearVal);
+
+        //add empty label to every cell in calendar so retrieved tasks can be added to it
+        prepareCalendar();
+
+        //allow scheduleLabel on sidebar to be clicked to show Scheduler page
+        quizGenLabel.setOnMousePressed(quizGenHandler);
+
+        //allow addTaskButton to start process for adding task
+        //done this way instead of using SceneBuilder because of similar functionality to Editing Task
+        addTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
+    }
+
+    //initial retrieval of tasks from database
+    @FXML
+    protected void prepareSchedule(){
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
                     "root", "");
@@ -123,12 +144,10 @@ public class ScheduleController {
             e.printStackTrace();
         }
         System.out.println("retrieved tasks");
+    }
 
-        //set current month, year; update corresponding label
-        yearVal = String.valueOf(LocalDate.now().getYear());
-        monthVal = String.valueOf(LocalDate.now().getMonth());
-        monthYearLabel.setText(monthVal + " " + yearVal);
-
+    @FXML
+    protected void prepareCalendar(){
         //add empty label to every cell in the calendar grid
         int cell = 0;
         //calendar has 42 cells to account for differences in position of first day of the month
@@ -148,15 +167,9 @@ public class ScheduleController {
             }
         }
         //calculate date positions on calendar grid
-        calendarCalc();
-
-        //allow scheduleLabel on sidebar to be clicked to show Scheduler page
-        quizGenLabel.setOnMousePressed(quizGenHandler);
-
-        //allow addTaskButton to start process for adding task
-        //done this way instead of using SceneBuilder because of similar functionality to Editing Task
-        addTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
+        refreshCalendar();
     }
+
 
     //handle mouse event of clicking scheduleLabel
     EventHandler<? super MouseEvent> quizGenHandler = this::quizGenClick;
@@ -189,8 +202,8 @@ public class ScheduleController {
 
     //initialisations for calendar algorithm
     @FXML
-    protected void calendarCalc(){
-        //flag for when dateTaskCalc() reaches first day of the month to start displaying dates
+    protected void refreshCalendar(){
+        //flag for when calcDateTasks() reaches first day of the month to start displaying dates
         monthStart = false;
         //iterator for cell number of calendar grid
         int cell = 0;
@@ -205,12 +218,12 @@ public class ScheduleController {
                 Month.valueOf(monthVal).getValue(),
                 1).getDayOfWeek().getValue() - 1;
         //loop through each cell and add date label if it's a day of the month
-        dateTaskCalc(cell);
+        calcDateTasks(cell);
     }
 
     //iterate through calendar grid, adding dates and set tasks as necessary
     @FXML
-    protected void dateTaskCalc(int cell){
+    protected void calcDateTasks(int cell){
 
         //calendar has 42 cells to account for differences in position of first day of the month
         for (int row = 0; row <= 5; row++){
@@ -287,7 +300,7 @@ public class ScheduleController {
             monthYearLabel.setText(monthVal + " " + yearVal);
         }
         //show dates for the current month
-        calendarCalc();
+        refreshCalendar();
     }
 
     //show next month and its associated tasks/quizzes
@@ -302,7 +315,7 @@ public class ScheduleController {
             monthYearLabel.setText(monthVal + " " + yearVal);
         }
         //show dates for the current month
-        calendarCalc();
+        refreshCalendar();
     }
 
     //show UI popup that allows user to manage a task
