@@ -136,11 +136,9 @@ public class ScheduleController {
             for (int col = 0; col <= 6; col++){
                 Label dateLabel = new Label();
                 //every cell in calendar grid has a VBox which will contain labels
-                Node node = calendarGrid.getChildren().get(cell);
-                if (node instanceof VBox vBox){
-                    //add empty date label to VBox
-                    vBox.getChildren().add(dateLabel);
-                }
+                VBox vBox = (VBox) calendarGrid.getChildren().get(cell);
+                //add empty date label to VBox
+                vBox.getChildren().add(dateLabel);
                 //align date label to top-left
                 GridPane.setValignment(dateLabel, VPos.TOP);
                 //cells are blank by default because they're dependent on the current month/year
@@ -218,62 +216,58 @@ public class ScheduleController {
         for (int row = 0; row <= 5; row++){
             for (int col = 0; col <= 6; col++){
                 //get VBox from cell, containing date label
-                Node node = calendarGrid.getChildren().get(cell);
-                if (node instanceof VBox vBox){
-                    //clear any task labels, so they aren't duplicated upon navigating months
-                    //remove if >1 because if there's only 1 label, that is the date label (shouldn't remove)
-                    if (vBox.getChildren().size() > 1){
-                        vBox.getChildren().remove(1, vBox.getChildren().size());
+                VBox vBox = (VBox) calendarGrid.getChildren().get(cell);
+                //clear any task labels, so they aren't duplicated upon navigating months
+                //remove if >1 because if there's only 1 label, that is the date label (shouldn't remove)
+                if (vBox.getChildren().size() > 1){
+                    vBox.getChildren().remove(1, vBox.getChildren().size());
+                }
+                //Vbox containing Labels should expand to properly show set tasks
+                GridPane.setVgrow(vBox, Priority.ALWAYS);
+                //VBox left with only index 0, containing dateLabel
+                Label dateLabel = (Label) vBox.getChildren().get(0);
+                //finding first weekday of the month means date can be shown in cell
+                if (cell == firstWeekdayCol){
+                    monthStart = true;
+                }
+                //fill out calendar for every day in the month
+                if (monthStart && day <= monthLength){
+                    //add day of the month to cell
+                    dateLabel.setText(String.valueOf(day));
+                    //add left padding to date label
+                    Insets cellInsets = new Insets(0, 0, 0, 5);
+                    dateLabel.setPadding(cellInsets);
+                    //parse constructed date string to prepare for format conversion
+                    LocalDate dueDateBase = LocalDate.parse(yearVal + "-"
+                            + Month.valueOf(monthVal).getValue() + "-"
+                            + day, DateTimeFormatter.ofPattern("yyyy-M-d"));
+                    //format date so it can be used for tasksMap
+                    String dueDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(dueDateBase);
+                    //get tasks for current day
+                    taskList = tasksMap.computeIfAbsent(dueDate, k -> new ArrayList<>());
+                    //for each task, add a label (showing task name) to the cell
+                    for (Task task : taskList) {
+                        Label taskLabel = new Label();
+                        taskLabel.setText(task.getTaskName());
+                        //change colour of task label to mark completion
+                        if (task.getStatus().equals("complete")){
+                            taskLabel.setStyle("-fx-background-color: rgb(168, 235, 52);");
+                        }
+                        //make the label occupy all available width in the cell
+                        taskLabel.setMaxWidth(Double.MAX_VALUE);
+                        taskLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);
+                        //add left padding to task label
+                        taskLabel.setPadding(cellInsets);
+                        //allow task label to be clicked so user can edit it
+                        taskLabel.setOnMousePressed(editTaskHandler);
+                        //add task to cell, contained within the cell's VBox
+                        vBox.getChildren().add(taskLabel);
                     }
-                    //Vbox containing Labels should expand to properly show set tasks
-                    GridPane.setVgrow(vBox, Priority.ALWAYS);
-                    //VBox left with only index 0, containing dateLabel
-                    Node dateNode = vBox.getChildren().get(0);
-                    if (dateNode instanceof Label dateLabel){
-                        //finding first weekday of the month means date can be shown in cell
-                        if (cell == firstWeekdayCol){
-                            monthStart = true;
-                        }
-                        //fill out calendar for every day in the month
-                        if (monthStart && day <= monthLength){
-                            //add day of the month to cell
-                            dateLabel.setText(String.valueOf(day));
-                            //add left padding to date label
-                            Insets cellInsets = new Insets(0, 0, 0, 5);
-                            dateLabel.setPadding(cellInsets);
-                            //parse constructed date string to prepare for format conversion
-                            LocalDate dueDateBase = LocalDate.parse(yearVal + "-"
-                                    + Month.valueOf(monthVal).getValue() + "-"
-                                    + day, DateTimeFormatter.ofPattern("yyyy-M-d"));
-                            //format date so it can be used for tasksMap
-                            String dueDate = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(dueDateBase);
-                            //get tasks for current day
-                            taskList = tasksMap.computeIfAbsent(dueDate, k -> new ArrayList<>());
-                            //for each task, add a label (showing task name) to the cell
-                            for (Task task : taskList) {
-                                Label taskLabel = new Label();
-                                taskLabel.setText(task.getTaskName());
-                                //change colour of task label to mark completion
-                                if (task.getStatus().equals("complete")){
-                                    taskLabel.setStyle("-fx-background-color: rgb(168, 235, 52);");
-                                }
-                                //make the label occupy all available width in the cell
-                                taskLabel.setMaxWidth(Double.MAX_VALUE);
-                                taskLabel.setPrefWidth(Label.USE_COMPUTED_SIZE);
-                                //add left padding to task label
-                                taskLabel.setPadding(cellInsets);
-                                //allow task label to be clicked so user can edit it
-                                taskLabel.setOnMousePressed(editTaskHandler);
-                                //add task to cell, contained within the cell's VBox
-                                vBox.getChildren().add(taskLabel);
-                            }
-                            day++;
-                        }
-                        else {
-                            //if it's not a day of the month, show empty cell
-                            dateLabel.setText("");
-                        }
-                    }
+                    day++;
+                }
+                else {
+                    //if it's not a day of the month, show empty cell
+                    dateLabel.setText("");
                 }
                 //go to next cell in calendar grid
                 cell++;
