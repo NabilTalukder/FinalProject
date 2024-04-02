@@ -11,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.*;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -32,17 +31,11 @@ public class TaskController {
     private ArrayList<Task> taskList = new ArrayList<>();
     //contains all dates on the calendar and their associated tasks
     private HashMap<String, ArrayList<Task>> tasksMap = new HashMap<>();
-    //used to send information processed in this class back to the calendar so it can be updated
+    //used to send information processed in this class back to the calendar, so it can be updated
     private ScheduleController scheduleController;
-    //used for reading from tasks txt file to retrieve task information
-    private BufferedReader br = null;
-    //used for editing the tasks txt file
-    private BufferedWriter bw = null;
-    //used to identify if the user is adding or editing a task so the correct process can be followed
-    private String taskAction;
     //the original name of a task before the user changes it
     private String oldTaskName;
-    //the original due date of a task befoe the user changes it
+    //the original due date of a task before the user changes it
     private String oldDueDate;
 
     //label for giving the user feedback if they're adding or editing a task
@@ -68,7 +61,7 @@ public class TaskController {
     @FXML
     private Hyperlink completeLink;
 
-    //prepare UI elements to add a task to the calendae
+    //prepare UI elements to add a task to the calendar
     @FXML
     protected void addTask(String monthVal, String yearVal){
         /* set the date picker to the month being shown on the calendar for ease of use
@@ -127,11 +120,10 @@ public class TaskController {
     //remove the selected task from the calendar
     @FXML
     protected void confirmDeleteTask(ActionEvent event){
-        //removeTaskName() requires the due date for which the task was set
         String enteredDueDate = dueDatePicker.getValue().toString();
         taskList = tasksMap.get(enteredDueDate);
-        //remove the task name for due date
-        removeTaskName(enteredDueDate);
+        //remove the task name for the due date shown in the Edit Task popup
+        removeTaskName();
         //delete task from database
         deleteTaskDB(oldTaskName, oldDueDate);
         //send updated tasksMap back to schedulerController
@@ -157,17 +149,14 @@ public class TaskController {
                 break;
             }
         }
-        //send updated tasksMap back to schedulerController
+        //send updated tasksMap back to scheduleController
         scheduleController.setTasksMap(tasksMap);
         //update calendar with task as complete
         scheduleController.calendarCalc();
-        //update tasks file with completed task
-        //markComplete();
         //update database with task marked as complete
         completeTaskDB(oldTaskName, oldDueDate);
         //process finished, so close task-view popup
         closeView(event);
-
     }
 
     //update the calendar with the new task
@@ -185,38 +174,12 @@ public class TaskController {
         taskList = tasksMap.computeIfAbsent(dueDate, k -> new ArrayList<>());
         //either way, new task is added to taskList
         taskList.add(task);
-        //send updated tasksMap back to schedulerController
+        //send updated tasksMap back to scheduleController
         scheduleController.setTasksMap(tasksMap);
         //update calendar with new task
         scheduleController.calendarCalc();
-        //update tasks file with newly created task
-        //updateTasksFile(taskName, dueDate);
         //update database with newly created task
         addTaskDB(taskName, dueDate);
-        //process complete, so close task-view popup
-        closeView(event);
-    }
-
-    @FXML
-    protected void confirmAddTaskTemp(ActionEvent event){
-        //get the task name and due date
-        String taskName = taskNameField.getText();
-        String dueDate = dueDatePicker.getValue().toString();
-        //create a new task and set the retrieved information
-        Task task = new Task();
-        task.setTaskName(taskName);
-        task.setStatus("incomplete");
-        //check if there are any tasks for the task's set due date
-        //if there are no tasks, add the task to a new list to that date in tasksMap
-        taskList = tasksMap.computeIfAbsent(dueDate, k -> new ArrayList<>());
-        //either way, new task is added to taskList
-        taskList.add(task);
-        //send updated tasksMap back to schedulerController
-        scheduleController.setTasksMap(tasksMap);
-        //update calendar with new task
-        scheduleController.calendarCalc();
-        //update tasks file with newly created task
-        updateTasksFile(taskName, dueDate);
         //process complete, so close task-view popup
         closeView(event);
     }
@@ -243,6 +206,7 @@ public class TaskController {
             if (!oldDueDate.equals(newDueDate)){
                 /*editing due date is effectively removing then adding task to new date
                 *except task status remains same*/
+
                 //retrieve status of task
                 String taskStatus = "";
                 for (Task task : taskList) {
@@ -252,7 +216,7 @@ public class TaskController {
                     }
                 }
                 //remove then add new task
-                removeTaskName(oldDueDate);
+                removeTaskName();
                 Task task = new Task();
                 task.setTaskName(newTaskName);
                 task.setStatus(taskStatus);
@@ -262,6 +226,7 @@ public class TaskController {
                 //either way, new task is added to taskList
                 taskList.add(task);
             }
+            //if only task name was changed
             else {
                 for (Task task : taskList) {
                     //find the task with the same name
@@ -271,7 +236,7 @@ public class TaskController {
                     }
                 }
             }
-            //send updated tasksMap back to schedulerController
+            //send updated tasksMap back to scheduleController
             scheduleController.setTasksMap(tasksMap);
             //update calendar with new task
             scheduleController.calendarCalc();
@@ -279,71 +244,6 @@ public class TaskController {
             editTaskDB(oldTaskName, newTaskName, oldDueDate, newDueDate);
             //process complete, so close task-view popup
             closeView(event);
-
-//            //if date or both name and date was changed
-//            if (!oldDueDate.equals(newDueDate)){
-//                //changing date is effectively removing then adding new task
-//                removeTaskNameTemp(oldDueDate);
-//                /*old task has been removed, so now add new task
-//                * changing taskAction so the process for adding a task is followed
-//                * instead of editing a task, which doesn't apply here as the date
-//                * was changed*/
-//                taskAction = "Add";
-//                //add the task with its new name and/or new due date
-//                confirmAddTaskTemp(event);
-//                //update database with edited task
-//                editTaskDB(oldTaskName, newTaskName, oldDueDate, newDueDate);
-//            }
-//            //if only task name was changed
-//            else {
-//                for (Task task : taskList) {
-//                    //find the task with the same name
-//                    if (task.getTaskName().equals(oldTaskName)) {
-//                        //replace the name with the new name
-//                        task.setTaskName(taskNameField.getText());
-//                    }
-//                }
-//                //send updated tasksMap back to schedulerController
-//                scheduleController.setTasksMap(tasksMap);
-//                //update calendar with new task
-//                scheduleController.calendarCalc();
-//                /*update tasks file by replacing old task name
-//                * newDueDate is interchangeable with oldDueDate here
-//                * because date hasn't changed*/
-//                //updateTasksFile(newTaskName, newDueDate);
-//                //update database with edited task
-//                editTaskDB(oldTaskName, newTaskName, oldDueDate, newDueDate);
-//                //process complete, so close task-view popup
-//                closeView(event);
-//            }
-        }
-    }
-
-    //update tasks txt file for persistence of data upon application restart
-    public void updateTasksFile(String taskName, String dueDate) {
-        StringBuilder sb = new StringBuilder();
-        try {
-            br = new BufferedReader(new FileReader("data/tasks.txt"));
-            //if a task was added, add task name to corresponding due date in file
-            if (taskAction.equals("Add")){
-                appendTask(taskName, dueDate, sb);
-            }
-            //if a task was edited, replace the task with the new one
-            else if (taskAction.equals("Edit")){
-                replaceTaskName(taskName, dueDate, sb);
-            }
-
-            br.close();
-            //deleting old file so it can be replaced
-            File oldFile = new File("data\\tasks.txt");
-            oldFile.delete();
-            //create updated tasks file with new task added
-            bw = new BufferedWriter(new FileWriter("data\\tasks.txt"));
-            bw.write(sb.toString());
-            bw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -432,55 +332,9 @@ public class TaskController {
         System.out.println("completed task");
     }
 
-
-
-    //add the new tasks to correct due date in the tasks txt file
-    public void appendTask(String taskName, String dueDate, StringBuilder sb){
-        String line;
-        boolean dueDateFound = false;
-        try {
-            //search for dueDate to see if that date already has tasks assigned
-            while ((line = br.readLine()) != null) {
-                if (line.contains(dueDate)){
-                    dueDateFound = true;
-                    //edit the line containing the matching due date to include new task
-                    //use comma delimiters to separate tasks
-                    line = line.replace(line, line + "," + taskName);
-                }
-                //copy the line (both edited and unedited) with \n to preserve file's structure
-                sb.append(line).append("\n");
-            }
-            //append dueDate and task name if there were no tasks for the chosen date
-            //again, using \n to preserve structure
-            if (!dueDateFound){
-                sb.append(dueDate).append(",").append(taskName).append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //tasks txt file is updated with edited task name
-    public void replaceTaskName(String taskName, String dueDate, StringBuilder sb){
-        String line;
-        try {
-            //search for dueDate so the old task name can be replaced
-            while ((line = br.readLine()) != null) {
-                if (line.contains(dueDate)){
-                    //edit the line containing the matching due date to replace it
-                    line = line.replace(oldTaskName, taskName);
-                }
-                //copy the line (both edited and unedited) with \n to preserve file's structure
-                sb.append(line).append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //tasks txt file is updated with task removed
+    //tasksMap (used for calendar) is updated with task removed
     @FXML
-    protected void removeTaskName(String dueDate){
+    protected void removeTaskName(){
         //remove the task's old name for the old due date in the tasks hashmap
         //This happens when either the task was deleted or had its name or date changed
         taskList = tasksMap.get(oldDueDate);
@@ -489,132 +343,6 @@ public class TaskController {
         System.out.println("task list size after removal: " + taskList.size());
         if (taskList.size() == 0){
             tasksMap.remove(oldDueDate);
-        }
-        //delete task from database
-        //deleteTaskDB(oldTaskName, oldDueDate);
-
-//        /*remove the task name from the tasks file for the old due date
-//         * so the change is preserved upon application restart*/
-//        StringBuilder sb = new StringBuilder();
-//        String line;
-//        boolean dateHasTasks;
-//        try {
-//            br = new BufferedReader(new FileReader("data/tasks.txt"));
-//            //search for dueDate so the old task name can be removed
-//            while ((line = br.readLine()) != null) {
-//                dateHasTasks = true;
-//                if (line.contains(dueDate)){
-//                    /*account for oldTaskName appearing between other tasks by removing
-//                    * comma delimiter along with it*/
-//                    if (line.contains(oldTaskName + ",")){
-//                        line = line.replace(oldTaskName + ",", "");
-//                    }
-//                    //remove if oldTaskName appears at end of line
-//                    else if (line.contains(oldTaskName)){
-//                        line = line.replace(oldTaskName, "");
-//                    }
-//                }
-//                /*if there's only a due date remaining on the line (no more tasks)
-//                 * remove line. 11 characters is length of dueDate*/
-//                if (line.length() == 11) dateHasTasks = false;
-//                /*copy the line (both edited and unedited) with \n to preserve file's structure
-//                 * but only for lines (due dates) that still have tasks associated with them*/
-//                if (dateHasTasks) sb.append(line).append("\n");
-//            }
-//            br.close();
-//            //deleting old file so it can be replaced
-//            File oldFile = new File("data\\tasks.txt");
-//            oldFile.delete();
-//            //create updated tasks file with task removed
-//            bw = new BufferedWriter(new FileWriter("data\\tasks.txt"));
-//            bw.write(sb.toString());
-//            bw.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    @FXML
-    protected void removeTaskNameTemp(String dueDate){
-        //remove the task's old name for the old due date in the tasks hashmap
-        //This happens when either the task was deleted or had its name or date changed
-        taskList = tasksMap.get(oldDueDate);
-        taskList.removeIf(task -> task.getTaskName().equals(oldTaskName));
-        //remove due date if there are no longer any tasks associated with it
-        System.out.println("task list size after removal: " + taskList.size());
-        if (taskList.size() == 0){
-            tasksMap.remove(oldDueDate);
-        }
-
-        /*remove the task name from the tasks file for the old due date
-         * so the change is preserved upon application restart*/
-        StringBuilder sb = new StringBuilder();
-        String line;
-        boolean dateHasTasks;
-        try {
-            br = new BufferedReader(new FileReader("data/tasks.txt"));
-            //search for dueDate so the old task name can be removed
-            while ((line = br.readLine()) != null) {
-                dateHasTasks = true;
-                if (line.contains(dueDate)){
-                    /*account for oldTaskName appearing between other tasks by removing
-                     * comma delimiter along with it*/
-                    if (line.contains(oldTaskName + ",")){
-                        line = line.replace(oldTaskName + ",", "");
-                    }
-                    //remove if oldTaskName appears at end of line
-                    else if (line.contains(oldTaskName)){
-                        line = line.replace(oldTaskName, "");
-                    }
-                }
-                /*if there's only a due date remaining on the line (no more tasks)
-                 * remove line. 11 characters is length of dueDate*/
-                if (line.length() == 11) dateHasTasks = false;
-                /*copy the line (both edited and unedited) with \n to preserve file's structure
-                 * but only for lines (due dates) that still have tasks associated with them*/
-                if (dateHasTasks) sb.append(line).append("\n");
-            }
-            br.close();
-            //deleting old file so it can be replaced
-            File oldFile = new File("data\\tasks.txt");
-            oldFile.delete();
-            //create updated tasks file with task removed
-            bw = new BufferedWriter(new FileWriter("data\\tasks.txt"));
-            bw.write(sb.toString());
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //tasks txt file is updated with task marked as complete
-    public void markComplete(){
-        StringBuilder sb = new StringBuilder();
-        String line;
-        try {
-            br = new BufferedReader(new FileReader("data/tasks.txt"));
-            /* search for dueDate so the corresponding task can be marked complete
-            * using oldDueDate and oldtaskName because the user may have edited these fields
-            * but then chose to mark the task as complete without confirming the edits*/
-            while ((line = br.readLine()) != null) {
-                if (line.contains(oldDueDate)){
-                    //edit the line containing the matching due date
-                    //;c denotes completion
-                    line = line.replace(oldTaskName, oldTaskName + ";c");
-                }
-                //copy the line (both edited and unedited) with \n to preserve file's structure
-                sb.append(line).append("\n");
-            }
-            br.close();
-            //deleting old file so it can be replaced
-            File oldFile = new File("data\\tasks.txt");
-            oldFile.delete();
-            //create updated tasks file with task removed
-            bw = new BufferedWriter(new FileWriter("data\\tasks.txt"));
-            bw.write(sb.toString());
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -624,13 +352,5 @@ public class TaskController {
 
     public void setScheduleController(ScheduleController scheduleController) {
         this.scheduleController = scheduleController;
-    }
-
-    //defines course of action for Task algorithms based on if user is adding ot editing a task
-    public void setTaskAction(String taskAction) {
-        this.taskAction = taskAction;
-        //updating labels used in the text-view popup for user benefit
-        taskTypeLabel.setText(taskAction + " Task");
-        confirmTaskButton.setText(taskAction + " Task");
     }
 }

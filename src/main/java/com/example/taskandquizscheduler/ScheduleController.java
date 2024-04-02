@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
@@ -87,44 +86,6 @@ public class ScheduleController {
     //retrieve all set tasks and quizzes, so they can be displayed on the calendar
     @FXML
     protected void initialize(){
-        //get all the set tasks
-        String line;
-        String dueDateKey;
-//        try {
-//            br = new BufferedReader(new FileReader("data/tasks.txt"));
-//            while ((line = br.readLine()) != null) {
-//                //tasks are delimited by commas in the file
-//                String[] taskNames = line.split(",");
-//                //the first element of each line is a date for which tasks have been set
-//                dueDateKey = taskNames[0];
-//                //collect tasks for the line being read
-//                ArrayList<Task> taskListValues = new ArrayList<>();
-//                //create new Task objects to reconstruct the HashMap used for updating calendar
-//                for (int i = 1; i < taskNames.length; i++){
-//                    Task task = new Task();
-//                    //completed tasks are delimited with semi-colon
-//                    String [] taskPair = taskNames[i].split(";");
-//                    //the first part of the pair is the task name
-//                    task.setTaskName(taskPair[0]);
-//                    //if there is another character after the task name
-//                    //the task was marked as complete in the file
-//                    if (taskPair.length > 1){
-//                        //set task as complete accordingly, so it can be marked on the calendar
-//                        task.setStatus("complete");
-//                    }
-//                    else {
-//                        task.setStatus("incomplete");
-//                    }
-//                    taskListValues.add(task);
-//                }
-//                //add the tasks and date for which they have been assigned to HashMap
-//                tasksMap.put(dueDateKey, taskListValues);
-//            }
-//            br.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         //get all set tasks from database
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
@@ -134,23 +95,26 @@ public class ScheduleController {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            String returnedDueDate;
-            String prevReturnedDueDate = "";
+            //used for key-value pairs in tasksMap
             String dueDateKeyDB = "";
+            //used to compare against dueDateKeyDB to see if a new key should be created in tasksMap
+            String prevDueDate = "";
             ArrayList<Task> taskListValuesDB = new ArrayList<>();
 
+            //reconstruct tasksMap
             while (resultSet.next()){
                 Task task = new Task();
-                returnedDueDate = resultSet.getString("due_date");
-                if (!returnedDueDate.equals(prevReturnedDueDate)){
-                    dueDateKeyDB = returnedDueDate;
+                dueDateKeyDB = resultSet.getString("due_date");
+                //every date has its own cell contents (list of tasks)
+                if (!dueDateKeyDB.equals(prevDueDate)){
                     taskListValuesDB = new ArrayList<>();
                 }
                 task.setTaskName(resultSet.getString("task_name"));
                 task.setStatus(resultSet.getString("completion_status"));
                 taskListValuesDB.add(task);
                 tasksMap.put(dueDateKeyDB, taskListValuesDB);
-                prevReturnedDueDate = returnedDueDate;
+                //prepare for comparison in next row within returned query results
+                prevDueDate = dueDateKeyDB;
             }
 
             preparedStatement.close();
@@ -194,46 +158,6 @@ public class ScheduleController {
         //allow addTaskButton to start process for adding task
         //done this way instead of using SceneBuilder because of similar functionality to Editing Task
         addTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
-
-        /*Add Quiz
-        * similar to view for Add Task
-        * has due date but no task name
-        *   use different fxml so task-view isn't crowded
-        *   use different controller because methods will need to adhere to fxml
-        *
-        * instead of entering task name, dropdown of quizzes
-        *   should be changed later because dropdown is inconvenient for many quizzes
-        *   maybe a search bar
-        *
-        * Added quiz appears same way as added task label but there should be a visual distinction
-        *
-        * quiz should be saved as a Task object in the hashmap but with a field indicating that
-        * it's a quiz
-        * In the tasks file, there should be another delimiter denoting it's a quiz
-        *
-        * Editing quiz allows user to take quiz, moving to Quiz page and returning to Scheduler
-        * upon completion
-        *
-        * Quiz and Task inherit from Schedulable
-        * QuizController and TaskController inherit from SchedulableController
-        * reason - some methods are shared but most methods between QuizController and TaskController
-        * while similar, will have different implementations because TaskController uses a text field
-        * for Task name while QuizController will use a dropdown to select quizzes
-        * If done this way, the algorithms used to handle Tasks will need to be refactored to handle
-        * Schedulables so both Task and Quiz objects can be processed in the hashmap and txt file
-        * Much clearer than making Quiz inherit from Task
-        *
-        * problem is existing algorithms for adding, editing and deleting task with respect to txt file
-        * will need to account for quizzes.
-        * Is all that extra work necessary or can I just implement database?
-        * I implemented the txt file as a way to demonstrate persistence between application restarts
-        * It ended up being more complicated than I thought but I did meet my objective
-        * I thought that eventually, database queries would be for initial data retrieval and everything else
-        * would be handled by txt file but that might be tedious now with quiz implementation
-        * Is querying each time for data really that bad or should I still use a combination of txt file
-        * and database as originally intended?
-        *
-        * */
     }
 
     //handle mouse event of clicking scheduleLabel
@@ -397,8 +321,6 @@ public class ScheduleController {
             //send tasksMap to taskController, so it can be updated with a new task
             TaskController taskController = loader.getController();
             taskController.setTasksMap(tasksMap);
-            //set task-view behaviour based on if user wants to add/edit/delete/complete task
-            taskController.setTaskAction(taskAction);
 
             //determine process based on task action
             if (taskAction.equals("Add")){
