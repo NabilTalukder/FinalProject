@@ -28,7 +28,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <Label fx:id="quizGenLabel" alignment="CENTER" onMousePressed="#quizGenClick" prefHeight="31.0" prefWidth="142.0" style="-fx-background-color: #d8d4d4;" text="Quiz Generator" />
+                  <Label fx:id="quizGenLabel" alignment="CENTER" onMousePressed="#clickQuizGenerator" prefHeight="31.0" prefWidth="142.0" style="-fx-background-color: #d8d4d4;" text="Quiz Generator" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
@@ -72,7 +72,7 @@
                                     </VBox>
                                     <VBox prefHeight="70.0" prefWidth="87.0">
                                        <children>
-                                          <Button fx:id="prevMonthButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#prevMonthClick" prefHeight="25.0" prefWidth="48.0" text="/\">
+                                          <Button fx:id="prevMonthButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#clickPrevMonth" prefHeight="25.0" prefWidth="48.0" text="/\">
                                              <VBox.margin>
                                                 <Insets left="23.0" top="22.0" />
                                              </VBox.margin>
@@ -81,7 +81,7 @@
                                     </VBox>
                                     <VBox prefHeight="70.0" prefWidth="85.0">
                                        <children>
-                                          <Button fx:id="nextMonthButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#nextMonthClick" prefHeight="25.0" prefWidth="48.0" text="\\/">
+                                          <Button fx:id="nextMonthButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#clickNextMonth" prefHeight="25.0" prefWidth="48.0" text="\\/">
                                              <VBox.margin>
                                                 <Insets left="23.0" top="22.0" />
                                              </VBox.margin>

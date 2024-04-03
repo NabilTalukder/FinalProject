@@ -1,13 +1,17 @@
 package com.example.taskandquizscheduler;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 //handles the quiz process by showing a question and options for the user to select
@@ -58,8 +62,25 @@ public class QuizExecutor {
     public QuizExecutor(){
     }
 
+    //returns to previous screen
     @FXML
-    protected void clickExitQUiz(){}
+    protected void clickExitQUiz(MouseEvent event){
+        try {
+            //get FXML file for quiz generator page and display
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("quiz-gen-view.fxml"));
+            root = loader.load();
+            //scene transition
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.getScene().setRoot(root);
+            stage.setTitle("Task and Quiz Scheduler");
+            stage.setResizable(true);
+            stage.setMaximized(true);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     //submit and compare user answer to actual answer
     @FXML

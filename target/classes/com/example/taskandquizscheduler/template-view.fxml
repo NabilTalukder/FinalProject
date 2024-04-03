@@ -18,7 +18,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <Label fx:id="scheduleLabel" alignment="CENTER" onMousePressed="#scheduleClick" prefHeight="31.0" prefWidth="142.0" style="-fx-background-color: #d8d4d4;" text="Schedule" />
+                  <Label fx:id="scheduleLabel" alignment="CENTER" onMousePressed="#clickSchedule" prefHeight="31.0" prefWidth="142.0" style="-fx-background-color: #d8d4d4;" text="Schedule" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
