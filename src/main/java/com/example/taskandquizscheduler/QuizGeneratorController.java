@@ -1,7 +1,6 @@
 package com.example.taskandquizscheduler;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -108,17 +107,11 @@ public class QuizGeneratorController {
         for (File file : files) {
             quizComboBox.getItems().add(file.getName());
         }
-
-        //allow scheduleLabel on sidebar to be clicked to show Scheduler page
-        scheduleLabel.setOnMousePressed(scheduleHandler);
     }
-
-    //handle mouse event of clicking scheduleLabel
-    EventHandler<? super MouseEvent> scheduleHandler = this::scheduleClick;
 
     //process for clicking schedule sidebar button
     @FXML
-    protected void scheduleClick(MouseEvent event){
+    protected void clickSchedule(MouseEvent event){
         try {
             //get FXML file for schedule page and display
             FXMLLoader loader = new FXMLLoader(getClass().getResource("schedule-view.fxml"));
@@ -139,7 +132,7 @@ public class QuizGeneratorController {
 
     //upon selecting a previously saved quiz, it is retrieved
     @FXML
-    protected void loadQuizClick(){
+    protected void clickLoadQuiz(){
         //load quiz - get file name of selected quiz
         String selectedQuiz = "data/Saved_Quiz/" + quizComboBox.getValue();
 
@@ -168,7 +161,7 @@ public class QuizGeneratorController {
 
     //sends the user input text as a prompt to the Python program to generate and display a quiz
     @FXML
-    protected void generateClick() {
+    protected void clickGenerate() {
         //retrieve the user inputted text
         quizGenInput = quizGenInputArea.getText();
         //send to ClientSocket to send to Python program
@@ -211,7 +204,7 @@ public class QuizGeneratorController {
 
     //stores generated or edited quiz, so it can be accessed later
     @FXML
-    protected void saveQuizClick() {
+    protected void clickSaveQuiz() {
         String quizToSave = quizGenOutputArea.getText();
         String fileName = "data\\Saved_Quiz\\Saved_Quiz.txt";
 
@@ -239,7 +232,7 @@ public class QuizGeneratorController {
 
     //starts the quiz process by transitioning to the quiz page
     @FXML
-    protected void startQuizClick(ActionEvent event) {
+    protected void clickStartQuiz(ActionEvent event) {
         //convert quiz to ArrayList, so it can be sent to QuizExecutor to start quiz
         prepareQuiz();
 

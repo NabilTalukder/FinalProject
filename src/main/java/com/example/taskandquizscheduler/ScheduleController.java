@@ -16,7 +16,6 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
@@ -170,7 +169,7 @@ public class ScheduleController {
 
 
     //handle mouse event of clicking scheduleLabel
-    EventHandler<? super MouseEvent> quizGenHandler = this::quizGenClick;
+    EventHandler<? super MouseEvent> quizGenHandler = this::clickQuizGenerator;
 
     //handle mouse event of clicking Add Task button
     EventHandler<? super ActionEvent> addTaskHandler = taskEvent -> showTaskView("Add", taskEvent);
@@ -180,7 +179,7 @@ public class ScheduleController {
 
     //transition to quiz generator page
     @FXML
-    protected void quizGenClick(MouseEvent event){
+    protected void clickQuizGenerator(MouseEvent event){
         try {
             //get FXML file for quiz generator page and display
             FXMLLoader loader = new FXMLLoader(getClass().getResource("quiz-gen-view.fxml"));
@@ -288,7 +287,7 @@ public class ScheduleController {
 
     //show previous month and its associated tasks/quizzes
     @FXML
-    protected void prevMonthClick(){
+    protected void clickPrevMonth(){
         //decrement month
         monthVal = String.valueOf(Month.valueOf(monthVal).minus(1));
         monthYearLabel.setText(monthVal + " " + yearVal);
@@ -303,7 +302,7 @@ public class ScheduleController {
 
     //show next month and its associated tasks/quizzes
     @FXML
-    protected void nextMonthClick(){
+    protected void clickNextMonth(){
         //increment month
         monthVal = String.valueOf(Month.valueOf(monthVal).plus(1));
         monthYearLabel.setText(monthVal + " " + yearVal);

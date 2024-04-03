@@ -30,6 +30,9 @@ public class QuizExecutor {
     //the option the user selected as their answer
     private String userAnswer;
 
+
+    @FXML
+    private Label exitQuizLabel;
     //header showing the type of quiz
     @FXML
     private Label quizTitle;
@@ -55,9 +58,12 @@ public class QuizExecutor {
     public QuizExecutor(){
     }
 
+    @FXML
+    protected void clickExitQUiz(){}
+
     //submit and compare user answer to actual answer
     @FXML
-    protected void optionClick(){
+    protected void clickOption(){
         //get the text corresponding to the selected button
         if (option1Button.isSelected()){
             userAnswer = option1Button.getText();
