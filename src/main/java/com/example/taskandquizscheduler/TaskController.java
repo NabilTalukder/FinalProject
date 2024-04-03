@@ -120,8 +120,6 @@ public class TaskController {
     //remove the selected task from the calendar
     @FXML
     protected void confirmDeleteTask(ActionEvent event){
-        String enteredDueDate = dueDatePicker.getValue().toString();
-        taskList = tasksMap.get(enteredDueDate);
         //remove the task name for the due date shown in the Edit Task popup
         removeTaskName();
         //delete task from database
@@ -338,6 +336,7 @@ public class TaskController {
         //remove the task's old name for the old due date in the tasks hashmap
         //This happens when either the task was deleted or had its name or date changed
         taskList = tasksMap.get(oldDueDate);
+        System.out.println("removeTaskName: " + taskList);
         taskList.removeIf(task -> task.getTaskName().equals(oldTaskName));
         //remove due date if there are no longer any tasks associated with it
         System.out.println("task list size after removal: " + taskList.size());

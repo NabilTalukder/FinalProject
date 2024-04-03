@@ -49,8 +49,6 @@ public class ScheduleController {
     private ArrayList<Task> taskList = new ArrayList<>();
     //contains all dates on the calendar and their associated tasks
     private HashMap<String, ArrayList<Task>> tasksMap = new HashMap<>();
-    //reads txt file containing set tasks information
-    private BufferedReader br = null;
     //month and year displayed on the calendar - used for calculations requiring dates
     private String yearVal;
     private String monthVal;
@@ -117,7 +115,7 @@ public class ScheduleController {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             //used for key-value pairs in tasksMap
-            String dueDateKeyDB = "";
+            String dueDateKeyDB;
             //used to compare against dueDateKeyDB to see if a new key should be created in tasksMap
             String prevDueDate = "";
             ArrayList<Task> taskListValuesDB = new ArrayList<>();

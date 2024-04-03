@@ -60,7 +60,7 @@ public class QuizGeneratorController {
     //button to take the quiz that was loaded or generated
     @FXML
     private Button startQuizButton = new Button();
-    //button to save the generated or edited quiz so it can be accessed later
+    //button to save the generated or edited quiz, so it can be accessed later
     @FXML
     private Button saveQuizButton = new Button();
     //holds saved quizzes
@@ -184,7 +184,7 @@ public class QuizGeneratorController {
         startQuizButton.setDisable(false);
     }
 
-    //formats the retrieved quiz so it can be used by QuizController to start the quiz process
+    //formats the retrieved quiz, so it can be used by QuizController to start the quiz process
     public void prepareQuiz(){
         //split up the string of questions into separate strings, using # as delimiter
         String[] questions = quizGenOutput.split("#");
@@ -209,7 +209,7 @@ public class QuizGeneratorController {
         }
     }
 
-    //stores generated or edited quiz so it can be accessed later
+    //stores generated or edited quiz, so it can be accessed later
     @FXML
     protected void saveQuizClick() {
         String quizToSave = quizGenOutputArea.getText();
@@ -240,7 +240,7 @@ public class QuizGeneratorController {
     //starts the quiz process by transitioning to the quiz page
     @FXML
     protected void startQuizClick(ActionEvent event) {
-        //convert quiz to ArrayList so it can be sent to QuizExecutor to start quiz
+        //convert quiz to ArrayList, so it can be sent to QuizExecutor to start quiz
         prepareQuiz();
 
         try {
