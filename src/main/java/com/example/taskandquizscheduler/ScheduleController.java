@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -17,7 +16,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.sql.*;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
@@ -91,7 +89,8 @@ public class ScheduleController {
     @FXML
     protected void initialize(){
         //get all set tasks from database
-        prepareSchedule();
+        TaskDataAccessor taskDataAccessor = new TaskDataAccessor();
+        tasksMap = taskDataAccessor.querySchedule();
 
         //set current month, year; update corresponding label
         yearVal = String.valueOf(LocalDate.now().getYear());
@@ -104,47 +103,6 @@ public class ScheduleController {
         //allow addTaskButton to start process for adding task
         //done this way instead of using SceneBuilder because of similar functionality to Editing Task
         addTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
-    }
-
-    //initial retrieval of tasks from database
-    @FXML
-    protected void prepareSchedule(){
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
-                    "root", "");
-            String sql = "SELECT due_date, task_name, completion_status FROM task WHERE" +
-                    " assigner_ID = 1 AND assignee_ID = 1 ORDER BY due_date;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            //used for key-value pairs in tasksMap
-            String dueDateKeyDB;
-            //used to compare against dueDateKeyDB to see if a new key should be created in tasksMap
-            String prevDueDate = "";
-            ArrayList<Task> taskListValuesDB = new ArrayList<>();
-
-            //reconstruct tasksMap
-            while (resultSet.next()){
-                Task task = new Task();
-                dueDateKeyDB = resultSet.getString("due_date");
-                //every date has its own cell contents (list of tasks)
-                if (!dueDateKeyDB.equals(prevDueDate)){
-                    taskListValuesDB = new ArrayList<>();
-                }
-                task.setTaskName(resultSet.getString("task_name"));
-                task.setStatus(resultSet.getString("completion_status"));
-                taskListValuesDB.add(task);
-                tasksMap.put(dueDateKeyDB, taskListValuesDB);
-                //prepare for comparison in next row within returned query results
-                prevDueDate = dueDateKeyDB;
-            }
-
-            preparedStatement.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("retrieved tasks");
     }
 
     @FXML
