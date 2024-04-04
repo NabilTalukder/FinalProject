@@ -75,25 +75,6 @@ public class QuizExecutor {
         viewHandler.openView("QuizGenerator");
     }
 
-//    @FXML
-//    protected void clickExitQuiz(MouseEvent event){
-//        try {
-//            //get FXML file for quiz generator page and display
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("QuizGeneratorView.fxml"));
-//            root = loader.load();
-//            //scene transition
-//            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-//            stage.getScene().setRoot(root);
-//            stage.setTitle("Task and Quiz Scheduler");
-//            stage.setResizable(true);
-//            stage.setMaximized(true);
-//            stage.show();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     //submit and compare user answer to actual answer
     @FXML
     protected void clickOption(){
