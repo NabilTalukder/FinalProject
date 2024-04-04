@@ -28,6 +28,9 @@ import java.util.HashMap;
 //handles scheduling and managing of tasks and quizzes on a calendar
 public class ScheduleController {
 
+    //used to switch between scenes/pages
+    private ViewHandler viewHandler;
+
     //main window of JavaFX application
     private Stage stage;
     //container for organising UI elements in window
@@ -79,6 +82,10 @@ public class ScheduleController {
 
     @FXML
     private Button addTaskButton;
+
+    public void init(ViewHandler viewhandler){
+        this.viewHandler = viewhandler;
+    }
 
     //retrieve all set tasks and quizzes, so they can be displayed on the calendar
     @FXML
@@ -180,22 +187,26 @@ public class ScheduleController {
     //transition to quiz generator page
     @FXML
     protected void clickQuizGenerator(MouseEvent event){
-        try {
-            //get FXML file for quiz generator page and display
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("quiz-gen-view.fxml"));
-            root = loader.load();
-            //scene transition
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            stage.getScene().setRoot(root);
-            stage.setTitle("Task and Quiz Scheduler");
-            stage.setResizable(true);
-            stage.setMaximized(true);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        viewHandler.openView("QuizGenerator");
     }
+//    @FXML
+//    protected void clickQuizGenerator(MouseEvent event){
+//        try {
+//            //get FXML file for quiz generator page and display
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("QuizGeneratorView.fxml"));
+//            root = loader.load();
+//            //scene transition
+//            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+//            stage.getScene().setRoot(root);
+//            stage.setTitle("Task and Quiz Scheduler");
+//            stage.setResizable(true);
+//            stage.setMaximized(true);
+//            stage.show();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     //initialisations for calendar algorithm
     @FXML
@@ -320,7 +331,7 @@ public class ScheduleController {
     protected void showTaskView(String taskAction, Event taskEvent){
         try {
             //get FXML file for task popup and display
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("task-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TaskView.fxml"));
             Parent root = loader.load();
             //send tasksMap to taskController, so it can be updated with a new task
             TaskController taskController = loader.getController();

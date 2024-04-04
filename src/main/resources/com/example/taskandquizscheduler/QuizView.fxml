@@ -16,7 +16,7 @@
             <Label prefHeight="71.0" prefWidth="142.0" />
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <Label fx:id="exitQuizLabel" alignment="CENTER" onMousePressed="#clickExitQUiz" prefHeight="31.0" prefWidth="142.0" style="-fx-background-color: #d8d4d4;" text="Exit Quiz" />
+                  <Label fx:id="exitQuizLabel" alignment="CENTER" onMousePressed="#clickExitQuiz" prefHeight="31.0" prefWidth="142.0" style="-fx-background-color: #d8d4d4;" text="Exit Quiz" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0" />

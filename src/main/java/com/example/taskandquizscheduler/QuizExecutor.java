@@ -17,6 +17,9 @@ import java.util.ArrayList;
 //handles the quiz process by showing a question and options for the user to select
 public class QuizExecutor {
 
+    //used to switch between scenes/pages
+    private ViewHandler viewHandler;
+
     //main window of JavaFX application
     private Stage stage;
     //container for organising UI elements in window
@@ -62,25 +65,34 @@ public class QuizExecutor {
     public QuizExecutor(){
     }
 
-    //returns to previous screen
-    @FXML
-    protected void clickExitQUiz(MouseEvent event){
-        try {
-            //get FXML file for quiz generator page and display
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("quiz-gen-view.fxml"));
-            root = loader.load();
-            //scene transition
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            stage.getScene().setRoot(root);
-            stage.setTitle("Task and Quiz Scheduler");
-            stage.setResizable(true);
-            stage.setMaximized(true);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void init(ViewHandler viewhandler){
+        this.viewHandler = viewhandler;
     }
+
+    //returns to previous screen (quiz generator or schedule)
+    @FXML
+    protected void clickExitQuiz(MouseEvent event){
+        viewHandler.openView("QuizGenerator");
+    }
+
+//    @FXML
+//    protected void clickExitQuiz(MouseEvent event){
+//        try {
+//            //get FXML file for quiz generator page and display
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("QuizGeneratorView.fxml"));
+//            root = loader.load();
+//            //scene transition
+//            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+//            stage.getScene().setRoot(root);
+//            stage.setTitle("Task and Quiz Scheduler");
+//            stage.setResizable(true);
+//            stage.setMaximized(true);
+//            stage.show();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     //submit and compare user answer to actual answer
     @FXML

@@ -20,6 +20,9 @@ import java.util.ArrayList;
 //handles loading and generating quizzes from user input
 public class QuizGeneratorController {
 
+    //used to switch between scenes/pages
+    private ViewHandler viewHandler;
+
     //main window of JavaFX application
     private Stage stage;
     //container for organising UI elements in window
@@ -93,6 +96,10 @@ public class QuizGeneratorController {
 
     }
 
+    public void init(ViewHandler viewhandler){
+        this.viewHandler = viewhandler;
+    }
+
     //set up initial UI behaviours
     @FXML
     public void initialize(){
@@ -112,23 +119,59 @@ public class QuizGeneratorController {
     //process for clicking schedule sidebar button
     @FXML
     protected void clickSchedule(MouseEvent event){
-        try {
-            //get FXML file for schedule page and display
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("schedule-view.fxml"));
-            root = loader.load();
-            //scene transition
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            stage.getScene().setRoot(root);
-            stage.setTitle("Task and Quiz Scheduler");
-            stage.setResizable(true);
-            stage.setMaximized(true);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        viewHandler.openView("Schedule");
     }
+//    @FXML
+//    protected void clickSchedule(MouseEvent event){
+//        try {
+//            //get FXML file for schedule page and display
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("ScheduleView.fxml"));
+//            root = loader.load();
+//            //scene transition
+//            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+//            stage.getScene().setRoot(root);
+//            stage.setTitle("Task and Quiz Scheduler");
+//            stage.setResizable(true);
+//            stage.setMaximized(true);
+//            stage.show();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+
+    //starts the quiz process by transitioning to the quiz page
+    @FXML
+    protected void clickStartQuiz(ActionEvent event) {
+        prepareQuiz();
+        viewHandler.setQuestionList(questionList);
+        viewHandler.openView("QuizExecutor");
+    }
+//    @FXML
+//    protected void clickStartQuiz(ActionEvent event) {
+//        //convert quiz to ArrayList, so it can be sent to QuizExecutor to start quiz
+//        prepareQuiz();
+//
+//        try {
+//            //get FXML file for quiz page and display to start the quiz
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("QuizView.fxml"));
+//            root = loader.load();
+//            //pass on the question list for the quiz to start
+//            QuizExecutor quizExecutor = loader.getController();
+//            quizExecutor.setQuestionList(questionList);
+//            //scene transition
+//            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+//            stage.getScene().setRoot(root);
+//            stage.setTitle("Task and Quiz Scheduler");
+//            stage.setResizable(true);
+//            stage.setMaximized(true);
+//            stage.show();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     //upon selecting a previously saved quiz, it is retrieved
     @FXML
@@ -225,32 +268,6 @@ public class QuizGeneratorController {
             bw = new BufferedWriter(new FileWriter(fileName));
             bw.write(quizToSave);
             bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //starts the quiz process by transitioning to the quiz page
-    @FXML
-    protected void clickStartQuiz(ActionEvent event) {
-        //convert quiz to ArrayList, so it can be sent to QuizExecutor to start quiz
-        prepareQuiz();
-
-        try {
-            //get FXML file for quiz page and display to start the quiz
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("quiz-view.fxml"));
-            root = loader.load();
-            //pass on the question list for the quiz to start
-            QuizExecutor quizExecutor = loader.getController();
-            quizExecutor.setQuestionList(questionList);
-            //scene transition
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            stage.getScene().setRoot(root);
-            stage.setTitle("Task and Quiz Scheduler");
-            stage.setResizable(true);
-            stage.setMaximized(true);
-            stage.show();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
