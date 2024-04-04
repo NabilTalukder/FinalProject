@@ -21,12 +21,17 @@ import java.sql.*;
 
 //handles adding, editing, deleting and completion of tasks
 public class TaskController {
+
     //main window of JavaFX application
     private Stage stage;
     //container for organising UI elements in window
     private Scene scene;
     //top-level class for handling nodes (UI elements/containers) in JavaFX
     private Parent root;
+
+    //queries database for tasks
+    private TaskDataAccessor taskDataAccessor = new TaskDataAccessor();
+
     //holds tasks set for each day in the calendar - used for displaying and modifying them
     private ArrayList<Task> taskList = new ArrayList<>();
     //contains all dates on the calendar and their associated tasks
@@ -123,7 +128,7 @@ public class TaskController {
         //remove the task name for the due date shown in the Edit Task popup
         removeTaskName();
         //delete task from database
-        deleteTaskDB(oldTaskName, oldDueDate);
+        taskDataAccessor.deleteTaskDB(oldTaskName, oldDueDate);
         //send updated tasksMap back to schedulerController
         scheduleController.setTasksMap(tasksMap);
         //update calendar with task removed
@@ -152,7 +157,7 @@ public class TaskController {
         //update calendar with task as complete
         scheduleController.refreshCalendar();
         //update database with task marked as complete
-        completeTaskDB(oldTaskName, oldDueDate);
+        taskDataAccessor.completeTaskDB(oldTaskName, oldDueDate);
         //process finished, so close task-view popup
         closeView(event);
     }
@@ -177,7 +182,7 @@ public class TaskController {
         //update calendar with new task
         scheduleController.refreshCalendar();
         //update database with newly created task
-        addTaskDB(taskName, dueDate);
+        taskDataAccessor.addTaskDB(taskName, dueDate);
         //process complete, so close task-view popup
         closeView(event);
     }
@@ -239,95 +244,10 @@ public class TaskController {
             //update calendar with new task
             scheduleController.refreshCalendar();
             //update database with edited task
-            editTaskDB(oldTaskName, newTaskName, oldDueDate, newDueDate);
+            taskDataAccessor.editTaskDB(oldTaskName, newTaskName, oldDueDate, newDueDate);
             //process complete, so close task-view popup
             closeView(event);
         }
-    }
-
-    public void addTaskDB(String taskName, String dueDate){
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
-                    "root", "");
-            String sql = "INSERT INTO task " +
-                    "(`task_ID`, `assigner_ID`, `assignee_ID`, `task_name`, `due_date`, `completion_status`)" +
-                    " VALUES (NULL, ?, ?, ?, ?, ?);";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, "1");
-            preparedStatement.setString(2, "1");
-            preparedStatement.setString(3, taskName);
-            preparedStatement.setString(4, dueDate);
-            preparedStatement.setString(5, "incomplete");
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("added task");
-    }
-
-    public void editTaskDB(String oldTaskName, String newTaskName, String oldDueDate, String newDueDate){
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
-                    "root", "");
-            String sql = "UPDATE task SET task_name = ?, due_date = ? WHERE" +
-                    " assigner_ID = ? AND assignee_ID = ? AND task_name = ? AND due_date = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, newTaskName);
-            preparedStatement.setString(2, newDueDate);
-            preparedStatement.setString(3, "1");
-            preparedStatement.setString(4, "1");
-            preparedStatement.setString(5, oldTaskName);
-            preparedStatement.setString(6, oldDueDate);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("edited task");
-    }
-
-    public void deleteTaskDB(String taskName, String dueDate){
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
-                    "root", "");
-            String sql = "DELETE FROM task WHERE" +
-                    " assigner_ID = ? AND assignee_ID = ? AND task_name = ? AND due_date = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, "1");
-            preparedStatement.setString(2, "1");
-            preparedStatement.setString(3, taskName);
-            preparedStatement.setString(4, dueDate);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("deleted task");
-    }
-
-    public void completeTaskDB(String taskName, String dueDate){
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
-                    "root", "");
-            String sql = "UPDATE task SET completion_status = ? WHERE" +
-                    " assigner_ID = ? AND assignee_ID = ? AND task_name = ? AND due_date = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, "complete");
-            preparedStatement.setString(2, "1");
-            preparedStatement.setString(3, "1");
-            preparedStatement.setString(4, taskName);
-            preparedStatement.setString(5, dueDate);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("completed task");
     }
 
     //tasksMap (used for calendar) is updated with task removed
