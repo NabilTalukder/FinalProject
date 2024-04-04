@@ -15,13 +15,11 @@ public class ViewHandler extends Application {
     private Parent root;
     private Scene scene;
 
-    //offset of the TaskView popup which allow it to be dragged across the screen
-    private double xOffset, yOffset;
-
     //questions from Python program to be used in Quiz
     private ArrayList<ArrayList<String>> questionList;
 
-    private boolean started = false;
+    //flag to ensure scenes switch between pages instead of a new one being created
+    private boolean createdInitialScene = false;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -40,10 +38,10 @@ public class ViewHandler extends Application {
                 case "QuizGenerator" -> {
                     QuizGeneratorController view = loader.getController();
                     view.init(this);
-                    if (!started){
+                    if (!createdInitialScene){
                         scene = new Scene(root, 1280, 720);
                         stage.setScene(scene);
-                        started = true;
+                        createdInitialScene = true;
                     }
                     else {
                         stage.getScene().setRoot(root);

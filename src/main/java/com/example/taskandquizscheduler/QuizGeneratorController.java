@@ -121,25 +121,6 @@ public class QuizGeneratorController {
     protected void clickSchedule(MouseEvent event){
         viewHandler.openView("Schedule");
     }
-//    @FXML
-//    protected void clickSchedule(MouseEvent event){
-//        try {
-//            //get FXML file for schedule page and display
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("ScheduleView.fxml"));
-//            root = loader.load();
-//            //scene transition
-//            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-//            stage.getScene().setRoot(root);
-//            stage.setTitle("Task and Quiz Scheduler");
-//            stage.setResizable(true);
-//            stage.setMaximized(true);
-//            stage.show();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
 
     //starts the quiz process by transitioning to the quiz page
     @FXML
@@ -148,30 +129,7 @@ public class QuizGeneratorController {
         viewHandler.setQuestionList(questionList);
         viewHandler.openView("QuizExecutor");
     }
-//    @FXML
-//    protected void clickStartQuiz(ActionEvent event) {
-//        //convert quiz to ArrayList, so it can be sent to QuizExecutor to start quiz
-//        prepareQuiz();
-//
-//        try {
-//            //get FXML file for quiz page and display to start the quiz
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("QuizView.fxml"));
-//            root = loader.load();
-//            //pass on the question list for the quiz to start
-//            QuizExecutor quizExecutor = loader.getController();
-//            quizExecutor.setQuestionList(questionList);
-//            //scene transition
-//            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-//            stage.getScene().setRoot(root);
-//            stage.setTitle("Task and Quiz Scheduler");
-//            stage.setResizable(true);
-//            stage.setMaximized(true);
-//            stage.show();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+
 
     //upon selecting a previously saved quiz, it is retrieved
     @FXML

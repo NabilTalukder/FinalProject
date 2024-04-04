@@ -83,8 +83,8 @@ public class ScheduleController {
     @FXML
     private Button addTaskButton;
 
-    public void init(ViewHandler viewhandler){
-        this.viewHandler = viewhandler;
+    public void init(ViewHandler viewHandler){
+        this.viewHandler = viewHandler;
     }
 
     //retrieve all set tasks and quizzes, so they can be displayed on the calendar
@@ -100,9 +100,6 @@ public class ScheduleController {
 
         //add empty label to every cell in calendar so retrieved tasks can be added to it
         prepareCalendar();
-
-        //allow scheduleLabel on sidebar to be clicked to show Scheduler page
-        quizGenLabel.setOnMousePressed(quizGenHandler);
 
         //allow addTaskButton to start process for adding task
         //done this way instead of using SceneBuilder because of similar functionality to Editing Task
@@ -174,10 +171,6 @@ public class ScheduleController {
         refreshCalendar();
     }
 
-
-    //handle mouse event of clicking scheduleLabel
-    EventHandler<? super MouseEvent> quizGenHandler = this::clickQuizGenerator;
-
     //handle mouse event of clicking Add Task button
     EventHandler<? super ActionEvent> addTaskHandler = taskEvent -> showTaskView("Add", taskEvent);
 
@@ -189,24 +182,6 @@ public class ScheduleController {
     protected void clickQuizGenerator(MouseEvent event){
         viewHandler.openView("QuizGenerator");
     }
-//    @FXML
-//    protected void clickQuizGenerator(MouseEvent event){
-//        try {
-//            //get FXML file for quiz generator page and display
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("QuizGeneratorView.fxml"));
-//            root = loader.load();
-//            //scene transition
-//            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-//            stage.getScene().setRoot(root);
-//            stage.setTitle("Task and Quiz Scheduler");
-//            stage.setResizable(true);
-//            stage.setMaximized(true);
-//            stage.show();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     //initialisations for calendar algorithm
     @FXML
