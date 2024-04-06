@@ -6,14 +6,19 @@ import java.util.HashMap;
 
 public class TaskDataAccessor {
 
+    //database access
+    private String connectionURL = "jdbc:mysql://localhost/revision_scheduler";
+    private String usernameDB = "root";
+    private String passwordDB = "";
+
     //contains all dates on the calendar and their associated tasks
     private HashMap<String, ArrayList<Task>> tasksMap = new HashMap<>();
 
     //initial retrieval of tasks from database
     public HashMap<String, ArrayList<Task>> querySchedule(){
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
-                    "root", "");
+            Connection connection = DriverManager.getConnection(connectionURL,
+                    usernameDB, passwordDB);
             String sql = "SELECT due_date, task_name, completion_status FROM task WHERE" +
                     " assigner_ID = 1 AND assignee_ID = 1 ORDER BY due_date;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -51,8 +56,8 @@ public class TaskDataAccessor {
 
     public void addTaskDB(String taskName, String dueDate){
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
-                    "root", "");
+            Connection connection = DriverManager.getConnection(connectionURL,
+                    usernameDB, passwordDB);
             String sql = "INSERT INTO task " +
                     "(`task_ID`, `assigner_ID`, `assignee_ID`, `task_name`, `due_date`, `completion_status`)" +
                     " VALUES (NULL, ?, ?, ?, ?, ?);";
@@ -73,8 +78,8 @@ public class TaskDataAccessor {
 
     public void editTaskDB(String oldTaskName, String newTaskName, String oldDueDate, String newDueDate){
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
-                    "root", "");
+            Connection connection = DriverManager.getConnection(connectionURL,
+                    usernameDB, passwordDB);
             String sql = "UPDATE task SET task_name = ?, due_date = ? WHERE" +
                     " assigner_ID = ? AND assignee_ID = ? AND task_name = ? AND due_date = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -95,8 +100,8 @@ public class TaskDataAccessor {
 
     public void deleteTaskDB(String taskName, String dueDate){
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
-                    "root", "");
+            Connection connection = DriverManager.getConnection(connectionURL,
+                    usernameDB, passwordDB);
             String sql = "DELETE FROM task WHERE" +
                     " assigner_ID = ? AND assignee_ID = ? AND task_name = ? AND due_date = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -115,8 +120,8 @@ public class TaskDataAccessor {
 
     public void completeTaskDB(String taskName, String dueDate){
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/revision_scheduler",
-                    "root", "");
+            Connection connection = DriverManager.getConnection(connectionURL,
+                    usernameDB, passwordDB);
             String sql = "UPDATE task SET completion_status = ? WHERE" +
                     " assigner_ID = ? AND assignee_ID = ? AND task_name = ? AND due_date = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
