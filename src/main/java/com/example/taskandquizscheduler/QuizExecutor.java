@@ -30,8 +30,8 @@ public class QuizExecutor {
     private int score = 0;
     //the answer of the current question being displayed
     private String answer;
-    //the option the user selected as their answer
-    private String userAnswer;
+    //holds all user's answers
+    private ArrayList<String> userAnswers = new ArrayList<>();
 
 
     @FXML
@@ -61,8 +61,8 @@ public class QuizExecutor {
     public QuizExecutor(){
     }
 
-    public void init(ViewHandler viewhandler){
-        this.viewHandler = viewhandler;
+    public void init(ViewHandler viewHandler){
+        this.viewHandler = viewHandler;
     }
 
     //returns to previous screen (quiz generator or schedule)
@@ -76,26 +76,22 @@ public class QuizExecutor {
     protected void clickOption(){
         //get the text corresponding to the selected button
         if (option1Button.isSelected()){
-            userAnswer = option1Button.getText();
+            userAnswers.add(option1Button.getText());
         }
         else if (option2Button.isSelected()) {
-            userAnswer = option2Button.getText();
+            userAnswers.add(option2Button.getText());
         }
         else if (option3Button.isSelected()) {
-            userAnswer = option3Button.getText();
+            userAnswers.add(option3Button.getText());
         }
         else if (option4Button.isSelected()) {
-            userAnswer = option4Button.getText();
+            userAnswers.add(option4Button.getText());
         }
-        //if the selected button's text matches the answer, it's correct
-        //remove "Answer: " for easier comparison. It was added for the GPT-3.5 prompt in Python
-        if (userAnswer.equals(answer.replaceFirst("Answer: ", ""))){
+
+        if (userAnswers.get(currentQuestion).equals(answer)){
             score += 1;
-            System.out.println("score: " + score);
         }
-        else {
-            System.out.println("incorrect");
-        }
+
         //reset "selected" state of buttons to prepare for next question
         option1Button.setSelected(false);
         option2Button.setSelected(false);
@@ -107,7 +103,11 @@ public class QuizExecutor {
         if (currentQuestion < questionList.size() - 1){
             nextQuestion();
         }
+        //end of quiz - go to results
         else {
+            viewHandler.setQuestionList(questionList);
+            viewHandler.setScore(score);
+            viewHandler.setUserAnswers(userAnswers);
             viewHandler.openView("Results");
         }
     }
@@ -131,7 +131,8 @@ public class QuizExecutor {
         option3Button.setText(questionList.get(currentQuestion).get(3));
         option4Button.setText(questionList.get(currentQuestion).get(4));
         //set the correct answer for the current question
-        answer = questionList.get(currentQuestion).get(5);
+        //remove "Answer: " for easier comparison. It was added for the GPT-3.5 prompt in Python
+        answer = questionList.get(currentQuestion).get(5).replaceFirst("Answer: ", "");
     }
 
     public ArrayList<ArrayList<String>> getQuestionList() {
@@ -143,6 +144,7 @@ public class QuizExecutor {
         this.questionList = questionList;
         //set progress bar to 0 initially
         quizProgress.setProgress(0);
+        userAnswers.add("0th value to align currentQuestion with user answer");
         //increment question number from 0 to 1, so the quiz can begin
         nextQuestion();
     }

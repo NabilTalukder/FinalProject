@@ -51,47 +51,65 @@
                   </HBox>
                </top>
                <left>
-                  <VBox prefHeight="620.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+                  <VBox prefHeight="620.0" prefWidth="170.0" BorderPane.alignment="CENTER" />
                </left>
                <center>
                   <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="538.0">
                            <children>
-                              <Label prefHeight="101.0" prefWidth="190.0" text="Quiz Name" />
+                              <Label prefHeight="88.0" prefWidth="557.0" text="Quiz Name" />
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label prefHeight="101.0" prefWidth="190.0" text="Option 1" />
+                              <Label fx:id="questionDesc" prefHeight="88.0" prefWidth="538.0" text="Question Description" />
                            </children>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="797.0">
                            <children>
-                              <Label prefHeight="101.0" prefWidth="190.0" text="Option 2" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label prefHeight="101.0" prefWidth="190.0" text="Option 3" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label prefHeight="101.0" prefWidth="190.0" text="Option 4" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox prefHeight="100.0" prefWidth="403.0">
                                  <children>
-                                    <JFXButton prefHeight="49.0" prefWidth="62.0" text="&lt;" />
+                                    <Label fx:id="option1Label" prefHeight="100.0" prefWidth="445.0" text="Option 1" wrapText="true" />
                                  </children>
                               </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0" />
+                              <VBox prefHeight="100.0" prefWidth="394.0">
+                                 <children>
+                                    <Label fx:id="option2Label" prefHeight="100.0" prefWidth="400.0" text="Option 2" wrapText="true" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="100.0" prefWidth="403.0">
+                                 <children>
+                                    <Label fx:id="option3Label" prefHeight="101.0" prefWidth="538.0" text="Option 3" wrapText="true" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="100.0" prefWidth="400.0">
+                                 <children>
+                                    <Label fx:id="option4Label" prefHeight="100.0" prefWidth="401.0" text="Option 4" wrapText="true" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="41.0" prefWidth="797.0" />
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="100.0" prefWidth="65.0">
+                                 <children>
+                                    <JFXButton fx:id="prevQuestionButton" onAction="#clickPrevQuestion" prefHeight="49.0" prefWidth="62.0" styleClass="questionNavigation" stylesheets="@ResultsStyle.css" text="&lt;" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="100.0" prefWidth="65.0">
+                                 <children>
+                                    <JFXButton fx:id="nextQuestionButton" onAction="#clickNextQuestion" prefHeight="49.0" prefWidth="62.0" styleClass="questionNavigation" stylesheets="@ResultsStyle.css" text="&gt;" />
+                                 </children></VBox>
+                              <VBox prefHeight="100.0" prefWidth="284.0" />
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Label prefHeight="109.0" prefWidth="100.0" text="Score" />
+                                    <Label fx:id="scoreCounter" prefHeight="51.0" prefWidth="100.0" text="Score" />
                                  </children>
                               </VBox>
                            </children>
@@ -100,7 +118,7 @@
                   </VBox>
                </center>
                <right>
-                  <VBox prefHeight="620.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+                  <VBox prefHeight="620.0" prefWidth="171.0" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
          </children>
