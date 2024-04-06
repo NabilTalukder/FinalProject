@@ -1,8 +1,6 @@
 package com.example.taskandquizscheduler;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -10,8 +8,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 //handles the quiz process by showing a question and options for the user to select
@@ -105,7 +101,15 @@ public class QuizExecutor {
         option2Button.setSelected(false);
         option3Button.setSelected(false);
         option4Button.setSelected(false);
-        nextQuestion();
+
+        //cycle through questions as long as there are some left
+        //-1 because 0th element is quiz title
+        if (currentQuestion < questionList.size() - 1){
+            nextQuestion();
+        }
+        else {
+            viewHandler.openView("Results");
+        }
     }
 
     //iterate through the questions

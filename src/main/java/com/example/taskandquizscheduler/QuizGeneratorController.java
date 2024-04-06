@@ -127,7 +127,7 @@ public class QuizGeneratorController {
     protected void clickStartQuiz(ActionEvent event) {
         prepareQuiz();
         viewHandler.setQuestionList(questionList);
-        viewHandler.openView("QuizExecutor");
+        viewHandler.openView("Quiz");
     }
 
 

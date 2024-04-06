@@ -47,7 +47,7 @@ public class ViewHandler extends Application {
                         stage.getScene().setRoot(root);
                     }
                 }
-                case "QuizExecutor" -> {
+                case "Quiz" -> {
                     QuizExecutor view = loader.getController();
                     view.init(this);
                     view.setQuestionList(questionList);
@@ -56,6 +56,12 @@ public class ViewHandler extends Application {
                 }
                 case "Schedule" -> {
                     ScheduleController view = loader.getController();
+                    view.init(this);
+                    //change scene to the new View
+                    stage.getScene().setRoot(root);
+                }
+                case "Results" -> {
+                    ResultsController view = loader.getController();
                     view.init(this);
                     //change scene to the new View
                     stage.getScene().setRoot(root);
