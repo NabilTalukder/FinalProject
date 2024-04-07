@@ -58,7 +58,7 @@
                      <children>
                         <HBox prefHeight="100.0" prefWidth="538.0">
                            <children>
-                              <Label prefHeight="88.0" prefWidth="557.0" text="Quiz Name" />
+                              <Label fx:id="quizNameLabel" prefHeight="88.0" prefWidth="557.0" text="Quiz Name" />
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">

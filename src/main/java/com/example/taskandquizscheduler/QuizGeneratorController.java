@@ -32,6 +32,12 @@ public class QuizGeneratorController {
     private Parent root;
     //the questions generated and received from the Python program
     private ArrayList<ArrayList<String>> questionList;
+    //input from the user to be used in the prompt to generate a quiz
+    private String quizGenInput;
+    //the output of the prompt (generated quiz)
+    private String quizGenOutput;
+    private String quizName = "Multiple Choice Quiz";
+
     //used for saving generated quiz outputs
     private BufferedWriter bw = null;
     //used for writing to Python server
@@ -42,10 +48,7 @@ public class QuizGeneratorController {
     private ClientController clientController;
     //used for enabling client-server communication to Python program
     private Socket clientSocket;
-    //input from the user to be used in the prompt to generate a quiz
-    private String quizGenInput;
-    //the output of the prompt (generated quiz)
-    private String quizGenOutput;
+
 
     //sidebar buttons to navigate to the main screens of the application
     @FXML
@@ -58,13 +61,10 @@ public class QuizGeneratorController {
     private JFXButton friendsButton;
 
 
-    //button to generate a quiz
     @FXML
-    private Button generateButton;
-    //button to take the quiz that was loaded or generated
+    private Button generateQuizButton;
     @FXML
     private Button startQuizButton = new Button();
-    //button to save the generated or edited quiz, so it can be accessed later
     @FXML
     private Button saveQuizButton = new Button();
     //holds saved quizzes
@@ -126,8 +126,9 @@ public class QuizGeneratorController {
 
     //starts the quiz process by transitioning to the quiz page
     @FXML
-    protected void clickStartQuiz(ActionEvent event) {
+    protected void clickStartQuiz() {
         prepareQuiz();
+        viewHandler.setQuizName(quizName);
         viewHandler.setQuestionList(questionList);
         viewHandler.openView("Quiz");
     }
@@ -137,7 +138,8 @@ public class QuizGeneratorController {
     @FXML
     protected void clickLoadQuiz(){
         //load quiz - get file name of selected quiz
-        String selectedQuiz = "data/Saved_Quiz/" + quizComboBox.getValue();
+        quizName = quizComboBox.getValue();
+        String selectedQuiz = "data/Saved_Quiz/" + quizName;
 
         //read selected quiz text file
         String line;

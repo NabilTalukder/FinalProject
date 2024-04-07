@@ -30,7 +30,8 @@ public class ResultsController {
     @FXML
     private JFXButton friendsButton;
 
-
+    @FXML
+    private Label quizNameLabel;
     @FXML
     private Label questionDesc;
 
@@ -137,6 +138,9 @@ public class ResultsController {
         }
     }
 
+    public void updateQuizName(String quizName) {
+        quizNameLabel.setText(quizName);
+    }
 
     public void setQuestionList(ArrayList<ArrayList<String>> questionList) {
         this.questionList = questionList;
