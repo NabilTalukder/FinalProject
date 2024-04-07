@@ -47,15 +47,16 @@ public class QuizGeneratorController {
     //the output of the prompt (generated quiz)
     private String quizGenOutput;
 
-    //sidebar labels to navigate to the main screens of the application
+    //sidebar buttons to navigate to the main screens of the application
     @FXML
-    private Label webBlockerLabel;
+    private JFXButton webBlockerButton;
     @FXML
-    private Label scheduleLabel;
+    private JFXButton scheduleButton;
     @FXML
-    private Label quizGenLabel;
+    private JFXButton quizGenButton;
     @FXML
-    private Label friendsLabel;
+    private JFXButton friendsButton;
+
 
     //button to generate a quiz
     @FXML
@@ -119,7 +120,7 @@ public class QuizGeneratorController {
 
     //process for clicking schedule sidebar button
     @FXML
-    protected void clickSchedule(MouseEvent event){
+    protected void clickSchedule(){
         viewHandler.openView("Schedule");
     }
 

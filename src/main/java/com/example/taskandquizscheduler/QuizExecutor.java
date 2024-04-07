@@ -1,5 +1,6 @@
 package com.example.taskandquizscheduler;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,9 +34,8 @@ public class QuizExecutor {
     //holds all user's answers
     private ArrayList<String> userAnswers = new ArrayList<>();
 
-
     @FXML
-    private Label exitQuizLabel;
+    private JFXButton exitQuizButton;
     //header showing the type of quiz
     @FXML
     private Label quizTitle;
@@ -58,16 +58,13 @@ public class QuizExecutor {
     @FXML
     private ToggleButton option4Button;
 
-    public QuizExecutor(){
-    }
-
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;
     }
 
     //returns to previous screen (quiz generator or schedule)
     @FXML
-    protected void clickExitQuiz(MouseEvent event){
+    protected void clickExitQuiz(){
         viewHandler.openView("QuizGenerator");
     }
 

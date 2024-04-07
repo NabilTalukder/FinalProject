@@ -20,15 +20,15 @@ public class ResultsController {
     //used to show if user was correct or not
     private ArrayList<String> userAnswers = new ArrayList<>();
 
-    //sidebar labels to navigate to the main screens of the application
+    //sidebar buttons to navigate to the main screens of the application
     @FXML
-    private Label friendsLabel;
+    private JFXButton webBlockerButton;
     @FXML
-    private Label quizGenLabel;
+    private JFXButton scheduleButton;
     @FXML
-    private Label scheduleLabel;
+    private JFXButton quizGenButton;
     @FXML
-    private Label webBlockerLabel;
+    private JFXButton friendsButton;
 
 
     @FXML
@@ -85,25 +85,20 @@ public class ResultsController {
 
     @FXML
     protected void clickNextQuestion(){
-        if (currentQuestion < (questionList.size() - 1)){
-            currentQuestion += 1;
-            updateResults();
-            prevQuestionButton.setDisable(false);
-        }
-        else {
+        currentQuestion += 1;
+        updateResults();
+        prevQuestionButton.setDisable(false);
+        if (currentQuestion == (questionList.size() - 1)){
             nextQuestionButton.setDisable(true);
         }
-
     }
 
     @FXML
     protected void clickPrevQuestion(){
-        if (currentQuestion > 1){
-            currentQuestion -= 1;
-            updateResults();
-            nextQuestionButton.setDisable(false);
-        }
-        else {
+        currentQuestion -= 1;
+        updateResults();
+        nextQuestionButton.setDisable(false);
+        if (currentQuestion == 1){
             prevQuestionButton.setDisable(true);
         }
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -18,22 +19,22 @@
             <Label prefHeight="71.0" prefWidth="142.0" />
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <Label fx:id="webBlockerLabel" alignment="CENTER" prefHeight="31.0" prefWidth="142.0" style="-fx-background-color: #d8d4d4;" text="Website Blocker" />
+                  <JFXButton fx:id="webBlockerButton" focusTraversable="false" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ScheduleStyle.css" text="Website Blocker" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <Label fx:id="scheduleLabel" alignment="CENTER" prefHeight="31.0" prefWidth="142.0" style="-fx-background-color: #d8d4d4;" text="Schedule" />
+                  <JFXButton fx:id="scheduleButton" focusTraversable="false" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ScheduleStyle.css" text="Schedule" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <Label fx:id="quizGenLabel" alignment="CENTER" onMousePressed="#clickQuizGenerator" prefHeight="31.0" prefWidth="142.0" style="-fx-background-color: #d8d4d4;" text="Quiz Generator" />
+                  <JFXButton fx:id="quizGenButton" focusTraversable="false" onAction="#clickQuizGenerator" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ScheduleStyle.css" text="Quiz Generator" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <Label fx:id="friendsLabel" alignment="CENTER" prefHeight="32.0" prefWidth="142.0" style="-fx-background-color: #d8d4d4;" text="Friends" />
+                  <JFXButton fx:id="friendsButton" focusTraversable="false" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ScheduleStyle.css" text="Friends" />
                </children>
             </HBox>
          </children>

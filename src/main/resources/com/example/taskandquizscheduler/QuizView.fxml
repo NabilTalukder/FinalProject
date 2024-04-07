@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
@@ -16,7 +17,7 @@
             <Label prefHeight="71.0" prefWidth="142.0" />
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <Label fx:id="exitQuizLabel" alignment="CENTER" onMousePressed="#clickExitQuiz" prefHeight="31.0" prefWidth="142.0" style="-fx-background-color: #d8d4d4;" text="Exit Quiz" />
+                  <JFXButton fx:id="exitQuizButton" onAction="#clickExitQuiz" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@QuizStyle.css" text="Exit Quiz" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0" />
