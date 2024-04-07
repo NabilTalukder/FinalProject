@@ -7,12 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
 //handles the quiz process by showing a question and options for the user to select
-public class QuizExecutor {
+public class QuizController {
 
     //used to switch between scenes/pages
     private ViewHandler viewHandler;

@@ -52,7 +52,7 @@ public class ViewHandler extends Application {
                     }
                 }
                 case "Quiz" -> {
-                    QuizExecutor view = loader.getController();
+                    QuizController view = loader.getController();
                     view.init(this);
                     view.setQuestionList(questionList);
                     //change scene to the new View
