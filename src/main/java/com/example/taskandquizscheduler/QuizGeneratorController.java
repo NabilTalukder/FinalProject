@@ -1,6 +1,7 @@
 package com.example.taskandquizscheduler;
 
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -44,7 +45,8 @@ public class QuizGeneratorController {
     //used for enabling client-server communication to Python program
     private Socket clientSocket;
 
-
+    @FXML
+    private MFXButton quizGenButton = new MFXButton();
     @FXML
     private Button startQuizButton = new Button();
     @FXML
@@ -97,6 +99,8 @@ public class QuizGeneratorController {
         for (File file : files) {
             quizComboBox.getItems().add(file.getName());
         }
+
+        quizGenButton.setDisable(true);
     }
 
     @FXML

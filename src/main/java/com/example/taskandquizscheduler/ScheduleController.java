@@ -1,5 +1,6 @@
 package com.example.taskandquizscheduler;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -59,7 +60,8 @@ public class ScheduleController {
     //shows the month and year above the calendar
     @FXML
     private Label monthYearLabel;
-
+    @FXML
+    private MFXButton scheduleButton = new MFXButton();
     @FXML
     private Button addTaskButton;
 
@@ -85,6 +87,7 @@ public class ScheduleController {
         //allow addTaskButton to start process for adding task
         //done this way instead of using SceneBuilder because of similar functionality to Editing Task
         addTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
+        scheduleButton.setDisable(true);
     }
 
     @FXML
