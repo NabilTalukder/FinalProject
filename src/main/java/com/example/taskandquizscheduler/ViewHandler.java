@@ -76,16 +76,6 @@ public class ViewHandler extends Application {
                     }
                 }
                 case "QuizGenerator" -> {
-//                    QuizGeneratorController view = loader.getController();
-//                    view.init(this);
-//                    if (!createdInitialScene){
-//                        scene = new Scene(root, 1280, 720);
-//                        stage.setScene(scene);
-//                        createdInitialScene = true;
-//                    }
-//                    else {
-//                        stage.getScene().setRoot(root);
-//                    }
                     QuizGeneratorController view = loader.getController();
                     view.init(this);
                     //change scene to the new View

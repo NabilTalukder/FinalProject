@@ -53,16 +53,12 @@ public class ScheduleController {
     private String yearVal;
     private String monthVal;
 
-    //grid containing calendar dates and associated set tasks and quizzes
+    //shows calendar dates and associated set tasks and quizzes
     @FXML
     private GridPane calendarGrid;
-    //header grid to show weekdays above the calendar date cells
-    @FXML
-    private GridPane weekdayGrid;
-    //label showing the month and year above the calendar
+    //shows the month and year above the calendar
     @FXML
     private Label monthYearLabel;
-
 
     @FXML
     private Button addTaskButton;
