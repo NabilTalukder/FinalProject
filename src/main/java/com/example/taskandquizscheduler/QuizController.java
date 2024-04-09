@@ -1,6 +1,5 @@
 package com.example.taskandquizscheduler;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,8 +32,7 @@ public class QuizController {
     //holds all user's answers
     private ArrayList<String> userAnswers = new ArrayList<>();
 
-    @FXML
-    private JFXButton exitQuizButton;
+
     //header showing the type of quiz
     @FXML
     private Label quizTitle;

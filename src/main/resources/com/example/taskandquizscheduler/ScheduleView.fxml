@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -19,22 +19,22 @@
             <Label prefHeight="71.0" prefWidth="142.0" />
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <JFXButton fx:id="webBlockerButton" focusTraversable="false" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ScheduleStyle.css" text="Website Blocker" />
+                  <MFXButton fx:id="webBlockerButton" prefHeight="31.0" prefWidth="142.0" text="Website Blocker" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <JFXButton fx:id="scheduleButton" focusTraversable="false" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ScheduleStyle.css" text="Schedule" />
+                  <MFXButton fx:id="scheduleButton" prefHeight="31.0" prefWidth="142.0" text="Schedule" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <JFXButton fx:id="quizGenButton" focusTraversable="false" onAction="#clickQuizGenerator" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ScheduleStyle.css" text="Quiz Generator" />
+                  <MFXButton fx:id="quizGenButton" onAction="#clickQuizGenerator" prefHeight="31.0" prefWidth="142.0" text="Quiz Generator" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <JFXButton fx:id="friendsButton" focusTraversable="false" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ScheduleStyle.css" text="Friends" />
+                  <MFXButton fx:id="friendsButton" prefHeight="31.0" prefWidth="142.0" text="Friends" />
                </children>
             </HBox>
          </children>

@@ -1,6 +1,5 @@
 package com.example.taskandquizscheduler;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -54,16 +53,6 @@ public class ScheduleController {
     private String yearVal;
     private String monthVal;
 
-    //sidebar buttons to navigate to the main screens of the application
-    @FXML
-    private JFXButton webBlockerButton;
-    @FXML
-    private JFXButton scheduleButton;
-    @FXML
-    private JFXButton quizGenButton;
-    @FXML
-    private JFXButton friendsButton;
-
     //grid containing calendar dates and associated set tasks and quizzes
     @FXML
     private GridPane calendarGrid;
@@ -73,11 +62,7 @@ public class ScheduleController {
     //label showing the month and year above the calendar
     @FXML
     private Label monthYearLabel;
-    //navigate across months
-    @FXML
-    private Button prevMonthButton;
-    @FXML
-    private Button nextMonthButton;
+
 
     @FXML
     private Button addTaskButton;

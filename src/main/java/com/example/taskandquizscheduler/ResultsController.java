@@ -1,6 +1,7 @@
 package com.example.taskandquizscheduler;
 
-import com.jfoenix.controls.JFXButton;
+
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -19,16 +20,6 @@ public class ResultsController {
     private int score = 0;
     //used to show if user was correct or not
     private ArrayList<String> userAnswers = new ArrayList<>();
-
-    //sidebar buttons to navigate to the main screens of the application
-    @FXML
-    private JFXButton webBlockerButton;
-    @FXML
-    private JFXButton scheduleButton;
-    @FXML
-    private JFXButton quizGenButton;
-    @FXML
-    private JFXButton friendsButton;
 
     @FXML
     private Label quizNameLabel;
@@ -51,9 +42,9 @@ public class ResultsController {
     private Label scoreCounter;
 
     @FXML
-    private JFXButton nextQuestionButton;
+    private MFXButton nextQuestionButton;
     @FXML
-    private JFXButton prevQuestionButton;
+    private MFXButton prevQuestionButton;
 
     @FXML
     public void initialize(){

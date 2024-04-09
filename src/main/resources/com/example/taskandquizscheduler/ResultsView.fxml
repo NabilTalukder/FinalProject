@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,22 +14,22 @@
             <Label prefHeight="71.0" prefWidth="142.0" />
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <JFXButton fx:id="webBlockerButton" focusTraversable="false" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ResultsStyle.css" text="Website Blocker" />
+                  <MFXButton fx:id="webBlockerButton" prefHeight="31.0" prefWidth="142.0" text="Website Blocker" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <JFXButton fx:id="scheduleButton" focusTraversable="false" onAction="#clickSchedule" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ResultsStyle.css" text="Schedule" />
+                  <MFXButton fx:id="scheduleButton" onAction="#clickSchedule" prefHeight="31.0" prefWidth="142.0" text="Schedule" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <JFXButton fx:id="quizGenButton" focusTraversable="false" onAction="#clickQuizGenerator" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ResultsStyle.css" text="Quiz Generator" />
+                  <MFXButton onAction="#clickQuizGenerator" prefHeight="31.0" prefWidth="142.0" text="Quiz Generator" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <JFXButton fx:id="friendsButton" focusTraversable="false" prefHeight="31.0" prefWidth="142.0" styleClass="sidebarButtons" stylesheets="@ResultsStyle.css" text="Friends" />
+                  <MFXButton prefHeight="31.0" prefWidth="142.0" text="Friends" />
                </children>
             </HBox>
          </children>
@@ -99,12 +99,12 @@
                            <children>
                               <VBox prefHeight="100.0" prefWidth="65.0">
                                  <children>
-                                    <JFXButton fx:id="prevQuestionButton" focusTraversable="false" onAction="#clickPrevQuestion" prefHeight="49.0" prefWidth="62.0" styleClass="questionNavigation" stylesheets="@ResultsStyle.css" text="&lt;" />
+                                    <MFXButton fx:id="prevQuestionButton" onAction="#clickPrevQuestion" prefHeight="49.0" prefWidth="62.0" text="&lt;" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="100.0" prefWidth="65.0">
                                  <children>
-                                    <JFXButton fx:id="nextQuestionButton" focusTraversable="false" onAction="#clickNextQuestion" prefHeight="49.0" prefWidth="62.0" styleClass="questionNavigation" stylesheets="@ResultsStyle.css" text="&gt;" />
+                                    <MFXButton fx:id="nextQuestionButton" onAction="#clickNextQuestion" prefHeight="49.0" prefWidth="62.0" text="&gt;" />
                                  </children></VBox>
                               <VBox prefHeight="100.0" prefWidth="284.0" />
                               <VBox prefHeight="200.0" prefWidth="100.0">
