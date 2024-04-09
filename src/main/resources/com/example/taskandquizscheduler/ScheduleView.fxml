@@ -29,7 +29,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <MFXButton fx:id="quizGenButton" onAction="#clickQuizGenerator" prefHeight="31.0" prefWidth="142.0" text="Quiz Generator" />
+                  <MFXButton fx:id="quizGenButton" onAction="#goToQuizGenerator" prefHeight="31.0" prefWidth="142.0" text="Quiz Generator" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
@@ -73,7 +73,7 @@
                                     </VBox>
                                     <VBox prefHeight="70.0" prefWidth="87.0">
                                        <children>
-                                          <Button fx:id="prevMonthButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#clickPrevMonth" prefHeight="25.0" prefWidth="48.0" text="/\">
+                                          <Button fx:id="prevMonthButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#goToPrevMonth" prefHeight="25.0" prefWidth="48.0" text="/\">
                                              <VBox.margin>
                                                 <Insets left="23.0" top="22.0" />
                                              </VBox.margin>
@@ -82,7 +82,7 @@
                                     </VBox>
                                     <VBox prefHeight="70.0" prefWidth="85.0">
                                        <children>
-                                          <Button fx:id="nextMonthButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#clickNextMonth" prefHeight="25.0" prefWidth="48.0" text="\\/">
+                                          <Button fx:id="nextMonthButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#goToNextMonth" prefHeight="25.0" prefWidth="48.0" text="\\/">
                                              <VBox.margin>
                                                 <Insets left="23.0" top="22.0" />
                                              </VBox.margin>

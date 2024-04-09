@@ -117,9 +117,8 @@ public class ScheduleController {
     //handle mouse event of clicking taskLabel
     EventHandler<? super MouseEvent> editTaskHandler = taskEvent -> showTaskView("Edit", taskEvent);
 
-    //transition to quiz generator page
     @FXML
-    protected void clickQuizGenerator(){
+    protected void goToQuizGenerator(){
         viewHandler.openView("QuizGenerator");
     }
 
@@ -213,7 +212,7 @@ public class ScheduleController {
 
     //show previous month and its associated tasks/quizzes
     @FXML
-    protected void clickPrevMonth(){
+    protected void goToPrevMonth(){
         //decrement month
         monthVal = String.valueOf(Month.valueOf(monthVal).minus(1));
         monthYearLabel.setText(monthVal + " " + yearVal);
@@ -228,7 +227,7 @@ public class ScheduleController {
 
     //show next month and its associated tasks/quizzes
     @FXML
-    protected void clickNextMonth(){
+    protected void goToNextMonth(){
         //increment month
         monthVal = String.valueOf(Month.valueOf(monthVal).plus(1));
         monthYearLabel.setText(monthVal + " " + yearVal);

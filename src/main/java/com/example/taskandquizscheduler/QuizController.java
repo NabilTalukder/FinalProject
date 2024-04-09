@@ -61,7 +61,7 @@ public class QuizController {
 
     //returns to previous screen (quiz generator or schedule)
     @FXML
-    protected void clickExitQuiz(){
+    protected void exitQuiz(){
         viewHandler.openView("QuizGenerator");
     }
 

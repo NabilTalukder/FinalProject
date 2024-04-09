@@ -97,6 +97,7 @@ public class ViewHandler extends Application {
                 case "Results" -> {
                     ResultsController view = loader.getController();
                     view.init(this);
+                    //send results and related data
                     view.updateQuizName(quizName);
                     view.setQuestionList(questionList);
                     view.setUserAnswers(userAnswers);

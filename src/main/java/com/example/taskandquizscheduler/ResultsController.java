@@ -60,23 +60,21 @@ public class ResultsController {
         //display current score;-1 because 0th element is the quiz title. Remaining elements are questions
         scoreCounter.setText("Score: " + score + "/" + (questionList.size() - 1));
         //increment question number from 0 to 1, so the results can be shown
-        clickNextQuestion();
+        goToNextQuestion();
     }
 
-    //transition to schedule page
     @FXML
-    protected void clickSchedule(){
+    protected void goToSchedule(){
         viewHandler.openView("Schedule");
     }
 
-    //transition to quiz generator page
     @FXML
-    protected void clickQuizGenerator(){
+    protected void goToQuizGenerator(){
         viewHandler.openView("QuizGenerator");
     }
 
     @FXML
-    protected void clickNextQuestion(){
+    protected void goToNextQuestion(){
         currentQuestion += 1;
         updateResults();
         prevQuestionButton.setDisable(false);
@@ -86,7 +84,7 @@ public class ResultsController {
     }
 
     @FXML
-    protected void clickPrevQuestion(){
+    protected void goToPrevQuestion(){
         currentQuestion -= 1;
         updateResults();
         nextQuestionButton.setDisable(false);

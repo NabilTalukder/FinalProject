@@ -43,9 +43,7 @@ public class TaskController {
     //the original due date of a task before the user changes it
     private String oldDueDate;
 
-    //label for giving the user feedback if they're adding or editing a task
-    @FXML
-    private Label taskTypeLabel;
+
     //used for confirming changes done to a task, be it adding or editing
     @FXML
     private Button confirmTaskButton;

@@ -84,7 +84,6 @@ public class QuizGeneratorController {
         this.viewHandler = viewhandler;
     }
 
-    //set up initial UI behaviours
     @FXML
     public void initialize(){
         //retrieve previously saved quizzes and insert into quizComboBox
@@ -100,25 +99,21 @@ public class QuizGeneratorController {
         }
     }
 
-    //process for clicking schedule sidebar button
     @FXML
-    protected void clickSchedule(){
+    protected void goToSchedule(){
         viewHandler.openView("Schedule");
     }
 
-    //starts the quiz process by transitioning to the quiz page
     @FXML
-    protected void clickStartQuiz() {
+    protected void startQuiz() {
         prepareQuiz();
         viewHandler.setQuizName(quizName);
         viewHandler.setQuestionList(questionList);
         viewHandler.openView("Quiz");
     }
 
-
-    //upon selecting a previously saved quiz, it is retrieved
     @FXML
-    protected void clickLoadQuiz(){
+    protected void loadQuiz(){
         //load quiz - get file name of selected quiz
         quizName = quizComboBox.getValue();
         String selectedQuiz = "data/Saved_Quiz/" + quizName;
@@ -148,7 +143,7 @@ public class QuizGeneratorController {
 
     //sends the user input text as a prompt to the Python program to generate and display a quiz
     @FXML
-    protected void clickGenerate() {
+    protected void generateQuiz() {
         //retrieve the user inputted text
         quizGenInput = quizGenInputArea.getText();
         //send to ClientSocket to send to Python program
@@ -189,9 +184,8 @@ public class QuizGeneratorController {
         }
     }
 
-    //stores generated or edited quiz, so it can be accessed later
     @FXML
-    protected void clickSaveQuiz() {
+    protected void saveQuiz() {
         String quizToSave = quizGenOutputArea.getText();
         String fileName = "data\\Saved_Quiz\\Saved_Quiz.txt";
 
