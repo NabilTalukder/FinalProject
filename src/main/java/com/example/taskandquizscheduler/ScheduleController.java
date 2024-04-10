@@ -36,6 +36,9 @@ public class ScheduleController {
     private Scene scene;
     //top-level class for handling nodes (UI elements/containers) in JavaFX
     private Parent root;
+
+    private User user;
+
     //flag for when the days can start being displayed in the calendar cells
     private boolean monthStart = false;
     //used as an iterator for every day in the month being shown
@@ -72,9 +75,9 @@ public class ScheduleController {
     //retrieve all set tasks and quizzes, so they can be displayed on the calendar
     @FXML
     protected void initialize(){
-        //get all set tasks from database
-        TaskDataAccessor taskDataAccessor = new TaskDataAccessor();
-        tasksMap = taskDataAccessor.querySchedule();
+//        //get all set tasks from database
+//        TaskDataAccessor taskDataAccessor = new TaskDataAccessor();
+//        tasksMap = taskDataAccessor.querySchedule();
 
         //set current month, year; update corresponding label
         yearVal = String.valueOf(LocalDate.now().getYear());
@@ -82,12 +85,21 @@ public class ScheduleController {
         monthYearLabel.setText(monthVal + " " + yearVal);
 
         //add empty label to every cell in calendar so retrieved tasks can be added to it
-        prepareCalendar();
+        //prepareCalendar();
 
         //allow addTaskButton to start process for adding task
         //done this way instead of using SceneBuilder because of similar functionality to Editing Task
         addTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
         scheduleButton.setDisable(true);
+    }
+
+    @FXML
+    public void setupSchedule(){
+        //get all set tasks from database
+        TaskDataAccessor taskDataAccessor = new TaskDataAccessor();
+        tasksMap = taskDataAccessor.querySchedule(user);
+        //add empty label to every cell in calendar so retrieved tasks can be added to it
+        prepareCalendar();
     }
 
     @FXML
@@ -253,6 +265,7 @@ public class ScheduleController {
             //send tasksMap to taskController, so it can be updated with a new task
             TaskController taskController = loader.getController();
             taskController.setTasksMap(tasksMap);
+            taskController.setUser(user);
 
             //determine process based on task action
             if (taskAction.equals("Add")){
@@ -290,6 +303,10 @@ public class ScheduleController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public HashMap<String, ArrayList<Task>> getTasksMap() {

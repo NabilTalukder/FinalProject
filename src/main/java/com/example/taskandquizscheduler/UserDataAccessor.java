@@ -31,7 +31,7 @@ public class UserDataAccessor {
         return false;
     }
 
-    public boolean validatePasswordDB(String enteredEmail, String enteredPassword){
+    public String validatePasswordDB(String enteredEmail, String enteredPassword){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,
                     usernameDB, passwordDB);
@@ -43,7 +43,7 @@ public class UserDataAccessor {
 
             while (resultSet.next()){
                 if (resultSet.getString("password").equals(enteredPassword)) {
-                    return true;
+                    return resultSet.getString("user_ID");
                 }
             }
 
@@ -51,7 +51,7 @@ public class UserDataAccessor {
             e.printStackTrace();
         }
         //invalid password
-        return false;
+        return "";
     }
 
 }

@@ -15,13 +15,15 @@ public class TaskDataAccessor {
     private HashMap<String, ArrayList<Task>> tasksMap = new HashMap<>();
 
     //initial retrieval of tasks from database
-    public HashMap<String, ArrayList<Task>> querySchedule(){
+    public HashMap<String, ArrayList<Task>> querySchedule(User user){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,
                     usernameDB, passwordDB);
             String sql = "SELECT due_date, task_name, completion_status FROM task WHERE" +
-                    " assigner_ID = 1 AND assignee_ID = 1 ORDER BY due_date;";
+                    " assigner_ID = ? AND assignee_ID = ? ORDER BY due_date;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, user.getUser_ID());
+            preparedStatement.setString(2, user.getUser_ID());
             ResultSet resultSet = preparedStatement.executeQuery();
 
             //used for key-value pairs in tasksMap
@@ -54,7 +56,7 @@ public class TaskDataAccessor {
         return tasksMap;
     }
 
-    public void addTaskDB(String taskName, String dueDate){
+    public void addTaskDB(String taskName, String dueDate, User user){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,
                     usernameDB, passwordDB);
@@ -62,8 +64,8 @@ public class TaskDataAccessor {
                     "(`task_ID`, `assigner_ID`, `assignee_ID`, `task_name`, `due_date`, `completion_status`)" +
                     " VALUES (NULL, ?, ?, ?, ?, ?);";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, "1");
-            preparedStatement.setString(2, "1");
+            preparedStatement.setString(1, user.getUser_ID());
+            preparedStatement.setString(2, user.getUser_ID());
             preparedStatement.setString(3, taskName);
             preparedStatement.setString(4, dueDate);
             preparedStatement.setString(5, "incomplete");
@@ -76,7 +78,7 @@ public class TaskDataAccessor {
         System.out.println("added task");
     }
 
-    public void editTaskDB(String oldTaskName, String newTaskName, String oldDueDate, String newDueDate){
+    public void editTaskDB(String oldTaskName, String newTaskName, String oldDueDate, String newDueDate, User user){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,
                     usernameDB, passwordDB);
@@ -85,8 +87,8 @@ public class TaskDataAccessor {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, newTaskName);
             preparedStatement.setString(2, newDueDate);
-            preparedStatement.setString(3, "1");
-            preparedStatement.setString(4, "1");
+            preparedStatement.setString(3, user.getUser_ID());
+            preparedStatement.setString(4, user.getUser_ID());
             preparedStatement.setString(5, oldTaskName);
             preparedStatement.setString(6, oldDueDate);
             preparedStatement.executeUpdate();
@@ -98,15 +100,15 @@ public class TaskDataAccessor {
         System.out.println("edited task");
     }
 
-    public void deleteTaskDB(String taskName, String dueDate){
+    public void deleteTaskDB(String taskName, String dueDate, User user){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,
                     usernameDB, passwordDB);
             String sql = "DELETE FROM task WHERE" +
                     " assigner_ID = ? AND assignee_ID = ? AND task_name = ? AND due_date = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, "1");
-            preparedStatement.setString(2, "1");
+            preparedStatement.setString(1, user.getUser_ID());
+            preparedStatement.setString(2, user.getUser_ID());
             preparedStatement.setString(3, taskName);
             preparedStatement.setString(4, dueDate);
             preparedStatement.executeUpdate();
@@ -118,7 +120,7 @@ public class TaskDataAccessor {
         System.out.println("deleted task");
     }
 
-    public void completeTaskDB(String taskName, String dueDate){
+    public void completeTaskDB(String taskName, String dueDate, User user){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,
                     usernameDB, passwordDB);
@@ -126,8 +128,8 @@ public class TaskDataAccessor {
                     " assigner_ID = ? AND assignee_ID = ? AND task_name = ? AND due_date = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, "complete");
-            preparedStatement.setString(2, "1");
-            preparedStatement.setString(3, "1");
+            preparedStatement.setString(2, user.getUser_ID());
+            preparedStatement.setString(3, user.getUser_ID());
             preparedStatement.setString(4, taskName);
             preparedStatement.setString(5, dueDate);
             preparedStatement.executeUpdate();

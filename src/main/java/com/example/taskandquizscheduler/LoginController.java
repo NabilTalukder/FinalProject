@@ -98,8 +98,6 @@ public class LoginController{
             }
         }
         else {
-            //should query for user_ID and email
-            //if valid, return user_ID (will need to change these booleans)
             //use user_ID in new User class which should be used by ScheduleController to get relevant data
             boolean validEmail = userDataAccessor.validateEmailDB(email);
             if (!validEmail){
@@ -110,14 +108,16 @@ public class LoginController{
             else {
                 emailValidation.setVisible(false);
                 emailField.setStyle("-fx-border-color: -mfx-purple");
-                boolean validPassword = userDataAccessor.validatePasswordDB(email, password);
-                if (!validPassword) {
+                String retrievedUserID = userDataAccessor.validatePasswordDB(email, password);
+                if (retrievedUserID.isBlank()) {
                     passwordValidation.setVisible(true);
                     passwordValidation.setText("Wrong password. Please try again");
                     passwordField.setStyle("-fx-border-color: -mfx-red");
                 }
                 else {
-                    viewHandler.openView("QuizGenerator");
+                    User loggedInUser = new User(retrievedUserID);
+                    viewHandler.setUser(loggedInUser);
+                    viewHandler.openView("Schedule");
                 }
             }
         }

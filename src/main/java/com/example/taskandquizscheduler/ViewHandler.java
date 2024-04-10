@@ -19,6 +19,8 @@ public class ViewHandler extends Application {
     private Parent root;
     private Scene scene;
 
+    private User user;
+
     private String quizName;
     //questions from Python program to be used in Quiz
     private ArrayList<ArrayList<String>> questionList;
@@ -26,7 +28,6 @@ public class ViewHandler extends Application {
     private int score = 0;
     //holds all user's answers
     private ArrayList<String> userAnswers = new ArrayList<>();
-
 
     //flag to ensure scenes switch between pages instead of a new one being created
     private boolean createdInitialScene = false;
@@ -91,6 +92,8 @@ public class ViewHandler extends Application {
                 case "Schedule" -> {
                     ScheduleController view = loader.getController();
                     view.init(this);
+                    view.setUser(user);
+                    view.setupSchedule();
                     //change scene to the new View
                     stage.getScene().setRoot(root);
                 }
@@ -114,6 +117,10 @@ public class ViewHandler extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setQuizName(String quizName) {

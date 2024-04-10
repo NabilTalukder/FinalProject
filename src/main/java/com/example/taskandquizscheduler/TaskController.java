@@ -29,6 +29,8 @@ public class TaskController {
     //top-level class for handling nodes (UI elements/containers) in JavaFX
     private Parent root;
 
+    private User user;
+
     //queries database for tasks
     private TaskDataAccessor taskDataAccessor = new TaskDataAccessor();
 
@@ -126,7 +128,7 @@ public class TaskController {
         //remove the task name for the due date shown in the Edit Task popup
         removeTaskName();
         //delete task from database
-        taskDataAccessor.deleteTaskDB(oldTaskName, oldDueDate);
+        taskDataAccessor.deleteTaskDB(oldTaskName, oldDueDate, user);
         //send updated tasksMap back to schedulerController
         scheduleController.setTasksMap(tasksMap);
         //update calendar with task removed
@@ -155,7 +157,7 @@ public class TaskController {
         //update calendar with task as complete
         scheduleController.refreshCalendar();
         //update database with task marked as complete
-        taskDataAccessor.completeTaskDB(oldTaskName, oldDueDate);
+        taskDataAccessor.completeTaskDB(oldTaskName, oldDueDate, user);
         //process finished, so close task-view popup
         closeView(event);
     }
@@ -180,7 +182,7 @@ public class TaskController {
         //update calendar with new task
         scheduleController.refreshCalendar();
         //update database with newly created task
-        taskDataAccessor.addTaskDB(taskName, dueDate);
+        taskDataAccessor.addTaskDB(taskName, dueDate, user);
         //process complete, so close task-view popup
         closeView(event);
     }
@@ -242,7 +244,7 @@ public class TaskController {
             //update calendar with new task
             scheduleController.refreshCalendar();
             //update database with edited task
-            taskDataAccessor.editTaskDB(oldTaskName, newTaskName, oldDueDate, newDueDate);
+            taskDataAccessor.editTaskDB(oldTaskName, newTaskName, oldDueDate, newDueDate, user);
             //process complete, so close task-view popup
             closeView(event);
         }
@@ -261,6 +263,10 @@ public class TaskController {
         if (taskList.size() == 0){
             tasksMap.remove(oldDueDate);
         }
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setTasksMap(HashMap<String, ArrayList<Task>> tasksMap) {
