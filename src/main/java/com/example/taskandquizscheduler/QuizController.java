@@ -65,6 +65,12 @@ public class QuizController {
         viewHandler.openView("QuizGenerator");
     }
 
+    @FXML
+    protected void logout() {
+        viewHandler.setUser(null);
+        viewHandler.openView("Login");
+    }
+
     //submit and compare user answer to actual answer
     @FXML
     protected void clickOption(){

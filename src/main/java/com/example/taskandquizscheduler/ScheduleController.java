@@ -75,17 +75,10 @@ public class ScheduleController {
     //retrieve all set tasks and quizzes, so they can be displayed on the calendar
     @FXML
     protected void initialize(){
-//        //get all set tasks from database
-//        TaskDataAccessor taskDataAccessor = new TaskDataAccessor();
-//        tasksMap = taskDataAccessor.querySchedule();
-
         //set current month, year; update corresponding label
         yearVal = String.valueOf(LocalDate.now().getYear());
         monthVal = String.valueOf(LocalDate.now().getMonth());
         monthYearLabel.setText(monthVal + " " + yearVal);
-
-        //add empty label to every cell in calendar so retrieved tasks can be added to it
-        //prepareCalendar();
 
         //allow addTaskButton to start process for adding task
         //done this way instead of using SceneBuilder because of similar functionality to Editing Task
@@ -135,6 +128,12 @@ public class ScheduleController {
     @FXML
     protected void goToQuizGenerator(){
         viewHandler.openView("QuizGenerator");
+    }
+
+    @FXML
+    protected void logout() {
+        viewHandler.setUser(null);
+        viewHandler.openView("Login");
     }
 
     //initialisations for calendar algorithm

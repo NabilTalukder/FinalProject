@@ -74,6 +74,12 @@ public class ResultsController {
     }
 
     @FXML
+    protected void logout() {
+        viewHandler.setUser(null);
+        viewHandler.openView("Login");
+    }
+
+    @FXML
     protected void goToNextQuestion(){
         currentQuestion += 1;
         updateResults();

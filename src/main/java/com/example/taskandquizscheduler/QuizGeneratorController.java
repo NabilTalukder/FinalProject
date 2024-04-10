@@ -109,6 +109,13 @@ public class QuizGeneratorController {
     }
 
     @FXML
+    protected void logout() {
+        viewHandler.setUser(null);
+        viewHandler.openView("Login");
+    }
+
+
+    @FXML
     protected void startQuiz() {
         prepareQuiz();
         viewHandler.setQuizName(quizName);
