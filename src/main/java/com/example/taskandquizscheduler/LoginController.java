@@ -31,7 +31,7 @@ public class LoginController{
     @FXML
     private MFXButton signInButton;
     @FXML
-    private MFXButton registerButton;
+    private Hyperlink registerLink;
     @FXML
     private Label emailValidation;
     @FXML
