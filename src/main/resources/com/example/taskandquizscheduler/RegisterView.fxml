@@ -47,25 +47,25 @@
                                     <VBox prefHeight="200.0" prefWidth="332.5">
                                        <children>
                                           <MFXTextField id="emailField" fx:id="emailField" floatMode="BORDER" floatingText="Email" prefHeight="38.0" prefWidth="333.0" stylesheets="@RegisterStyle.css" />
-                                          <Label fx:id="emailValidation" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="337.0" text="emailValidation" />
+                                          <Label fx:id="emailValidationLabel" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="337.0" text="emailValidation" />
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="200.0" prefWidth="100.25" />
                                  </children>
                               </HBox>
-                              <HBox prefHeight="68.0" prefWidth="533.0">
+                              <HBox prefHeight="77.0" prefWidth="533.0">
                                  <children>
                                     <VBox prefHeight="200.0" prefWidth="100.25" />
                                     <VBox prefHeight="200.0" prefWidth="332.5">
                                        <children>
                                           <MFXPasswordField id="passwordField" fx:id="passwordField" floatMode="BORDER" floatingText="Password" prefHeight="38.0" prefWidth="333.0" stylesheets="@RegisterStyle.css" />
-                                          <VBox prefHeight="30.0" prefWidth="114.0">
+                                          <VBox prefHeight="40.0" prefWidth="332.0">
                                              <children>
-                                                <HBox>
+                                                <HBox prefHeight="43.0" prefWidth="332.0">
                                                    <children>
                                                       <HBox prefHeight="30.0" prefWidth="333.0">
                                                          <children>
-                                                            <Label fx:id="passwordValidation" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="333.0" text="passwordValidation" />
+                                                            <Label fx:id="passwordValidationLabel" alignment="TOP_RIGHT" prefHeight="40.0" prefWidth="332.0" text="passwordValidation" wrapText="true" />
                                                          </children>
                                                       </HBox>
                                                    </children>

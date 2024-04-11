@@ -54,4 +54,21 @@ public class UserDataAccessor {
         return "";
     }
 
+
+    public void createAccountDB(String enteredEmail, String enteredPassword){
+        try {
+            Connection connection = DriverManager.getConnection(connectionURL,
+                    usernameDB, passwordDB);
+            String sql = "INSERT INTO user (email, password) VALUES (?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, enteredEmail);
+            preparedStatement.setString(2, enteredPassword);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

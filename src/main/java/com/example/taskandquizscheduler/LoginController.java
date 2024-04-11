@@ -31,17 +31,17 @@ public class LoginController{
     @FXML
     protected Hyperlink signInRegisterLink;
     @FXML
-    protected Label emailValidation;
+    protected Label emailValidationLabel;
     @FXML
-    protected Label passwordValidation;
+    protected Label passwordValidationLabel;
 
 
     @FXML
     protected void initialize(){
-        emailValidation.setTextFill(Paint.valueOf("red"));
-        passwordValidation.setTextFill(Paint.valueOf("red"));
-        emailValidation.setVisible(false);
-        passwordValidation.setVisible(false);
+        emailValidationLabel.setTextFill(Paint.valueOf("red"));
+        passwordValidationLabel.setTextFill(Paint.valueOf("red"));
+        emailValidationLabel.setVisible(false);
+        passwordValidationLabel.setVisible(false);
 
 
         //allow ENTER key to be pressed to confirmDetails at any stage of inputting fields
@@ -90,17 +90,17 @@ public class LoginController{
         else {
             boolean validEmail = userDataAccessor.validateEmailDB(email);
             if (!validEmail){
-                emailValidation.setVisible(true);
-                emailValidation.setText("Email not found");
+                emailValidationLabel.setVisible(true);
+                emailValidationLabel.setText("Email not found");
                 emailField.setStyle("-fx-border-color: -mfx-red");
             }
             else {
-                emailValidation.setVisible(false);
+                emailValidationLabel.setVisible(false);
                 emailField.setStyle("-fx-border-color: -mfx-purple");
                 String retrievedUserID = userDataAccessor.validatePasswordDB(email, password);
                 if (retrievedUserID.isBlank()) {
-                    passwordValidation.setVisible(true);
-                    passwordValidation.setText("Wrong password. Please try again");
+                    passwordValidationLabel.setVisible(true);
+                    passwordValidationLabel.setText("Wrong password. Please try again");
                     passwordField.setStyle("-fx-border-color: -mfx-red");
                 }
                 else {
@@ -115,21 +115,21 @@ public class LoginController{
     @FXML
     protected void validateBlankFields(){
         if (email.isBlank()){
-            emailValidation.setVisible(true);
-            emailValidation.setText("Please enter email");
+            emailValidationLabel.setVisible(true);
+            emailValidationLabel.setText("Please enter email");
             emailField.setStyle("-fx-border-color: -mfx-red");
         }
         else {
-            emailValidation.setVisible(false);
+            emailValidationLabel.setVisible(false);
             emailField.setStyle("-fx-border-color: -mfx-purple");
         }
         if (password.isBlank()){
-            passwordValidation.setVisible(true);
-            passwordValidation.setText("Please enter password");
+            passwordValidationLabel.setVisible(true);
+            passwordValidationLabel.setText("Please enter password");
             passwordField.setStyle("-fx-border-color: -mfx-red");
         }
         else {
-            passwordValidation.setVisible(false);
+            passwordValidationLabel.setVisible(false);
             passwordField.setStyle("-fx-border-color: -mfx-purple");
         }
     }

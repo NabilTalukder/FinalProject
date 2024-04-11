@@ -47,7 +47,7 @@
                                     <VBox prefHeight="200.0" prefWidth="332.5">
                                        <children>
                                           <MFXTextField fx:id="emailField" floatMode="BORDER" floatingText="Email" prefHeight="38.0" prefWidth="333.0" />
-                                          <Label fx:id="emailValidation" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="337.0" text="emailValidation" />
+                                          <Label fx:id="emailValidationLabel" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="337.0" text="emailValidation" />
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="200.0" prefWidth="100.25" />
@@ -66,7 +66,7 @@
                                                       <Hyperlink alignment="TOP_LEFT" prefHeight="30.0" prefWidth="109.0" text="Forgot Password?" />
                                                       <HBox prefHeight="30.0" prefWidth="225.0">
                                                          <children>
-                                                            <Label fx:id="passwordValidation" alignment="TOP_RIGHT" prefHeight="31.0" prefWidth="224.0" text="passwordValidation" />
+                                                            <Label fx:id="passwordValidationLabel" alignment="TOP_RIGHT" prefHeight="31.0" prefWidth="224.0" text="passwordValidation" />
                                                          </children>
                                                       </HBox>
                                                    </children>
