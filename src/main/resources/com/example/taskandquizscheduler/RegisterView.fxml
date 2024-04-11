@@ -46,7 +46,7 @@
                                     <VBox prefHeight="200.0" prefWidth="100.25" />
                                     <VBox prefHeight="200.0" prefWidth="332.5">
                                        <children>
-                                          <MFXTextField fx:id="emailField" floatMode="BORDER" floatingText="Email" prefHeight="38.0" prefWidth="333.0" />
+                                          <MFXTextField id="emailField" fx:id="emailField" floatMode="BORDER" floatingText="Email" prefHeight="38.0" prefWidth="333.0" stylesheets="@RegisterStyle.css" />
                                           <Label fx:id="emailValidation" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="337.0" text="emailValidation" />
                                        </children>
                                     </VBox>
@@ -58,7 +58,7 @@
                                     <VBox prefHeight="200.0" prefWidth="100.25" />
                                     <VBox prefHeight="200.0" prefWidth="332.5">
                                        <children>
-                                          <MFXPasswordField fx:id="passwordField" floatMode="BORDER" floatingText="Password" prefHeight="38.0" prefWidth="333.0" />
+                                          <MFXPasswordField id="passwordField" fx:id="passwordField" floatMode="BORDER" floatingText="Password" prefHeight="38.0" prefWidth="333.0" stylesheets="@RegisterStyle.css" />
                                           <VBox prefHeight="30.0" prefWidth="114.0">
                                              <children>
                                                 <HBox>
@@ -82,7 +82,7 @@
                                     <VBox prefHeight="200.0" prefWidth="100.25" />
                                     <VBox prefHeight="200.0" prefWidth="332.5">
                                        <children>
-                                          <MFXButton fx:id="confirmButton" onAction="#login" prefHeight="38.0" prefWidth="333.0" text="Register" />
+                                          <MFXButton fx:id="confirmButton" onAction="#confirmDetails" prefHeight="38.0" prefWidth="333.0" text="Register" />
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="200.0" prefWidth="100.25" />

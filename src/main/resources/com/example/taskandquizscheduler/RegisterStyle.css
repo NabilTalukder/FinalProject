@@ -1,0 +1,16 @@
+#emailField:invalid {
+    -fx-border-color: -mfx-red;
+}
+
+#emailField:invalid .floating-text {
+    -fx-text-fill: -mfx-red;
+}
+
+#passwordField:invalid {
+    -fx-border-color: -mfx-red;
+}
+
+#passwordField:invalid .floating-text {
+    -fx-text-fill: -mfx-red;
+}
+

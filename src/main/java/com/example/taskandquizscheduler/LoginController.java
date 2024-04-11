@@ -43,21 +43,24 @@ public class LoginController{
         emailValidation.setVisible(false);
         passwordValidation.setVisible(false);
 
+
+        //allow ENTER key to be pressed to confirmDetails at any stage of inputting fields
+
         emailField.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER)){
-                login();
+                confirmDetails();
             }
         });
 
         passwordField.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER)){
-                login();
+                confirmDetails();
             }
         });
 
         confirmButton.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER)){
-                login();
+                confirmDetails();
             }
         });
     }
@@ -73,7 +76,7 @@ public class LoginController{
 
 
     @FXML
-    protected void login() {
+    protected void confirmDetails() {
         email = emailField.getText();
         password = passwordField.getText();
         validateDetails();
@@ -109,6 +112,7 @@ public class LoginController{
         }
     }
 
+    @FXML
     protected void validateBlankFields(){
         if (email.isBlank()){
             emailValidation.setVisible(true);
