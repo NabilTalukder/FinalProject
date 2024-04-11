@@ -18,7 +18,7 @@ public class LoginController{
     protected String password;
 
     //queries database for users
-    private UserDataAccessor userDataAccessor = new UserDataAccessor();
+    protected UserDataAccessor userDataAccessor = new UserDataAccessor();
 
     @FXML
     protected MFXTextField emailField;
