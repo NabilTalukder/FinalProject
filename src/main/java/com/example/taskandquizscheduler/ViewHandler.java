@@ -76,6 +76,12 @@ public class ViewHandler extends Application {
                         stage.getScene().setRoot(root);
                     }
                 }
+                case "Register" -> {
+                    RegisterController view = loader.getController();
+                    view.init(this);
+                    //change scene to the new View
+                    stage.getScene().setRoot(root);
+                }
                 case "QuizGenerator" -> {
                     QuizGeneratorController view = loader.getController();
                     view.init(this);

@@ -7,35 +7,33 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 
 public class LoginController{
 
     //used to switch between scenes/pages
-    private ViewHandler viewHandler;
+    protected ViewHandler viewHandler;
 
-    private String email;
-    private String password;
+    protected String email;
+    protected String password;
 
-    private MouseEvent lastClick;
     //queries database for users
     private UserDataAccessor userDataAccessor = new UserDataAccessor();
 
     @FXML
-    private MFXTextField emailField;
+    protected MFXTextField emailField;
     @FXML
-    private MFXPasswordField passwordField;
+    protected MFXPasswordField passwordField;
     @FXML
-    private Hyperlink forgotPasswordLink;
+    protected Hyperlink forgotPasswordLink;
     @FXML
-    private MFXButton signInButton;
+    protected MFXButton confirmButton;
     @FXML
-    private Hyperlink registerLink;
+    protected Hyperlink signInRegisterLink;
     @FXML
-    private Label emailValidation;
+    protected Label emailValidation;
     @FXML
-    private Label passwordValidation;
+    protected Label passwordValidation;
 
 
     @FXML
@@ -57,7 +55,7 @@ public class LoginController{
             }
         });
 
-        signInButton.setOnKeyPressed(keyEvent -> {
+        confirmButton.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER)){
                 login();
             }
@@ -68,6 +66,11 @@ public class LoginController{
         this.viewHandler = viewHandler;
     }
 
+    @FXML
+    protected void goToRegister(){
+        viewHandler.openView("Register");
+    }
+
 
     @FXML
     protected void login() {
@@ -76,29 +79,12 @@ public class LoginController{
         validateDetails();
     }
 
-    private void validateDetails(){
+    @FXML
+    protected void validateDetails(){
         if (email.isBlank() || password.isBlank()){
-            if (email.isBlank()){
-                emailValidation.setVisible(true);
-                emailValidation.setText("Please enter email");
-                emailField.setStyle("-fx-border-color: -mfx-red");
-            }
-            else {
-                emailValidation.setVisible(false);
-                emailField.setStyle("-fx-border-color: -mfx-purple");
-            }
-            if (password.isBlank()){
-                passwordValidation.setVisible(true);
-                passwordValidation.setText("Please enter password");
-                passwordField.setStyle("-fx-border-color: -mfx-red");
-            }
-            else {
-                passwordValidation.setVisible(false);
-                passwordField.setStyle("-fx-border-color: -mfx-purple");
-            }
+            validateBlankFields();
         }
         else {
-            //use user_ID in new User class which should be used by ScheduleController to get relevant data
             boolean validEmail = userDataAccessor.validateEmailDB(email);
             if (!validEmail){
                 emailValidation.setVisible(true);
@@ -120,6 +106,27 @@ public class LoginController{
                     viewHandler.openView("Schedule");
                 }
             }
+        }
+    }
+
+    protected void validateBlankFields(){
+        if (email.isBlank()){
+            emailValidation.setVisible(true);
+            emailValidation.setText("Please enter email");
+            emailField.setStyle("-fx-border-color: -mfx-red");
+        }
+        else {
+            emailValidation.setVisible(false);
+            emailField.setStyle("-fx-border-color: -mfx-purple");
+        }
+        if (password.isBlank()){
+            passwordValidation.setVisible(true);
+            passwordValidation.setText("Please enter password");
+            passwordField.setStyle("-fx-border-color: -mfx-red");
+        }
+        else {
+            passwordValidation.setVisible(false);
+            passwordField.setStyle("-fx-border-color: -mfx-purple");
         }
     }
 
