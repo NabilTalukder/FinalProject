@@ -56,11 +56,13 @@ public class ResultsController {
     }
 
     @FXML
-    protected void setScoreCounter(){
+    public void setScoreCounter(){
         //display current score;-1 because 0th element is the quiz title. Remaining elements are questions
         scoreCounter.setText("Score: " + score + "/" + (questionList.size() - 1));
         //increment question number from 0 to 1, so the results can be shown
         goToNextQuestion();
+        //prevent going out of bounds of array indices
+        prevQuestionButton.setDisable(true);
     }
 
     @FXML
@@ -143,7 +145,6 @@ public class ResultsController {
 
     public void setScore(int score) {
         this.score = score;
-        setScoreCounter();
     }
 
     public void setUserAnswers(ArrayList<String> userAnswers) {

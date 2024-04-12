@@ -111,6 +111,7 @@ public class ViewHandler extends Application {
                     view.setQuestionList(questionList);
                     view.setUserAnswers(userAnswers);
                     view.setScore(score);
+                    view.setScoreCounter();
                     //change scene to the new View
                     stage.getScene().setRoot(root);
                 }

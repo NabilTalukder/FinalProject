@@ -6,6 +6,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -98,27 +99,27 @@
                               </HBox>
                               <HBox prefHeight="51.0" prefWidth="501.0">
                                  <children>
-                                    <MFXTextField floatMode="BORDER" floatingText="Question Description" prefHeight="39.0" prefWidth="501.0" />
+                                    <MFXTextField fx:id="questionDescField" floatMode="BORDER" floatingText="Question Description" prefHeight="39.0" prefWidth="501.0" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="51.0" prefWidth="501.0">
                                  <children>
-                                    <MFXTextField floatMode="BORDER" floatingText="Option 1" prefHeight="39.0" prefWidth="501.0" />
+                                    <MFXTextField fx:id="option1Field" floatMode="BORDER" floatingText="Option 1" prefHeight="39.0" prefWidth="501.0" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="51.0" prefWidth="501.0">
                                  <children>
-                                    <MFXTextField floatMode="BORDER" floatingText="Option 2" prefHeight="39.0" prefWidth="501.0" />
+                                    <MFXTextField fx:id="option2Field" floatMode="BORDER" floatingText="Option 2" prefHeight="39.0" prefWidth="501.0" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="51.0" prefWidth="501.0">
                                  <children>
-                                    <MFXTextField floatMode="BORDER" floatingText="Option 3" prefHeight="39.0" prefWidth="501.0" />
+                                    <MFXTextField fx:id="option3Field" floatMode="BORDER" floatingText="Option 3" prefHeight="39.0" prefWidth="501.0" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="51.0" prefWidth="501.0">
                                  <children>
-                                    <MFXTextField floatMode="BORDER" floatingText="Option 4" prefHeight="39.0" prefWidth="501.0" />
+                                    <MFXTextField fx:id="option4Field" floatMode="BORDER" floatingText="Option 4" prefHeight="39.0" prefWidth="501.0" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="51.0" prefWidth="501.0">
@@ -130,22 +131,25 @@
                                     </VBox>
                                     <VBox prefHeight="51.0" prefWidth="100.0">
                                        <children>
-                                          <MFXRadioButton gap="0.0" prefHeight="51.0" prefWidth="87.0" text="Option 1" />
+                                          <MFXRadioButton fx:id="option1Radio" gap="0.0" prefHeight="51.0" prefWidth="87.0" text="Option 1">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="test" />
+                                             </toggleGroup></MFXRadioButton>
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="51.0" prefWidth="100.0">
                                        <children>
-                                          <MFXRadioButton gap="0.0" prefHeight="51.0" prefWidth="87.0" text="Option 2" />
+                                          <MFXRadioButton fx:id="option2Radio" gap="0.0" prefHeight="51.0" prefWidth="87.0" text="Option 2" toggleGroup="$test" />
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="51.0" prefWidth="100.0">
                                        <children>
-                                          <MFXRadioButton gap="0.0" prefHeight="51.0" prefWidth="87.0" text="Option 3" />
+                                          <MFXRadioButton fx:id="option3Radio" gap="0.0" prefHeight="51.0" prefWidth="87.0" text="Option 3" toggleGroup="$test" />
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="51.0" prefWidth="100.0">
                                        <children>
-                                          <MFXRadioButton gap="0.0" prefHeight="51.0" prefWidth="87.0" text="Option 4" />
+                                          <MFXRadioButton fx:id="option4Radio" gap="0.0" prefHeight="51.0" prefWidth="87.0" text="Option 4" toggleGroup="$test" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -154,12 +158,12 @@
                                  <children>
                                     <VBox prefHeight="51.0" prefWidth="66.0">
                                        <children>
-                                          <MFXButton prefHeight="38.0" prefWidth="61.0" text="&lt;" />
+                                          <MFXButton fx:id="prevQuestionButton" onAction="#goToPrevQuestion" prefHeight="38.0" prefWidth="61.0" text="&lt;" />
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="51.0" prefWidth="66.0">
                                        <children>
-                                          <MFXButton prefHeight="38.0" prefWidth="61.0" text="&gt;" />
+                                          <MFXButton fx:id="nextQuestionButton" onAction="#goToNextQuestion" prefHeight="38.0" prefWidth="61.0" text="&gt;" />
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="41.0" prefWidth="157.0" />
