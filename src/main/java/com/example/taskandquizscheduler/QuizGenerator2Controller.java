@@ -120,10 +120,13 @@ public class QuizGenerator2Controller {
     @FXML
     public void initialize(){
         quizGenInputArea.setPromptText("Enter or paste text here. The generated quiz will appear on the right");
+        initialiseComboBox();
+        initialiseTextFields();
+        disableButtons();
+    }
 
-        optionFields = new MFXTextField[] {option1Field, option2Field, option3Field, option4Field};
-        optionRadios = new MFXRadioButton[] {option1Radio, option2Radio, option3Radio, option4Radio};
-
+    @FXML
+    protected void initialiseComboBox(){
         //set up loadQuizComboBox by accessing directory
         File directory = new File("C:\\Users\\Nabil\\IdeaProjects\\TaskAndQuizScheduler\\data\\Saved_Quiz");
         // List all files in the directory
@@ -140,8 +143,14 @@ public class QuizGenerator2Controller {
         loadQuizComboBox.setItems(loadedQuizzes);
         loadQuizComboBox.setConverter(converter);
         loadQuizComboBox.setFilterFunction(filterFunction);
+    }
 
-        // Add event listeners to text fields to save edits
+    @FXML
+    protected void initialiseTextFields(){
+        optionFields = new MFXTextField[] {option1Field, option2Field, option3Field, option4Field};
+        optionRadios = new MFXRadioButton[] {option1Radio, option2Radio, option3Radio, option4Radio};
+
+        // Add event listeners to text fields and radio buttons to save edits
         questionDescField.textProperty().addListener((obs, oldText, newText) -> saveOptionEdits(questionDescField, 0));
         for (int i = 0; i < optionFields.length; i++) {
             final int index = i + 1; // To capture the correct index in the lambda expression
@@ -149,7 +158,10 @@ public class QuizGenerator2Controller {
                     -> saveOptionEdits(optionFields[index - 1], index));
             optionRadios[i].setOnAction(e -> saveAnswerEdit(optionFields[index - 1]));
         }
+    }
 
+    @FXML
+    protected void disableButtons(){
         //should only be enabled once there's text provided as input
         generateQuizButton.setDisable(true);
         //should only be enabled when a quiz has been loaded or generated
@@ -313,8 +325,6 @@ public class QuizGenerator2Controller {
     @FXML
     protected void saveQuiz() {
         /*
-        * question list now updates based on user changes by using fields and radio buttons for answers
-        * question list can now be used to save quiz
         * Once that works, test generating quiz
         * Once that works, add UI to generate specific number of questions
         * Once that works program adding and deleting questions
