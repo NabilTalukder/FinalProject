@@ -127,7 +127,7 @@ public class ScheduleController {
 
     @FXML
     protected void goToQuizGenerator(){
-        viewHandler.openView("QuizGenerator");
+        viewHandler.openView("QuizGenerator2");
     }
 
     @FXML
