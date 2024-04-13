@@ -185,7 +185,7 @@
                                     <VBox prefHeight="200.0" prefWidth="193.0">
                                        <children>
                                           <HBox prefHeight="6.0" prefWidth="193.0" />
-                                          <MFXButton fx:id="saveQuizButton" prefHeight="41.0" prefWidth="195.0" text="Save Quiz" />
+                                          <MFXButton fx:id="saveQuizButton" onAction="#saveQuiz" prefHeight="41.0" prefWidth="195.0" text="Save Quiz" />
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="51.0" prefWidth="112.0" />

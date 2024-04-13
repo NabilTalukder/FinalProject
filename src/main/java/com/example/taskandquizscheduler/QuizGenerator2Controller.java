@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -119,7 +120,8 @@ public class QuizGenerator2Controller {
 
     @FXML
     public void initialize(){
-        quizGenInputArea.setPromptText("Enter or paste text here. The generated quiz will appear on the right");
+        quizGenInputArea.setPromptText("Enter or paste text here. " +
+                "\nYou can then edit the generated quiz's questions and answers on the right");
         initialiseComboBox();
         initialiseTextFields();
         disableButtons();
@@ -128,7 +130,7 @@ public class QuizGenerator2Controller {
     @FXML
     protected void initialiseComboBox(){
         //set up loadQuizComboBox by accessing directory
-        File directory = new File("C:\\Users\\Nabil\\IdeaProjects\\TaskAndQuizScheduler\\data\\Saved_Quiz");
+        File directory = new File("C:\\Users\\Nabil\\IdeaProjects\\FinalProject\\data\\Saved_Quiz");
         // List all files in the directory
         File[] files = directory.listFiles();
 
@@ -327,31 +329,47 @@ public class QuizGenerator2Controller {
         /*
         * Once that works, test generating quiz
         * Once that works, add UI to generate specific number of questions
+        * fix glitch with switching between loaded quizzes
         * Once that works program adding and deleting questions
         * Once everything works, phase out text parsing for database connectivity*/
 
-//        String quizToSave = quizGenOutputArea.getText();
-//        String fileName = "data\\Saved_Quiz\\Saved_Quiz.txt";
-//
-//        //change to type File so the while loop below can check if it exists
-//        File f = new File(fileName);
-//        int fileNumber = 1;
-//        //if file exists, add a number to the name, repeat until file doesn't exist
-//        while (f.isFile()){
-//            //increment for the next cycle of the loop
-//            fileNumber++;
-//            //change name of file because its previously assigned name already exists
-//            fileName = "data\\Saved_Quiz\\Saved_Quiz" + fileNumber + ".txt";
-//            f = new File(fileName);
-//        }
-//
-//        //save outputted quiz to text file
-//        try {
-//            bw = new BufferedWriter(new FileWriter(fileName));
-//            bw.write(quizToSave);
-//            bw.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        //temporary conversion of questionList to String, so it can be saved as text file
+        StringBuilder sb = new StringBuilder();
+        for (ArrayList<String> questions : questionList){
+            for (String line : questions){
+                if (line.endsWith("?")){
+                    line = "#" + line;
+                }
+                sb.append(line).append("\n");
+            }
+            sb.append("\n");
+        }
+
+        String quizToSave = sb.toString();
+        String fileName = "data\\Saved_Quiz\\Saved_Quiz.txt";
+
+        //change to type File so the while loop below can check if it exists
+        File f = new File(fileName);
+        int fileNumber = 1;
+        //if file exists, add a number to the name, repeat until file doesn't exist
+        while (f.isFile()){
+            //increment for the next cycle of the loop
+            fileNumber++;
+            //change name of file because its previously assigned name already exists
+            fileName = "data\\Saved_Quiz\\Saved_Quiz" + fileNumber + ".txt";
+            f = new File(fileName);
+        }
+
+        //save outputted quiz to text file
+        try {
+            bw = new BufferedWriter(new FileWriter(fileName));
+            bw.write(quizToSave);
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //add new quiz name to combo box
+        loadQuizComboBox.getItems().add(new Quiz("Saved_Quiz" + fileNumber + ".txt"));
     }
 }
