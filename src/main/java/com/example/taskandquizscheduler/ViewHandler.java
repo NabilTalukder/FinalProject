@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class ViewHandler extends Application {
@@ -28,6 +30,10 @@ public class ViewHandler extends Application {
     private int score = 0;
     //holds all user's answers
     private ArrayList<String> userAnswers = new ArrayList<>();
+
+    private ClientController clientController;
+    private Socket clientSocket;
+    private PrintWriter pw;
 
     //flag to ensure scenes switch between pages instead of a new one being created
     private boolean createdInitialScene = false;
@@ -68,6 +74,7 @@ public class ViewHandler extends Application {
                     LoginController view = loader.getController();
                     view.init(this);
                     if (!createdInitialScene){
+                        //initialiseClient();
                         scene = new Scene(root, 1280, 720);
                         stage.setScene(scene);
                         createdInitialScene = true;
@@ -125,6 +132,30 @@ public class ViewHandler extends Application {
             e.printStackTrace();
         }
     }
+
+    private void initialiseClient(){
+        //initialise, so it stays active as long as user is logged in
+        try {
+            clientController = new ClientController();
+            clientSocket = new Socket("localhost", 3007);
+
+            //set up to write to Python program
+            pw = new PrintWriter(clientSocket.getOutputStream(), true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ClientController getClientController() {
+        return clientController;
+    }
+
+    public Socket getClientSocket(){
+        return clientSocket;
+    }
+
+    public PrintWriter getPw() { return pw; }
 
     public void setUser(User user) {
         this.user = user;

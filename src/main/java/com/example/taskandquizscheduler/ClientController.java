@@ -39,6 +39,7 @@ public class ClientController {
                     break;
                 }
             }
+            br.close();
 
             //convert to string and remove "#" from the end
             quizGenOutput = sb.toString();

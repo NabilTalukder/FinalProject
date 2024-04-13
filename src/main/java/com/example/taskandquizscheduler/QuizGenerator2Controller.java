@@ -98,24 +98,26 @@ public class QuizGenerator2Controller {
     @FXML
     private MFXButton prevQuestionButton;
 
-    //set up initial UI layout
+
     public QuizGenerator2Controller() {
-        //set up client
-//        try {
-//            clientController = new ClientController();
-//            clientSocket = new Socket("localhost", 3007);
-//
-//            //set up to write to Python program
-//            pw = new PrintWriter(clientSocket.getOutputStream(), true);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            clientController = new ClientController();
+            clientSocket = new Socket("localhost", 3007);
+
+            //set up to write to Python program
+            pw = new PrintWriter(clientSocket.getOutputStream(), true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public void init(ViewHandler viewhandler){
-        this.viewHandler = viewhandler;
+    public void init(ViewHandler viewHandler){
+        this.viewHandler = viewHandler;
+//        clientController = this.viewHandler.getClientController();
+//        clientSocket = this.viewHandler.getClientSocket();
+//        pw = this.viewHandler.getPw();
     }
 
     @FXML
@@ -166,6 +168,7 @@ public class QuizGenerator2Controller {
     protected void disableButtons(){
         //should only be enabled once there's text provided as input
         generateQuizButton.setDisable(true);
+        quizGenInputArea.textProperty().addListener((obs, oldText, newText) -> toggleGenerateQuizButton());
         //should only be enabled when a quiz has been loaded or generated
         saveQuizButton.setDisable(true);
         startQuizButton.setDisable(true);
@@ -174,12 +177,24 @@ public class QuizGenerator2Controller {
     }
 
     @FXML
+    private void toggleGenerateQuizButton(){
+        if (quizGenInputArea.getText().isBlank()){
+            generateQuizButton.setDisable(true);
+        }
+        else {
+            generateQuizButton.setDisable(false);
+        }
+    }
+
+    @FXML
     protected void goToSchedule(){
+        pw.close();
         viewHandler.openView("Schedule");
     }
 
     @FXML
     protected void logout() {
+        pw.close();
         viewHandler.setUser(null);
         viewHandler.openView("Login");
     }
@@ -187,6 +202,7 @@ public class QuizGenerator2Controller {
 
     @FXML
     protected void startQuiz() {
+        pw.close();
         viewHandler.setQuizName(quizName);
         viewHandler.setQuestionList(questionList);
         viewHandler.openView("Quiz");
@@ -213,16 +229,7 @@ public class QuizGenerator2Controller {
 
         //convert to string so it can be displayed
         quizGenOutput = sb.toString();
-        formatQuiz();
-        //increment question number from 0 to 1, so the output can be shown
-        nextQuestionButton.setDisable(false);
-        goToNextQuestion();
-        //prevent going out of bounds of array indices
-        prevQuestionButton.setDisable(true);
-        //enable save and start quiz buttons because an output will have been generated
-        saveQuizButton.setDisable(false);
-        startQuizButton.setDisable(false);
-
+        displayQuizOutput();
     }
 
 
@@ -236,17 +243,25 @@ public class QuizGenerator2Controller {
         clientController.setQuizGenInput(quizGenInput);
         clientController.sendInfo(pw);
         //get outputted quiz from ClientSocket from Python program
-        quizGenOutput = clientController.retrieveInfo(clientSocket);
+        quizGenOutput = String.valueOf(clientController.retrieveInfo(clientSocket));
+        displayQuizOutput();
+    }
 
-//        //display string from Python file in quiz generator output area
-//        quizGenOutputArea.setText(String.valueOf(quizGenOutput));
-//        //enable save and start quiz buttons because an output will have been generated
-//        saveQuizButton.setDisable(false);
-//        startQuizButton.setDisable(false);
+    @FXML
+    protected void displayQuizOutput(){
+        formatQuiz();
+        //increment question number from 0 to 1, so the output can be shown
+        nextQuestionButton.setDisable(false);
+        goToNextQuestion();
+        //prevent going out of bounds of array indices
+        prevQuestionButton.setDisable(true);
+        //enable save and start quiz buttons because an output will have been generated
+        saveQuizButton.setDisable(false);
+        startQuizButton.setDisable(false);
     }
 
     //formats the retrieved quiz, so it can be used by QuizController to start the quiz process
-    public void formatQuiz(){
+    private void formatQuiz(){
         //split up the string of questions into separate strings, using # as delimiter
         String[] questions = quizGenOutput.split("#");
         //list of all questions
@@ -330,10 +345,11 @@ public class QuizGenerator2Controller {
         * Once that works, test generating quiz
         * Once that works, add UI to generate specific number of questions
         * fix glitch with switching between loaded quizzes
-        * Once that works program adding and deleting questions
-        * Once everything works, phase out text parsing for database connectivity*/
+        * Once that works, phase out text parsing for database connectivity
+        * Adding/deleting questions may need to be postponed*/
 
         //temporary conversion of questionList to String, so it can be saved as text file
+        //will be replaced with database saving instead of being reliant on # formatting
         StringBuilder sb = new StringBuilder();
         for (ArrayList<String> questions : questionList){
             for (String line : questions){
