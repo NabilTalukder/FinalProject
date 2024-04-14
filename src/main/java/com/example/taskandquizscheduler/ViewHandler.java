@@ -88,6 +88,7 @@ public class ViewHandler extends Application {
                 case "QuizGenerator2" -> {
                     QuizGenerator2Controller view = loader.getController();
                     view.init(this);
+                    view.setUser(user);
                     //change scene to the new View
                     stage.getScene().setRoot(root);
                 }

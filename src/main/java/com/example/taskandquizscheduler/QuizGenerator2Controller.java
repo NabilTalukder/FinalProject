@@ -45,6 +45,9 @@ public class QuizGenerator2Controller {
     private String quizGenOutput;
     private String quizName = "Multiple Choice Quiz";
 
+    private User user;
+    private QuizDataAccessor quizDataAccessor;
+
     //used for saving generated quiz outputs
     private BufferedWriter bw = null;
     //used for writing to Python server
@@ -103,6 +106,8 @@ public class QuizGenerator2Controller {
 
 
     public QuizGenerator2Controller() {
+        quizDataAccessor = new QuizDataAccessor();
+
         try {
             clientController = new ClientController();
             clientSocket = new Socket("localhost", 3007);
@@ -218,25 +223,26 @@ public class QuizGenerator2Controller {
     @FXML
     protected void loadQuiz(){
         quizName = loadQuizComboBox.getSelectedItem().getQuizName();
-        String selectedQuiz = "data/Saved_Quiz/" + quizName;
-
-        //read selected quiz text file
-        String line;
-        StringBuilder sb = new StringBuilder();
-        try {
-            br = new BufferedReader(new FileReader(selectedQuiz));
-            while ((line = br.readLine()) != null) {
-                //append \n so the output preserves line breaks from the original file
-                sb.append(line).append("\n");
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //convert to string so it can be displayed
-        quizGenOutput = sb.toString();
-        displayQuizOutput();
+        formatQuiz2();
+//        String selectedQuiz = "data/Saved_Quiz/" + quizName;
+//
+//        //read selected quiz text file
+//        String line;
+//        StringBuilder sb = new StringBuilder();
+//        try {
+//            br = new BufferedReader(new FileReader(selectedQuiz));
+//            while ((line = br.readLine()) != null) {
+//                //append \n so the output preserves line breaks from the original file
+//                sb.append(line).append("\n");
+//            }
+//            br.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        //convert to string so it can be displayed
+//        quizGenOutput = sb.toString();
+//        displayQuizOutput();
     }
 
 
@@ -306,6 +312,12 @@ public class QuizGenerator2Controller {
         }
     }
 
+    private void formatQuiz2(){
+        String quizID = quizDataAccessor.retrieveQuizIDDB(user, quizName);
+        System.out.println(quizID);
+
+    }
+
     @FXML
     protected void goToNextQuestion(){
         currentQuestion += 1;
@@ -365,6 +377,7 @@ public class QuizGenerator2Controller {
     protected void saveQuiz() {
         /*
         * Once that works, phase out text parsing for database connectivity
+        * What about Quiz Name? Should replace questionList 0 "Multiple Choice Quiz"
         * Adding/deleting questions may need to be postponed*/
 
         //temporary conversion of questionList to String, so it can be saved as text file
@@ -406,5 +419,9 @@ public class QuizGenerator2Controller {
 
         //add new quiz name to combo box
         loadQuizComboBox.getItems().add(new Quiz("Saved_Quiz" + fileNumber + ".txt"));
+    }
+
+    public void setUser(User user){
+        this.user = user;
     }
 }
