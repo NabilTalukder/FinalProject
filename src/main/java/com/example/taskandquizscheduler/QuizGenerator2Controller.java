@@ -12,8 +12,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -83,6 +83,9 @@ public class QuizGenerator2Controller {
     private MFXTextField[] optionFields;
 
     @FXML
+    private MFXTextField numQuestionsField;
+
+    @FXML
     private MFXRadioButton option1Radio;
     @FXML
     private MFXRadioButton option2Radio;
@@ -115,9 +118,6 @@ public class QuizGenerator2Controller {
 
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;
-//        clientController = this.viewHandler.getClientController();
-//        clientSocket = this.viewHandler.getClientSocket();
-//        pw = this.viewHandler.getPw();
     }
 
     @FXML
@@ -162,6 +162,13 @@ public class QuizGenerator2Controller {
                     -> saveOptionEdits(optionFields[index - 1], index));
             optionRadios[i].setOnAction(e -> saveAnswerEdit(optionFields[index - 1]));
         }
+
+        //add filter to prevent non-numerical input
+        numQuestionsField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("[0-9]")) {
+                event.consume();
+            }
+        });
     }
 
     @FXML
@@ -237,10 +244,24 @@ public class QuizGenerator2Controller {
     //sends the user input text as a prompt to the Python program to generate and display a quiz
     @FXML
     protected void generateQuiz() {
-        //retrieve the user inputted text
-        quizGenInput = quizGenInputArea.getText();
+        //minimum 1 / maximum 10 questions can be generated at once
+        int numQuestions;
+        if (numQuestionsField.getText().isBlank()){
+            numQuestions = 3;
+        }
+        else if (Integer.parseInt(numQuestionsField.getText()) > 10){
+            numQuestions = 10;
+        }
+        else if (Integer.parseInt(numQuestionsField.getText()) < 1){
+            numQuestions = 1;
+        }
+        else {
+            numQuestions = Integer.parseInt(numQuestionsField.getText());
+        }
         //send to ClientSocket to send to Python program
-        clientController.setQuizGenInput(quizGenInput);
+        clientController.setQuizGenInput(quizGenInputArea.getText());
+        clientController.sendInfo(pw);
+        clientController.setQuizGenInput(String.valueOf(numQuestions));
         clientController.sendInfo(pw);
         //get outputted quiz from ClientSocket from Python program
         quizGenOutput = String.valueOf(clientController.retrieveInfo(clientSocket));
@@ -250,7 +271,8 @@ public class QuizGenerator2Controller {
     @FXML
     protected void displayQuizOutput(){
         formatQuiz();
-        //increment question number from 0 to 1, so the output can be shown
+        //reset currentQuestion so quiz output starts from question 1
+        currentQuestion = 0;
         nextQuestionButton.setDisable(false);
         goToNextQuestion();
         //prevent going out of bounds of array indices
@@ -342,9 +364,6 @@ public class QuizGenerator2Controller {
     @FXML
     protected void saveQuiz() {
         /*
-        * Once that works, test generating quiz
-        * Once that works, add UI to generate specific number of questions
-        * fix glitch with switching between loaded quizzes
         * Once that works, phase out text parsing for database connectivity
         * Adding/deleting questions may need to be postponed*/
 

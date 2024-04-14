@@ -65,10 +65,29 @@
                      <children>
                         <VBox prefHeight="620.0" prefWidth="527.0">
                            <children>
-                              <TextArea fx:id="quizGenInputArea" prefHeight="422.0" prefWidth="350.0" />
+                              <TextArea fx:id="quizGenInputArea" prefHeight="346.0" prefWidth="525.0" />
+                              <HBox prefHeight="76.0" prefWidth="525.0">
+                                 <children>
+                                    <VBox prefHeight="119.0" prefWidth="529.0">
+                                       <children>
+                                          <HBox prefHeight="57.0" prefWidth="525.0">
+                                             <children>
+                                                <Label prefHeight="57.0" prefWidth="120.0" text="Number of Questions" />
+                                                <VBox prefHeight="57.0" prefWidth="163.0">
+                                                   <children>
+                                                      <HBox prefHeight="8.0" prefWidth="301.0" />
+                                                      <MFXTextField id="emailField" fx:id="numQuestionsField" floatMode="BORDER" prefHeight="38.0" prefWidth="64.0" promptText="Max 10" stylesheets="@RegisterStyle.css" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <VBox prefHeight="200.0" prefWidth="193.0">
+                                    <VBox prefHeight="100.0" prefWidth="194.0">
                                        <children>
                                           <HBox prefHeight="35.0" prefWidth="200.0" />
                                           <MFXButton fx:id="generateQuizButton" onAction="#generateQuiz" prefHeight="41.0" prefWidth="195.0" text="Generate Quiz" />

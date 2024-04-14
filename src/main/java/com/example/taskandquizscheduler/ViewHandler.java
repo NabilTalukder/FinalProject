@@ -31,10 +31,6 @@ public class ViewHandler extends Application {
     //holds all user's answers
     private ArrayList<String> userAnswers = new ArrayList<>();
 
-    private ClientController clientController;
-    private Socket clientSocket;
-    private PrintWriter pw;
-
     //flag to ensure scenes switch between pages instead of a new one being created
     private boolean createdInitialScene = false;
 
@@ -132,30 +128,6 @@ public class ViewHandler extends Application {
             e.printStackTrace();
         }
     }
-
-    private void initialiseClient(){
-        //initialise, so it stays active as long as user is logged in
-        try {
-            clientController = new ClientController();
-            clientSocket = new Socket("localhost", 3007);
-
-            //set up to write to Python program
-            pw = new PrintWriter(clientSocket.getOutputStream(), true);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ClientController getClientController() {
-        return clientController;
-    }
-
-    public Socket getClientSocket(){
-        return clientSocket;
-    }
-
-    public PrintWriter getPw() { return pw; }
 
     public void setUser(User user) {
         this.user = user;
