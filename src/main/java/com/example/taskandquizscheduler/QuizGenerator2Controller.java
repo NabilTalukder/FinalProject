@@ -72,7 +72,11 @@ public class QuizGenerator2Controller {
     @FXML
     private TextArea quizGenInputArea;
     @FXML
+    private MFXTextField numQuestionsField;
+    @FXML
     private MFXTextField questionDescField;
+    @FXML
+    private MFXTextField quizNameField;
 
     @FXML
     private MFXTextField option1Field;
@@ -84,9 +88,6 @@ public class QuizGenerator2Controller {
     private MFXTextField option4Field;
     @FXML
     private MFXTextField[] optionFields;
-
-    @FXML
-    private MFXTextField numQuestionsField;
 
     @FXML
     private MFXRadioButton option1Radio;
@@ -129,7 +130,6 @@ public class QuizGenerator2Controller {
     public void initialize(){
         quizGenInputArea.setPromptText("Enter or paste text here. " +
                 "\nYou can then edit the generated quiz's questions and answers on the right");
-        initialiseComboBox();
         initialiseTextFields();
         disableButtons();
     }
@@ -137,14 +137,16 @@ public class QuizGenerator2Controller {
     @FXML
     protected void initialiseComboBox(){
         //set up loadQuizComboBox by accessing directory
-        File directory = new File("C:\\Users\\Nabil\\IdeaProjects\\FinalProject\\data\\Saved_Quiz");
-        // List all files in the directory
-        File[] files = directory.listFiles();
+//        File directory = new File("C:\\Users\\Nabil\\IdeaProjects\\FinalProject\\data\\Saved_Quiz");
+//        // List all files in the directory
+//        File[] files = directory.listFiles();
 
+        ArrayList<Quiz> quizzesFromDB = quizDataAccessor.retrieveQuizzesDB(user);
         ObservableList<Quiz> loadedQuizzes = FXCollections.observableArrayList();
-        for (File file : files) {
-            loadedQuizzes.add(new Quiz(file.getName()));
-        }
+//        for (File file : files) {
+//            loadedQuizzes.add(new Quiz(file.getName()));
+//        }
+        loadedQuizzes.addAll(quizzesFromDB);
         //convert Quiz objects to Strings to be displayed in loadQuizComboBox
         StringConverter<Quiz> converter = FunctionalStringConverter.to(quiz -> (quiz == null) ? "" : quiz.getQuizName());
         //filter Quiz objects that match what was selected
@@ -223,7 +225,7 @@ public class QuizGenerator2Controller {
     @FXML
     protected void loadQuiz(){
         quizName = loadQuizComboBox.getSelectedItem().getQuizName();
-        formatQuiz2();
+        displayQuizOutput();
 //        String selectedQuiz = "data/Saved_Quiz/" + quizName;
 //
 //        //read selected quiz text file
@@ -276,7 +278,7 @@ public class QuizGenerator2Controller {
 
     @FXML
     protected void displayQuizOutput(){
-        formatQuiz();
+        formatQuiz2();
         //reset currentQuestion so quiz output starts from question 1
         currentQuestion = 0;
         nextQuestionButton.setDisable(false);
@@ -314,7 +316,15 @@ public class QuizGenerator2Controller {
 
     private void formatQuiz2(){
         String quizID = quizDataAccessor.retrieveQuizIDDB(user, quizName);
-        System.out.println(quizID);
+        //list of all questions in the quiz in the form [question, option 1, 2, 3, 4, answer]
+        questionList = new ArrayList<>();
+        questionList.add(new ArrayList<>());
+        questionList.get(0).add(quizName);
+        //every element after 0th is a question
+        ArrayList<Question> questions = quizDataAccessor.retrieveQuestionsDB(quizID);
+        ArrayList<ArrayList<String>> wholeQuiz = quizDataAccessor.reconstructQuizFromDB(questions);
+        questionList.addAll(wholeQuiz);
+        quizNameField.setText(quizName);
 
     }
 

@@ -5,9 +5,9 @@ import java.sql.*;
 public class UserDataAccessor {
 
     //database access
-    private String connectionURL = "jdbc:mysql://localhost/revision_scheduler";
-    private String usernameDB = "root";
-    private String passwordDB = "";
+    private final String connectionURL = "jdbc:mysql://localhost/revision_scheduler";
+    private final String usernameDB = "root";
+    private final String passwordDB = "";
 
     public boolean validateEmailDB(String enteredEmail){
         try {
@@ -23,6 +23,8 @@ public class UserDataAccessor {
                     return true;
                 }
             }
+            preparedStatement.close();
+            connection.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,6 +48,8 @@ public class UserDataAccessor {
                     return resultSet.getString("user_ID");
                 }
             }
+            preparedStatement.close();
+            connection.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,6 +68,8 @@ public class UserDataAccessor {
             preparedStatement.setString(1, enteredEmail);
             preparedStatement.setString(2, enteredPassword);
             preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -70,7 +70,6 @@ public class ViewHandler extends Application {
                     LoginController view = loader.getController();
                     view.init(this);
                     if (!createdInitialScene){
-                        //initialiseClient();
                         scene = new Scene(root, 1280, 720);
                         stage.setScene(scene);
                         createdInitialScene = true;
@@ -89,6 +88,7 @@ public class ViewHandler extends Application {
                     QuizGenerator2Controller view = loader.getController();
                     view.init(this);
                     view.setUser(user);
+                    view.initialiseComboBox();
                     //change scene to the new View
                     stage.getScene().setRoot(root);
                 }
