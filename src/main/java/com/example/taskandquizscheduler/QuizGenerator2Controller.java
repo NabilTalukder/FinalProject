@@ -162,6 +162,7 @@ public class QuizGenerator2Controller {
         optionRadios = new MFXRadioButton[] {option1Radio, option2Radio, option3Radio, option4Radio};
 
         // Add event listeners to text fields and radio buttons to save edits
+        quizNameField.textProperty().addListener((obs, oldText, newText) -> saveQuizNameEdit(quizNameField));
         questionDescField.textProperty().addListener((obs, oldText, newText) -> saveOptionEdits(questionDescField, 0));
         for (int i = 0; i < optionFields.length; i++) {
             final int index = i + 1; // To capture the correct index in the lambda expression
@@ -227,25 +228,6 @@ public class QuizGenerator2Controller {
         quizName = loadQuizComboBox.getSelectedItem().getQuizName();
         formatQuizFromDB();
         displayQuizOutput();
-//        String selectedQuiz = "data/Saved_Quiz/" + quizName;
-//
-//        //read selected quiz text file
-//        String line;
-//        StringBuilder sb = new StringBuilder();
-//        try {
-//            br = new BufferedReader(new FileReader(selectedQuiz));
-//            while ((line = br.readLine()) != null) {
-//                //append \n so the output preserves line breaks from the original file
-//                sb.append(line).append("\n");
-//            }
-//            br.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        //convert to string so it can be displayed
-//        quizGenOutput = sb.toString();
-//        displayQuizOutput();
     }
 
 
@@ -278,7 +260,7 @@ public class QuizGenerator2Controller {
         displayQuizOutput();
     }
 
-    //formats the retrieved quiz, so it can be used by QuizController to start the quiz process
+    //formats ChatGPT String output into ArrayList
     private void formatQuizFromGenerator(){
         //split up the string of questions into separate strings, using # as delimiter
         String[] questions = quizGenOutput.split("#");
@@ -367,6 +349,12 @@ public class QuizGenerator2Controller {
         }
     }
 
+    private void saveQuizNameEdit(MFXTextField nameField){
+        //replace quiz name, located at [0][0]
+        questionList.get(0).set(0, nameField.getText());
+    }
+
+
     private void saveOptionEdits(MFXTextField optionField, int index) {
         //get the option's corresponding question
         ArrayList<String> currentQuestionList = questionList.get(currentQuestion);
@@ -384,51 +372,19 @@ public class QuizGenerator2Controller {
 
     @FXML
     protected void saveQuiz() {
-        /*
-        * Adding/deleting questions may need to be postponed*/
-
-        /*save quiz to database
-        * reverse process of formatQuizFromDB*/
-
-        //temporary conversion of questionList to String, so it can be saved as text file
-        //will be replaced with database saving instead of being reliant on # formatting
-        StringBuilder sb = new StringBuilder();
-        for (ArrayList<String> questions : questionList){
-            for (String line : questions){
-                if (line.endsWith("?")){
-                    line = "#" + line;
-                }
-                sb.append(line).append("\n");
-            }
-            sb.append("\n");
+        String quizName = String.valueOf(questionList.get(0).get(0));
+        String quizID = quizDataAccessor.addQuizDB(user, quizName);
+        for (int i = 1; i < questionList.size(); i++){
+            ArrayList<String> questionAndOptions = questionList.get(i);
+            String questionDesc = questionAndOptions.get(0);
+            String questionID = quizDataAccessor.addQuestionDB(quizID, questionDesc);
+            quizDataAccessor.addOptionsDB(questionID, questionAndOptions);
         }
-
-        String quizToSave = sb.toString();
-        String fileName = "data\\Saved_Quiz\\Saved_Quiz.txt";
-
-        //change to type File so the while loop below can check if it exists
-        File f = new File(fileName);
-        int fileNumber = 1;
-        //if file exists, add a number to the name, repeat until file doesn't exist
-        while (f.isFile()){
-            //increment for the next cycle of the loop
-            fileNumber++;
-            //change name of file because its previously assigned name already exists
-            fileName = "data\\Saved_Quiz\\Saved_Quiz" + fileNumber + ".txt";
-            f = new File(fileName);
-        }
-
-        //save outputted quiz to text file
-        try {
-            bw = new BufferedWriter(new FileWriter(fileName));
-            bw.write(quizToSave);
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //add new quiz name to combo box
-        loadQuizComboBox.getItems().add(new Quiz("Saved_Quiz" + fileNumber + ".txt"));
+        //add new quiz name to combo box so user can immediately access it
+        Quiz quiz = new Quiz();
+        quiz.setQuizName(quizName);
+        quiz.setQuizID(quizID);
+        loadQuizComboBox.getItems().add(quiz);
     }
 
     public void setUser(User user){

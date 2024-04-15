@@ -10,40 +10,6 @@ public class QuizDataAccessor {
     private final String usernameDB = "root";
     private final String passwordDB = "";
 
-    /*
-     * need to reconstruct quiz format by extracting from quiz table
-     * every question starts with # so add it to retrieved question
-     *   or just recreate questionList from database query
-     *
-     * select quiz_ID from quiz where user_ID = userID AND name = quizName // quiz
-     * select quiz_question_ID, description from questions where user_ID = userID AND quiz_ID = quizID //questions
-     * select quiz_option_ID, text, correct_option from quiz_option where quiz_question_ID = quizQuestionID //options
-     * */
-
-    /*
-     * format:
-     * 0: quiz name
-     * 1 - n: questions
-     *   each question is an arrayList [q, 1, 2, 3, 4, a]*/
-
-    /*
-     * initialise questionList []
-     * first query for quizID to get corresponding questions and options
-     *   questionList 0 = quizName
-     *
-     * query questions into arraylist
-     * for each question, query options and store into new arrayList
-     *
-     * for (question : questions)
-     *   options [] = query options for corresponding question
-     *   for (option : options)
-     *       if option is answer
-     *           answerText = text for this option
-     *   questionAndOptions.add(question)
-     *   questionAndOptions.addAll(options)
-     *   questionAndOptions.add(answerText)
-     *   questionList.add(questionAndOptions)
-     *   */
 
     public ArrayList<Quiz> retrieveQuizzesDB(User user){
         ArrayList<Quiz> quizzes = new ArrayList<>();
@@ -170,5 +136,95 @@ public class QuizDataAccessor {
             e.printStackTrace();
         }
         return wholeQuiz;
+    }
+
+    public String addQuizDB(User user, String quizName){
+        String quizID = "";
+        try {
+            Connection connection = DriverManager.getConnection(connectionURL,
+                    usernameDB, passwordDB);
+            String sql = "INSERT INTO quiz (`quiz_ID`, `user_ID`, `name`) VALUES (NULL, ?, ?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, user.getUser_ID());
+            preparedStatement.setString(2, quizName);
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0){
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if (generatedKeys.next()){
+                    generatedKeys.getInt(1);
+                    quizID = String.valueOf(generatedKeys.getInt(1));
+                }
+            }
+
+            preparedStatement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quizID;
+    }
+
+    public String addQuestionDB(String quizID, String description){
+        String questionID = "";
+        try {
+            Connection connection = DriverManager.getConnection(connectionURL,
+                    usernameDB, passwordDB);
+            String sql = "INSERT INTO quiz_question (`quiz_question_ID`, `quiz_ID`, `description`) VALUES (NULL, ?, ?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, quizID);
+            preparedStatement.setString(2, description);
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0){
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if (generatedKeys.next()){
+                    generatedKeys.getInt(1);
+                    questionID = String.valueOf(generatedKeys.getInt(1));
+                }
+            }
+
+            preparedStatement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return questionID;
+    }
+
+    public void addOptionsDB(String questionID, ArrayList<String> questionAndOptions){
+        try {
+            Connection connection = DriverManager.getConnection(connectionURL,
+                    usernameDB, passwordDB);
+            String sql = "INSERT INTO quiz_option (`quiz_option_ID`, `quiz_question_ID`, `text`, `correct_option`)" +
+                    " VALUES (NULL, ?, ?, ?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            /*iterate through options, adding them to the batch insertion
+            * starting from index 1 to exclude the question description,
+            * ending at size() - 1 to exclude the answer
+            * so only options are added to the table*/
+            for (int i = 1; i < questionAndOptions.size() - 1; i++){
+                preparedStatement.setString(1, questionID);
+                String optionText = questionAndOptions.get(i);
+                preparedStatement.setString(2, optionText);
+                //check if option is the answer for the question
+                if (optionText.equals(questionAndOptions.get(4))){
+                    preparedStatement.setString(3, "1");
+                }
+                else {
+                    preparedStatement.setString(3, "0");
+                }
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+            preparedStatement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
