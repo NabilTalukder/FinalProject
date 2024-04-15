@@ -302,12 +302,12 @@ public class QuizGenerator2Controller {
     }
 
     private void formatQuizFromDB(){
-        String quizID = quizDataAccessor.retrieveQuizIDDB(user, quizName);
-        //list of all questions in the quiz in the form [question, option 1, 2, 3, 4, answer]
+        String quizID = loadQuizComboBox.getSelectedItem().getQuizID();
+        //list of all questions in the quiz in the form [quizName, question 1, ... question n]
         questionList = new ArrayList<>();
         questionList.add(new ArrayList<>());
         questionList.get(0).add(quizName);
-        //every element after 0th is a question
+        //every element after 0th in questionList is a question in the form [question, option 1, 2, 3, 4, answer]
         ArrayList<Question> questions = quizDataAccessor.retrieveQuestionsDB(quizID);
         ArrayList<ArrayList<String>> wholeQuiz = quizDataAccessor.reconstructQuizFromDB(questions);
         questionList.addAll(wholeQuiz);
@@ -385,9 +385,10 @@ public class QuizGenerator2Controller {
     @FXML
     protected void saveQuiz() {
         /*
-        * Once that works, phase out text parsing for database connectivity
-        * What about Quiz Name? Should replace questionList 0 "Multiple Choice Quiz"
         * Adding/deleting questions may need to be postponed*/
+
+        /*save quiz to database
+        * reverse process of formatQuizFromDB*/
 
         //temporary conversion of questionList to String, so it can be saved as text file
         //will be replaced with database saving instead of being reliant on # formatting

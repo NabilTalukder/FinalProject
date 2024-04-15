@@ -4,6 +4,8 @@ public class Quiz {
 
     private String quizName;
 
+    private String quizID;
+
     public Quiz() {
 
     }
@@ -16,7 +18,15 @@ public class Quiz {
         return quizName;
     }
 
+    public String getQuizID() {
+        return quizID;
+    }
+
     public void setQuizName(String quizName) {
         this.quizName = quizName;
+    }
+
+    public void setQuizID(String quizID) {
+        this.quizID = quizID;
     }
 }

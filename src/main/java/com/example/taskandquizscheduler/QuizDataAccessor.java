@@ -50,13 +50,14 @@ public class QuizDataAccessor {
         try {
             Connection connection = DriverManager.getConnection(connectionURL,
                     usernameDB, passwordDB);
-            String sql = "SELECT name FROM quiz WHERE user_ID = ?";
+            String sql = "SELECT quiz_ID, name FROM quiz WHERE user_ID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, user.getUser_ID());
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){
                 Quiz quiz = new Quiz();
+                quiz.setQuizID(resultSet.getString("quiz_ID"));
                 quiz.setQuizName(resultSet.getString("name"));
                 quizzes.add(quiz);
             }
