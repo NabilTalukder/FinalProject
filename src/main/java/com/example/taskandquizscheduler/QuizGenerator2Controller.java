@@ -225,6 +225,7 @@ public class QuizGenerator2Controller {
     @FXML
     protected void loadQuiz(){
         quizName = loadQuizComboBox.getSelectedItem().getQuizName();
+        formatQuizFromDB();
         displayQuizOutput();
 //        String selectedQuiz = "data/Saved_Quiz/" + quizName;
 //
@@ -273,25 +274,12 @@ public class QuizGenerator2Controller {
         clientController.sendInfo(pw);
         //get outputted quiz from ClientSocket from Python program
         quizGenOutput = String.valueOf(clientController.retrieveInfo(clientSocket));
+        formatQuizFromGenerator();
         displayQuizOutput();
     }
 
-    @FXML
-    protected void displayQuizOutput(){
-        formatQuiz2();
-        //reset currentQuestion so quiz output starts from question 1
-        currentQuestion = 0;
-        nextQuestionButton.setDisable(false);
-        goToNextQuestion();
-        //prevent going out of bounds of array indices
-        prevQuestionButton.setDisable(true);
-        //enable save and start quiz buttons because an output will have been generated
-        saveQuizButton.setDisable(false);
-        startQuizButton.setDisable(false);
-    }
-
     //formats the retrieved quiz, so it can be used by QuizController to start the quiz process
-    private void formatQuiz(){
+    private void formatQuizFromGenerator(){
         //split up the string of questions into separate strings, using # as delimiter
         String[] questions = quizGenOutput.split("#");
         //list of all questions
@@ -310,11 +298,10 @@ public class QuizGenerator2Controller {
             }
             //increment to make room for next question
             questionNumber += 1;
-
         }
     }
 
-    private void formatQuiz2(){
+    private void formatQuizFromDB(){
         String quizID = quizDataAccessor.retrieveQuizIDDB(user, quizName);
         //list of all questions in the quiz in the form [question, option 1, 2, 3, 4, answer]
         questionList = new ArrayList<>();
@@ -325,7 +312,19 @@ public class QuizGenerator2Controller {
         ArrayList<ArrayList<String>> wholeQuiz = quizDataAccessor.reconstructQuizFromDB(questions);
         questionList.addAll(wholeQuiz);
         quizNameField.setText(quizName);
+    }
 
+    @FXML
+    protected void displayQuizOutput(){
+        //reset currentQuestion so quiz output starts from question 1
+        currentQuestion = 0;
+        nextQuestionButton.setDisable(false);
+        goToNextQuestion();
+        //prevent going out of bounds of array indices
+        prevQuestionButton.setDisable(true);
+        //enable save and start quiz buttons because an output will have been generated
+        saveQuizButton.setDisable(false);
+        startQuizButton.setDisable(false);
     }
 
     @FXML
