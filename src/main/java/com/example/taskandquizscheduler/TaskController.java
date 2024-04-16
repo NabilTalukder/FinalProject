@@ -45,7 +45,9 @@ public class TaskController {
     //the original due date of a task before the user changes it
     private String oldDueDate;
 
-
+    //label for indicating the action the user is taking when handling (adding/editing) a task
+    @FXML
+    private Label taskTypeLabel;
     //used for confirming changes done to a task, be it adding or editing
     @FXML
     private Button confirmTaskButton;
@@ -76,6 +78,7 @@ public class TaskController {
                     + Month.valueOf(monthVal).getValue() + "-"
                     + yearVal, DateTimeFormatter.ofPattern("d-M-yyyy")));
         }
+        taskTypeLabel.setText("Add Task");
 
         //allow Confirm (Add) Task button to process a new task
         confirmTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
@@ -101,6 +104,8 @@ public class TaskController {
                 + yearVal, DateTimeFormatter.ofPattern("d-M-yyyy")));
         //due date of selected task label - required for editing task
         oldDueDate = dueDatePicker.getValue().toString();
+
+        taskTypeLabel.setText("Edit Task");
 
         //show delete link because a created task should be able to be deleted
         deleteTaskLink.setVisible(true);

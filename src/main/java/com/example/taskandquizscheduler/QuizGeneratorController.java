@@ -136,20 +136,14 @@ public class QuizGeneratorController {
 
     @FXML
     protected void initialiseComboBox(){
-        //set up loadQuizComboBox by accessing directory
-//        File directory = new File("C:\\Users\\Nabil\\IdeaProjects\\FinalProject\\data\\Saved_Quiz");
-//        // List all files in the directory
-//        File[] files = directory.listFiles();
-
+        //retrieve all the user's saved quizzes
         ArrayList<Quiz> quizzesFromDB = quizDataAccessor.retrieveQuizzesDB(user);
+        //add the quizzes to the combobox
         ObservableList<Quiz> loadedQuizzes = FXCollections.observableArrayList();
-//        for (File file : files) {
-//            loadedQuizzes.add(new Quiz(file.getName()));
-//        }
         loadedQuizzes.addAll(quizzesFromDB);
         //convert Quiz objects to Strings to be displayed in loadQuizComboBox
         StringConverter<Quiz> converter = FunctionalStringConverter.to(quiz -> (quiz == null) ? "" : quiz.getQuizName());
-        //filter Quiz objects that match what was selected
+        //filter Quiz objects that match what was selected by the user
         Function<String, Predicate<Quiz>> filterFunction = s -> quiz -> StringUtils.containsIgnoreCase(converter.toString(quiz), s);
         loadQuizComboBox.setItems(loadedQuizzes);
         loadQuizComboBox.setConverter(converter);
@@ -373,7 +367,9 @@ public class QuizGeneratorController {
     @FXML
     protected void saveQuiz() {
         String quizName = String.valueOf(questionList.get(0).get(0));
+        //retrieve ID of newly saved quiz to associate it with its questions and options in the database
         String quizID = quizDataAccessor.addQuizDB(user, quizName);
+        //for every question, save options and answers
         for (int i = 1; i < questionList.size(); i++){
             ArrayList<String> questionAndOptions = questionList.get(i);
             String questionDesc = questionAndOptions.get(0);
