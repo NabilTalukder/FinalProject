@@ -11,8 +11,6 @@ import javafx.stage.Stage;
 
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 
 public class ViewHandler extends Application {
@@ -84,8 +82,8 @@ public class ViewHandler extends Application {
                     //change scene to the new View
                     stage.getScene().setRoot(root);
                 }
-                case "QuizGenerator2" -> {
-                    QuizGenerator2Controller view = loader.getController();
+                case "QuizGenerator" -> {
+                    QuizGeneratorController view = loader.getController();
                     view.init(this);
                     view.setUser(user);
                     view.initialiseComboBox();

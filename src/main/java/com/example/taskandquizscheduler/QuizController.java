@@ -62,7 +62,7 @@ public class QuizController {
     //returns to previous screen (quiz generator or schedule)
     @FXML
     protected void exitQuiz(){
-        viewHandler.openView("QuizGenerator2");
+        viewHandler.openView("QuizGenerator");
     }
 
     @FXML
@@ -115,7 +115,6 @@ public class QuizController {
     //iterate through the questions
     private void nextQuestion(){
         currentQuestion += 1;
-        System.out.println("current question: " + currentQuestion);
         //update progress bar to represent percentage of questions
         //-1 because 0th element is the quiz title. Remaining elements are questions
         quizProgress.setProgress((float)currentQuestion / (float)(questionList.size() - 1));
