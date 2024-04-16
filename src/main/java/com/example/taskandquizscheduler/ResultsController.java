@@ -72,7 +72,7 @@ public class ResultsController {
 
     @FXML
     protected void goToQuizGenerator(){
-        viewHandler.openView("QuizGenerator");
+        viewHandler.openView("QuizGenerator2");
     }
 
     @FXML
