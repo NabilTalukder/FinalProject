@@ -107,13 +107,9 @@
                                           <Insets />
                                        </HBox.margin>
                                     </VBox>
-                                    <VBox prefHeight="70.0" prefWidth="134.0">
+                                    <VBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="134.0">
                                        <children>
-                                          <Button fx:id="addTaskButton1" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Add Quiz">
-                                             <VBox.margin>
-                                                <Insets left="17.0" top="22.0" />
-                                             </VBox.margin>
-                                          </Button>
+                                          <MFXButton fx:id="addQuizButton" alignment="CENTER" prefHeight="24.0" prefWidth="104.0" text="Add Quiz" />
                                        </children>
                                     </VBox>
                                  </children>

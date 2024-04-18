@@ -67,6 +67,8 @@ public class ScheduleController {
     private MFXButton scheduleButton = new MFXButton();
     @FXML
     private Button addTaskButton;
+    @FXML
+    private MFXButton addQuizButton;
 
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;
@@ -80,9 +82,11 @@ public class ScheduleController {
         monthVal = String.valueOf(LocalDate.now().getMonth());
         monthYearLabel.setText(monthVal + " " + yearVal);
 
-        //allow addTaskButton to start process for adding task
-        //done this way instead of using SceneBuilder because of similar functionality to Editing Task
+        /*Allow buttons to be able to start process for adding task
+        * Manually coded this way instead of SceneBuilder because process is similar to Editing task
+        * Thus, EventHandlers are explicitly coded with arguments*/
         addTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
+        addQuizButton.setOnAction((EventHandler<ActionEvent>) addQuizHandler);
         scheduleButton.setDisable(true);
     }
 
@@ -122,8 +126,36 @@ public class ScheduleController {
     //handle mouse event of clicking Add Task button
     EventHandler<? super ActionEvent> addTaskHandler = taskEvent -> showTaskView("Add", taskEvent);
 
+    //handle mouse event of clicking Add Quiz button
+    EventHandler<? super ActionEvent> addQuizHandler = quizEvent -> showTaskQuizView("Add", quizEvent);
+
     //handle mouse event of clicking taskLabel
-    EventHandler<? super MouseEvent> editTaskHandler = taskEvent -> showTaskView("Edit", taskEvent);
+    EventHandler<? super MouseEvent> editTaskOrQuizHandler = event ->  {
+        //retrieve task label and its name
+        Label taskLabel = (Label) event.getSource();
+        String taskName = taskLabel.getText();
+        //retrieve date label from cell (VBox) containing task label
+        Label dateLabel = (Label) ((VBox) taskLabel.getParent()).getChildren().get(0);
+        //reconstruct due date of task as string
+        String selectedDueDate = LocalDate.parse(dateLabel.getText() + "-"
+                + Month.valueOf(monthVal).getValue() + "-"
+                + yearVal, DateTimeFormatter.ofPattern("d-M-yyyy")).toString();
+        ArrayList<Task> taskList = tasksMap.get(selectedDueDate);
+        //match label with Task object in taskMap and find out if tasktype is a quiz or not
+        for (Task task : taskList) {
+            if (task.getTaskName().equals(taskName)) {
+                if (task.getTaskType().equals("task")){
+                    showTaskView("Edit", event);
+                    break;
+                }
+                else if (task.getTaskType().equals("quiz")){
+                    showTaskQuizView("Edit", event);
+                    break;
+                }
+            }
+        }
+    };
+
 
     @FXML
     protected void goToQuizGenerator(){
@@ -208,7 +240,7 @@ public class ScheduleController {
                         //add left padding to task label
                         taskLabel.setPadding(cellInsets);
                         //allow task label to be clicked so user can edit it
-                        taskLabel.setOnMousePressed(editTaskHandler);
+                        taskLabel.setOnMousePressed(editTaskOrQuizHandler);
                         //add task to cell, contained within the cell's VBox
                         vBox.getChildren().add(taskLabel);
                     }
@@ -303,6 +335,10 @@ public class ScheduleController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    protected void showTaskQuizView(String taskAction, Event taskEvent){}
+
 
     public void setUser(User user) {
         this.user = user;
