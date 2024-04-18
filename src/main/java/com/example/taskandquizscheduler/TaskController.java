@@ -32,44 +32,44 @@ public class TaskController {
     //top-level class for handling nodes (UI elements/containers) in JavaFX
     private Parent root;
 
-    private User user;
+    protected User user;
 
     //queries database for tasks
-    private TaskDataAccessor taskDataAccessor = new TaskDataAccessor();
+    protected TaskDataAccessor taskDataAccessor = new TaskDataAccessor();
 
     //holds tasks set for each day in the calendar - used for displaying and modifying them
-    private ArrayList<Task> taskList = new ArrayList<>();
+    protected ArrayList<Task> taskList = new ArrayList<>();
     //contains all dates on the calendar and their associated tasks
-    private HashMap<String, ArrayList<Task>> tasksMap = new HashMap<>();
+    protected HashMap<String, ArrayList<Task>> tasksMap = new HashMap<>();
     //used to send information processed in this class back to the calendar, so it can be updated
-    private ScheduleController scheduleController;
+    protected ScheduleController scheduleController;
     //the original name of a task before the user changes it
-    private String oldTaskName;
+    protected String oldTaskName;
     //the original due date of a task before the user changes it
-    private String oldDueDate;
+    protected String oldDueDate;
 
     //label for indicating the action the user is taking when handling (adding/editing) a task
     @FXML
-    private Label taskTypeLabel;
+    protected Label taskTypeLabel;
     //used for confirming changes done to a task, be it adding or editing
     @FXML
-    private MFXButton confirmTaskButton;
+    protected MFXButton confirmTaskButton;
     //allows user to select the date a task should be due and thus,
     // where in the calendar it should be shown
     @FXML
-    private MFXDatePicker dueDatePicker;
+    protected MFXDatePicker dueDatePicker;
 
     @FXML
-    private MFXTextField taskNameField;
+    protected MFXTextField taskNameField;
     //button for cancelling changes done to a task but styled as a link
     @FXML
-    private Hyperlink cancelLink;
+    protected Hyperlink cancelLink;
 
     @FXML
-    private Hyperlink deleteTaskLink;
+    protected Hyperlink deleteTaskLink;
     //button for marking a task as complete, styled as a link
     @FXML
-    private Hyperlink completeLink;
+    protected Hyperlink completeLink;
 
     //prepare UI elements to add a task to the calendar
     @FXML
