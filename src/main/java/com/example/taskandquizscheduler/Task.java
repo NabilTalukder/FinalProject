@@ -7,6 +7,8 @@ public class Task {
     //used for marking the task as complete on the calendar if the user has completed it
     private String status;
 
+    private String taskType;
+
     public String getTaskName() {
         return taskName;
     }
@@ -21,4 +23,11 @@ public class Task {
 
     public void setStatus(String status) { this.status = status;}
 
+    public String getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
+    }
 }

@@ -19,7 +19,7 @@ public class TaskDataAccessor {
         try {
             Connection connection = DriverManager.getConnection(connectionURL,
                     usernameDB, passwordDB);
-            String sql = "SELECT due_date, task_name, completion_status FROM task WHERE" +
+            String sql = "SELECT due_date, task_name, task_type, completion_status FROM task WHERE" +
                     " assigner_ID = ? AND assignee_ID = ? ORDER BY due_date;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, user.getUser_ID());
@@ -41,6 +41,7 @@ public class TaskDataAccessor {
                     taskListValuesDB = new ArrayList<>();
                 }
                 task.setTaskName(resultSet.getString("task_name"));
+                task.setTaskType(resultSet.getString("task_type"));
                 task.setStatus(resultSet.getString("completion_status"));
                 taskListValuesDB.add(task);
                 tasksMap.put(dueDateKeyDB, taskListValuesDB);
@@ -61,14 +62,15 @@ public class TaskDataAccessor {
             Connection connection = DriverManager.getConnection(connectionURL,
                     usernameDB, passwordDB);
             String sql = "INSERT INTO task " +
-                    "(`task_ID`, `assigner_ID`, `assignee_ID`, `task_name`, `due_date`, `completion_status`)" +
-                    " VALUES (NULL, ?, ?, ?, ?, ?);";
+                    "(`task_ID`, `assigner_ID`, `assignee_ID`, `task_name`, `due_date`, `task_type`, `completion_status`)" +
+                    " VALUES (NULL, ?, ?, ?, ?, ?, ?);";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, user.getUser_ID());
             preparedStatement.setString(2, user.getUser_ID());
             preparedStatement.setString(3, taskName);
             preparedStatement.setString(4, dueDate);
-            preparedStatement.setString(5, "incomplete");
+            preparedStatement.setString(5, "task");
+            preparedStatement.setString(6, "incomplete");
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();

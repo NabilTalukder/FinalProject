@@ -121,12 +121,12 @@ public class RegisterController extends LoginController {
         //create account if fields entered and no errors
         if (!(email.isBlank()) && !(password.isBlank()) && !(passwordValidationLabel.isVisible()) &&
                 !(emailValidationLabel.isVisible())){
+
             userDataAccessor.createAccountDB(email, password);
             String retrievedUserID = userDataAccessor.validatePasswordDB(email, password);
             User loggedInUser = new User(retrievedUserID);
             viewHandler.setUser(loggedInUser);
             viewHandler.openView("Schedule");
         }
-
     }
 }
