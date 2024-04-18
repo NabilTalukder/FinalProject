@@ -1,5 +1,8 @@
 package com.example.taskandquizscheduler;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -50,14 +53,14 @@ public class TaskController {
     private Label taskTypeLabel;
     //used for confirming changes done to a task, be it adding or editing
     @FXML
-    private Button confirmTaskButton;
+    private MFXButton confirmTaskButton;
     //allows user to select the date a task should be due and thus,
     // where in the calendar it should be shown
     @FXML
-    private DatePicker dueDatePicker;
+    private MFXDatePicker dueDatePicker;
 
     @FXML
-    private TextField taskNameField;
+    private MFXTextField taskNameField;
     //button for cancelling changes done to a task but styled as a link
     @FXML
     private Hyperlink cancelLink;
