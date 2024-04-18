@@ -48,13 +48,6 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <BorderPane prefHeight="89.0" prefWidth="300.0">
-                     <top>
-                        <HBox prefHeight="27.0" prefWidth="263.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Label prefHeight="17.0" prefWidth="300.0" text="        Select Quiz" />
-                           </children>
-                        </HBox>
-                     </top>
                      <left>
                         <VBox prefHeight="76.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
                      </left>
@@ -62,7 +55,7 @@
                         <VBox prefHeight="74.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
                      </right>
                      <center>
-                        <MFXFilterComboBox prefHeight="29.0" prefWidth="246.0" BorderPane.alignment="CENTER" />
+                        <MFXFilterComboBox floatMode="BORDER" floatingText="Select Quiz" prefHeight="29.0" prefWidth="246.0" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                </children>
@@ -71,11 +64,7 @@
                <children>
                   <BorderPane prefHeight="99.0" prefWidth="300.0">
                      <top>
-                        <HBox prefHeight="27.0" prefWidth="263.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Label prefHeight="17.0" prefWidth="300.0" text="        Due Date" />
-                           </children>
-                        </HBox>
+                        <HBox prefHeight="27.0" prefWidth="263.0" BorderPane.alignment="CENTER" />
                      </top>
                      <left>
                         <VBox prefHeight="76.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
@@ -84,7 +73,7 @@
                         <VBox prefHeight="74.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
                      </right>
                      <center>
-                        <MFXDatePicker prefHeight="38.0" prefWidth="245.0" BorderPane.alignment="CENTER" />
+                        <MFXDatePicker allowEdit="false" floatMode="BORDER" floatingText="Due Date" prefHeight="38.0" prefWidth="245.0" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                </children>
