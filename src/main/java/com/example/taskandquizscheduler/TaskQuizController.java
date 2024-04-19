@@ -45,7 +45,7 @@ public class TaskQuizController extends TaskController {
     protected void confirmAddTask(ActionEvent event){
         //get the task name and due date
         String quizName = quizNameComboBox.getSelectedItem().getQuizName();
-        String dueDate = dueDatePicker.getValue().toString();
+        String dueDate = dueDatePicker.getValue().toString();//
         //create a new task and set the retrieved information
         Task task = new Task();
         task.setTaskName(quizName);
