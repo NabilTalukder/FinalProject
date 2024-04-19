@@ -20,7 +20,6 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.sql.*;
 
 
 //handles adding, editing, deleting and completion of tasks
@@ -54,7 +53,7 @@ public class TaskController {
     protected Label taskTypeLabel;
     //used for confirming changes done to a task, be it adding or editing
     @FXML
-    protected MFXButton confirmTaskButton;
+    protected MFXButton confirmButton;
     //allows user to select the date a task should be due and thus,
     // where in the calendar it should be shown
     @FXML
@@ -88,7 +87,7 @@ public class TaskController {
         taskTypeLabel.setText("Add Task");
 
         //allow Confirm (Add) Task button to process a new task
-        confirmTaskButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
+        confirmButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
     }
 
     //handle event of clicking Add Task button
@@ -122,7 +121,7 @@ public class TaskController {
         //show complete link because a created task should be able to be marked as complete
         completeLink.setVisible(true);
         //allow Confirm (Edit) Task button to process an edited task
-        confirmTaskButton.setOnAction((EventHandler<ActionEvent>) editTaskHandler);
+        confirmButton.setOnAction((EventHandler<ActionEvent>) editTaskHandler);
     }
 
     //handle event of clicking Edit Task button
