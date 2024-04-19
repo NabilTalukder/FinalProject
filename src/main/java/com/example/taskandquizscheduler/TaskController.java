@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,6 +81,9 @@ public class TaskController {
             dueDatePicker.setValue(LocalDate.parse("1" + "-"
                     + Month.valueOf(monthVal).getValue() + "-"
                     + yearVal, DateTimeFormatter.ofPattern("d-M-yyyy")));
+            //make dueDatePicker popup (when editing dueDate) show the task's assigned year/month for QoL
+            int dueMonth = Month.valueOf(monthVal).getValue();
+            dueDatePicker.setStartingYearMonth(YearMonth.of(Integer.parseInt(yearVal), dueMonth));
         }
         taskTypeLabel.setText("Add Task");
 
@@ -97,7 +101,7 @@ public class TaskController {
         Label taskLabel = (Label) taskEvent.getSource();
         //retrieve date label from cell (VBox) containing task label
         Label dateLabel = (Label) ((VBox) taskLabel.getParent()).getChildren().get(0);
-        //display task name in task-view popup's text field
+        //display task name in TaskManagementView popup's text field
         taskNameField.setText(taskLabel.getText());
         //task name of selected task label - required for editing task
         oldTaskName = taskLabel.getText();
@@ -105,6 +109,9 @@ public class TaskController {
         dueDatePicker.setValue(LocalDate.parse(dateLabel.getText() + "-"
                 + Month.valueOf(monthVal).getValue() + "-"
                 + yearVal, DateTimeFormatter.ofPattern("d-M-yyyy")));
+        //make dueDatePicker popup (when editing dueDate) show the task's assigned year/month for QoL
+        int dueMonth = Month.valueOf(monthVal).getValue();
+        dueDatePicker.setStartingYearMonth(YearMonth.of(Integer.parseInt(yearVal), dueMonth));
         //due date of selected task label - required for editing task
         oldDueDate = dueDatePicker.getValue().toString();
 
@@ -126,7 +133,7 @@ public class TaskController {
     protected void closeView(ActionEvent event){
         //get the stage from which the button that called this method was clicked
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        //close stage (task-view window)
+        //close stage (TaskManagementView window)
         stage.close();
     }
 
@@ -141,7 +148,7 @@ public class TaskController {
         scheduleController.setTasksMap(tasksMap);
         //update calendar with task removed
         scheduleController.refreshCalendar();
-        //process finished, so close task-view popup
+        //process finished, so close TaskManagementView popup
         closeView(event);
     }
 
@@ -166,7 +173,7 @@ public class TaskController {
         scheduleController.refreshCalendar();
         //update database with task marked as complete
         taskDataAccessor.completeTaskDB(oldTaskName, oldDueDate, user);
-        //process finished, so close task-view popup
+        //process finished, so close TaskManagementView popup
         closeView(event);
     }
 
@@ -180,6 +187,7 @@ public class TaskController {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setStatus("incomplete");
+        task.setTaskType("task");
         //check if there are any tasks for the task's set due date
         //if there are no tasks, add the task to a new list to that date in tasksMap
         taskList = tasksMap.computeIfAbsent(dueDate, k -> new ArrayList<>());
@@ -191,7 +199,7 @@ public class TaskController {
         scheduleController.refreshCalendar();
         //update database with newly created task
         taskDataAccessor.addTaskDB(taskName, dueDate, user);
-        //process complete, so close task-view popup
+        //process complete, so close TaskManagementView popup
         closeView(event);
     }
 
@@ -253,7 +261,7 @@ public class TaskController {
             scheduleController.refreshCalendar();
             //update database with edited task
             taskDataAccessor.editTaskDB(oldTaskName, newTaskName, oldDueDate, newDueDate, user);
-            //process complete, so close task-view popup
+            //process complete, so close TaskManagementView popup
             closeView(event);
         }
     }

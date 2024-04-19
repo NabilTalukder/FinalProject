@@ -47,7 +47,7 @@ public class ScheduleController {
     private int monthLength = 0;
     //used for helping the calendar algorithm to decide when to start showing the days of the month
     private int firstWeekdayCol = 0;
-    //offset of the task-view popup which allow it to be dragged across the screen
+    //offset of the TaskManagementView popup which allow it to be dragged across the screen
     private double xOffset, yOffset;
     //holds tasks set for each day in the calendar - used for displaying and modifying them
     private ArrayList<Task> taskList = new ArrayList<>();
@@ -124,16 +124,17 @@ public class ScheduleController {
     }
 
     //handle mouse event of clicking Add Task button
-    EventHandler<? super ActionEvent> addTaskHandler = taskEvent -> showTaskView("Add", taskEvent);
+    EventHandler<? super ActionEvent> addTaskHandler = taskEvent ->
+            showTaskManagementView("Add", taskEvent);
 
     //handle mouse event of clicking Add Quiz button
-    EventHandler<? super ActionEvent> addQuizHandler = quizEvent -> showTaskQuizView("Add", quizEvent);
+    EventHandler<? super ActionEvent> addQuizHandler = quizEvent ->
+            showTaskQuizManagementView("Add", quizEvent);
 
     //handle mouse event of clicking taskLabel
     EventHandler<? super MouseEvent> editTaskOrQuizHandler = event ->  {
         //retrieve task label and its name
         Label taskLabel = (Label) event.getSource();
-        String taskName = taskLabel.getText();
         //retrieve date label from cell (VBox) containing task label
         Label dateLabel = (Label) ((VBox) taskLabel.getParent()).getChildren().get(0);
         //reconstruct due date of task as string
@@ -142,16 +143,15 @@ public class ScheduleController {
                 + yearVal, DateTimeFormatter.ofPattern("d-M-yyyy")).toString();
         ArrayList<Task> taskList = tasksMap.get(selectedDueDate);
         //match label with Task object in taskMap and find out if tasktype is a quiz or not
+        //so appropriate window can appear
         for (Task task : taskList) {
-            if (task.getTaskName().equals(taskName)) {
-                if (task.getTaskType().equals("task")){
-                    showTaskView("Edit", event);
-                    break;
-                }
-                else if (task.getTaskType().equals("quiz")){
-                    showTaskQuizView("Edit", event);
-                    break;
-                }
+            if (task.getTaskType().equals("task")) {
+                showTaskManagementView("Edit", event);
+                break;
+            }
+            else if (task.getTaskType().equals("quiz")) {
+                showTaskQuizManagementView("Edit", event);
+                break;
             }
         }
     };
@@ -288,10 +288,10 @@ public class ScheduleController {
 
     //show UI popup that allows user to manage a task
     @FXML
-    protected void showTaskView(String taskAction, Event taskEvent){
+    protected void showTaskManagementView(String taskAction, Event taskEvent){
         try {
             //get FXML file for task popup and display
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("TaskView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TaskManagementView.fxml"));
             Parent root = loader.load();
             //send tasksMap to taskController, so it can be updated with a new task
             TaskController taskController = loader.getController();
@@ -337,8 +337,53 @@ public class ScheduleController {
     }
 
     @FXML
-    protected void showTaskQuizView(String taskAction, Event taskEvent){}
+    protected void showTaskQuizManagementView(String taskAction, Event taskEvent){
+        try {
+            //get FXML file for task popup and display
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TaskQuizManagementView.fxml"));
+            Parent root = loader.load();
+            //send tasksMap to taskQuizController, so it can be updated with a new task
+            TaskQuizController taskQuizController = loader.getController();
+            taskQuizController.setTasksMap(tasksMap);
+            taskQuizController.setUser(user);
 
+            //determine process based on task action
+            if (taskAction.equals("Add")){
+                //make preparations in task-view for adding task
+                taskQuizController.addTask(monthVal, yearVal);
+            }
+            else if (taskAction.equals("Edit")){
+                //retrieve relevant info for editing task
+                taskQuizController.editTask(taskEvent, monthVal, yearVal);
+            }
+
+            //set instantiated schedulerController object to taskQuizController so the tasksMap can be received
+            taskQuizController.setScheduleController(this);
+
+            //set border
+            root.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
+            Stage popupStage = new Stage();
+
+            // Allow the window to be moved
+            root.setOnMousePressed(event -> {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            });
+            root.setOnMouseDragged(event -> {
+                popupStage.setX(event.getScreenX() - xOffset);
+                popupStage.setY(event.getScreenY() - yOffset);
+            });
+
+            Scene popupScene = new Scene(root, 300, 325);
+            popupStage.initStyle(StageStyle.UNDECORATED);
+            popupStage.setScene(popupScene);
+            popupStage.setResizable(false);
+            popupStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void setUser(User user) {
         this.user = user;
