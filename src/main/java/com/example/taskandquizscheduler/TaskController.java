@@ -197,7 +197,7 @@ public class TaskController {
         //update calendar with new task
         scheduleController.refreshCalendar();
         //update database with newly created task
-        taskDataAccessor.addTaskDB(taskName, dueDate, user);
+        taskDataAccessor.addTaskDB(taskName, dueDate, user, "task");
         //process complete, so close TaskManagementView popup
         closeView(event);
     }

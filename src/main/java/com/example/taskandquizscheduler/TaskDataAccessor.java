@@ -57,7 +57,7 @@ public class TaskDataAccessor {
         return tasksMap;
     }
 
-    public void addTaskDB(String taskName, String dueDate, User user){
+    public void addTaskDB(String taskName, String dueDate, User user, String taskType){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,
                     usernameDB, passwordDB);
@@ -69,7 +69,7 @@ public class TaskDataAccessor {
             preparedStatement.setString(2, user.getUser_ID());
             preparedStatement.setString(3, taskName);
             preparedStatement.setString(4, dueDate);
-            preparedStatement.setString(5, "task");
+            preparedStatement.setString(5, taskType);
             preparedStatement.setString(6, "incomplete");
             preparedStatement.executeUpdate();
             preparedStatement.close();

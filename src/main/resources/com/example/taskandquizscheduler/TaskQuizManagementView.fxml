@@ -73,7 +73,7 @@
                         <VBox prefHeight="74.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
                      </right>
                      <center>
-                        <MFXDatePicker allowEdit="false" floatMode="BORDER" floatingText="Due Date" prefHeight="38.0" prefWidth="245.0" BorderPane.alignment="CENTER" />
+                        <MFXDatePicker fx:id="dueDatePicker" allowEdit="false" floatMode="BORDER" floatingText="Due Date" prefHeight="38.0" prefWidth="245.0" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                </children>
