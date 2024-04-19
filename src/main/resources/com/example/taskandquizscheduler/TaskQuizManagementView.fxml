@@ -55,7 +55,7 @@
                         <VBox prefHeight="74.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
                      </right>
                      <center>
-                        <MFXFilterComboBox floatMode="BORDER" floatingText="Select Quiz" prefHeight="29.0" prefWidth="246.0" BorderPane.alignment="CENTER" />
+                        <MFXFilterComboBox fx:id="quizNameComboBox" floatMode="BORDER" floatingText="Select a Saved Quiz" prefHeight="29.0" prefWidth="246.0" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
                </children>
