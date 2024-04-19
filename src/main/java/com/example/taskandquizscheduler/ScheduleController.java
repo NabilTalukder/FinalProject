@@ -301,11 +301,11 @@ public class ScheduleController {
             //determine process based on task action
             if (taskAction.equals("Add")){
                 //make preparations in task-view for adding task
-                taskController.addTask(monthVal, yearVal);
+                taskController.addTask(monthVal, yearVal, "Task");
             }
             else if (taskAction.equals("Edit")){
                 //retrieve relevant info for editing task
-                taskController.editTask(taskEvent, monthVal, yearVal);
+                taskController.editTask(taskEvent, monthVal, yearVal, "Task");
             }
 
             //set instantiated schedulerController object to taskController so the tasksMap can be received
@@ -351,11 +351,11 @@ public class ScheduleController {
             //determine process based on task action
             if (taskAction.equals("Add")){
                 //make preparations in task-view for adding task
-                taskQuizController.addTask(monthVal, yearVal);
+                taskQuizController.addTask(monthVal, yearVal, "Quiz");
             }
             else if (taskAction.equals("Edit")){
                 //retrieve relevant info for editing task
-                taskQuizController.editTask(taskEvent, monthVal, yearVal);
+                taskQuizController.editTask(taskEvent, monthVal, yearVal, "Quiz");
             }
 
             //set instantiated schedulerController object to taskQuizController so the tasksMap can be received

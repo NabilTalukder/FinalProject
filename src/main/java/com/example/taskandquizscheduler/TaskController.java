@@ -73,7 +73,7 @@ public class TaskController {
 
     //prepare UI elements to add a task to the calendar
     @FXML
-    protected void addTask(String monthVal, String yearVal){
+    protected void addTask(String monthVal, String yearVal, String taskType){
         /* set the date picker to the month being shown on the calendar for ease of use
         * Date picker will be blank by default (next/prev month buttons not clicked)*/
         if (Month.valueOf(monthVal) != LocalDate.now().getMonth()){
@@ -84,7 +84,7 @@ public class TaskController {
             int dueMonth = Month.valueOf(monthVal).getValue();
             dueDatePicker.setStartingYearMonth(YearMonth.of(Integer.parseInt(yearVal), dueMonth));
         }
-        taskTypeLabel.setText("Add Task");
+        taskTypeLabel.setText("Add " + taskType);
 
         //allow Confirm (Add) Task button to process a new task
         confirmButton.setOnAction((EventHandler<ActionEvent>) addTaskHandler);
@@ -95,7 +95,7 @@ public class TaskController {
 
     //Retrieve task information for the selected task on the calendar
     @FXML
-    protected void editTask(Event taskEvent, String monthVal, String yearVal){
+    protected void editTask(Event taskEvent, String monthVal, String yearVal, String taskType){
         //retrieve task label
         Label taskLabel = (Label) taskEvent.getSource();
         //retrieve date label from cell (VBox) containing task label
@@ -114,7 +114,7 @@ public class TaskController {
         //due date of selected task label - required for editing task
         oldDueDate = dueDatePicker.getValue().toString();
 
-        taskTypeLabel.setText("Edit Task");
+        taskTypeLabel.setText("Edit " + taskType);
 
         //show delete link because a created task should be able to be deleted
         deleteTaskLink.setVisible(true);
