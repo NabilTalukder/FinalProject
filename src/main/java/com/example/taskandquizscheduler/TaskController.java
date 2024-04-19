@@ -238,6 +238,7 @@ public class TaskController {
                 Task task = new Task();
                 task.setTaskName(newTaskName);
                 task.setStatus(taskStatus);
+                task.setTaskType("task");
                 //check if there are any tasks for the task's set due date
                 //if there are no tasks, add the task to a new list to that date in tasksMap
                 taskList = tasksMap.computeIfAbsent(newDueDate, k -> new ArrayList<>());

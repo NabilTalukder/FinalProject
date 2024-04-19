@@ -87,7 +87,7 @@ public class TaskQuizController extends TaskController {
     //update the calendar with the new task
     @FXML @Override
     protected void confirmAddTask(ActionEvent event){
-        //get the task name and due date
+        //get the quiz name and due date
         String quizName = quizNameComboBox.getSelectedItem().getQuizName();
         String dueDate = dueDatePicker.getValue().toString();
         //create a new task and set the retrieved information
@@ -108,5 +108,69 @@ public class TaskQuizController extends TaskController {
         taskDataAccessor.addTaskDB(quizName, dueDate, user, "quiz");
         //process complete, so close TaskManagementView popup
         closeView(event);
+    }
+
+    //update the calendar with the changes made to the task
+    @FXML @Override
+    protected void confirmEditTask(ActionEvent event){
+        //get entered task name and due date, so they can be compared with original values
+        String newQuizName = quizNameComboBox.getSelectedItem().getQuizName();
+        String newDueDate = dueDatePicker.getValue().toString();
+
+        /* upon clicking Confirm (Edit) Task button, if task name and due date were unchanged
+         * close view / Edit Task popup*/
+        if (oldTaskName.equals(newQuizName) &&
+                oldDueDate.equals(newDueDate)){
+            closeView(event);
+        }
+        //if only either task name (quiz) or due date was changed
+        else {
+            //get the due date for which the task was set
+            taskList = tasksMap.get(oldDueDate);
+
+            //if date or both name and date was changed
+            if (!oldDueDate.equals(newDueDate)){
+                /*editing due date is effectively removing then adding task to new date
+                 *except task status remains same*/
+
+                //retrieve status of task
+                String taskStatus = "";
+                for (Task task : taskList) {
+                    //check against old name because new name won't be in the list
+                    if (task.getTaskName().equals(oldTaskName)) {
+                        taskStatus = task.getStatus();
+                    }
+                }
+                //remove then add new task
+                removeTaskName();
+                Task task = new Task();
+                task.setTaskName(newQuizName);
+                task.setStatus(taskStatus);
+                task.setTaskType("quiz");
+                //check if there are any tasks for the task's set due date
+                //if there are no tasks, add the task to a new list to that date in tasksMap
+                taskList = tasksMap.computeIfAbsent(newDueDate, k -> new ArrayList<>());
+                //either way, new task is added to taskList
+                taskList.add(task);
+            }
+            //if only task name was changed
+            else {
+                for (Task task : taskList) {
+                    //find the task with the same name
+                    if (task.getTaskName().equals(oldTaskName)) {
+                        //replace the name with the new name
+                        task.setTaskName(newQuizName);
+                    }
+                }
+            }
+            //send updated tasksMap back to scheduleController
+            scheduleController.setTasksMap(tasksMap);
+            //update calendar with new task
+            scheduleController.refreshCalendar();
+            //update database with edited task
+            taskDataAccessor.editTaskDB(oldTaskName, newQuizName, oldDueDate, newDueDate, user);
+            //process complete, so close TaskManagementView popup
+            closeView(event);
+        }
     }
 }
