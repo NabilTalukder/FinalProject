@@ -31,7 +31,8 @@ public class QuizController {
     private String answer;
     //holds all user's answers
     private ArrayList<String> userAnswers = new ArrayList<>();
-
+    ////allows user to return to the page they came from
+    private String previousView;
 
     //header showing the type of quiz
     @FXML
@@ -59,10 +60,10 @@ public class QuizController {
         this.viewHandler = viewHandler;
     }
 
-    //returns to previous screen (quiz generator or schedule)
+    //returns to previous page for QoL
     @FXML
     protected void exitQuiz(){
-        viewHandler.openView("QuizGenerator");
+        viewHandler.openView(previousView);
     }
 
     @FXML
@@ -134,6 +135,14 @@ public class QuizController {
         answer = questionList.get(currentQuestion).get(5).replaceFirst("Answer: ", "");
     }
 
+    public void beginQuiz(){
+        //set progress bar to 0 initially
+        quizProgress.setProgress(0);
+        userAnswers.add("0th value to align currentQuestion with user answer");
+        //increment question number from 0 to 1, so the quiz can begin
+        nextQuestion();
+    }
+
     public ArrayList<ArrayList<String>> getQuestionList() {
         return questionList;
     }
@@ -141,10 +150,7 @@ public class QuizController {
     //set up retrieved questions to start quiz
     public void setQuestionList(ArrayList<ArrayList<String>> questionList) {
         this.questionList = questionList;
-        //set progress bar to 0 initially
-        quizProgress.setProgress(0);
-        userAnswers.add("0th value to align currentQuestion with user answer");
-        //increment question number from 0 to 1, so the quiz can begin
-        nextQuestion();
     }
+
+    public void setPreviousView(String previousView) { this.previousView = previousView; }
 }

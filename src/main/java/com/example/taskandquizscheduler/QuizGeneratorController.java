@@ -214,6 +214,8 @@ public class QuizGeneratorController {
         pw.close();
         viewHandler.setQuizName(quizName);
         viewHandler.setQuestionList(questionList);
+        //set previousView so if user exits from quiz, they return to Quiz Generator
+        viewHandler.setPreviousView("QuizGenerator");
         viewHandler.openView("Quiz");
     }
 

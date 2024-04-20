@@ -29,6 +29,9 @@ public class ViewHandler extends Application {
     //holds all user's answers
     private ArrayList<String> userAnswers = new ArrayList<>();
 
+    //allows user to return to the page they came from
+    private String previousView;
+
     //flag to ensure scenes switch between pages instead of a new one being created
     private boolean createdInitialScene = false;
 
@@ -93,7 +96,9 @@ public class ViewHandler extends Application {
                 case "Quiz" -> {
                     QuizController view = loader.getController();
                     view.init(this);
+                    view.setPreviousView(previousView);
                     view.setQuestionList(questionList);
+                    view.beginQuiz();
                     //change scene to the new View
                     stage.getScene().setRoot(root);
                 }
@@ -147,4 +152,6 @@ public class ViewHandler extends Application {
     public void setUserAnswers(ArrayList<String> userAnswers) {
         this.userAnswers = userAnswers;
     }
+
+    public void setPreviousView(String previousView) { this.previousView = previousView; }
 }

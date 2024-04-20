@@ -204,6 +204,8 @@ public class TaskQuizController extends TaskController {
         viewHandler.setQuestionList(questionList);
         //moving from Schedule to Quiz page so no need for TaskQuizManagementView
         closeView(event);
+        //set previousView so if user exits from quiz, they return to Schedule
+        viewHandler.setPreviousView("Schedule");
         viewHandler.openView("Quiz");
     }
 
