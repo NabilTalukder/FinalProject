@@ -206,6 +206,10 @@ public class TaskQuizController extends TaskController {
         closeView(event);
         //set previousView so if user exits from quiz, they return to Schedule
         viewHandler.setPreviousView("Schedule");
+        /*due date must be set to identify the quiz being taken so it can be marked as complete
+        * using oldDueDate because user may have changed dueDate but not confirmed the change and
+        * simply decided not to start the quiz*/
+        viewHandler.setDueDate(oldDueDate);
         viewHandler.openView("Quiz");
     }
 

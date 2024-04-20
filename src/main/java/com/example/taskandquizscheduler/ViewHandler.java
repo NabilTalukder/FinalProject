@@ -28,6 +28,8 @@ public class ViewHandler extends Application {
     private int score = 0;
     //holds all user's answers
     private ArrayList<String> userAnswers = new ArrayList<>();
+    //dueDate of a quiz assigned on the schedule page - required to identify it and mark it as complete
+    private String dueDate;
 
     //allows user to return to the page they came from
     private String previousView;
@@ -119,6 +121,12 @@ public class ViewHandler extends Application {
                     view.setUserAnswers(userAnswers);
                     view.setScore(score);
                     view.setScoreCounter();
+                    //The previous page being the schedule means the quiz was taken from the schedule
+                    //meaning it should be marked as complete
+                    if (previousView.equals("Schedule")){
+                        TaskDataAccessor taskDataAccessor = new TaskDataAccessor();
+                        taskDataAccessor.completeTaskDB(quizName, dueDate, user);
+                    }
                     //change scene to the new View
                     stage.getScene().setRoot(root);
                 }
@@ -152,6 +160,8 @@ public class ViewHandler extends Application {
     public void setUserAnswers(ArrayList<String> userAnswers) {
         this.userAnswers = userAnswers;
     }
+
+    public void setDueDate(String dueDate) { this.dueDate = dueDate; }
 
     public void setPreviousView(String previousView) { this.previousView = previousView; }
 }

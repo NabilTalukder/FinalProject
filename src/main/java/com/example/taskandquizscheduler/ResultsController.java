@@ -49,6 +49,7 @@ public class ResultsController {
     @FXML
     public void initialize(){
         optionLabels = new Label[] {option1Label, option2Label, option3Label, option4Label};
+
     }
 
     public void init(ViewHandler viewHandler){
