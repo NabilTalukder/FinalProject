@@ -346,6 +346,7 @@ public class ScheduleController {
             TaskQuizController taskQuizController = loader.getController();
             taskQuizController.setTasksMap(tasksMap);
             taskQuizController.setUser(user);
+            taskQuizController.setViewHandler(viewHandler);
             taskQuizController.initialiseComboBox();
 
             //determine process based on task action

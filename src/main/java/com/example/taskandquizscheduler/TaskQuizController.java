@@ -9,10 +9,12 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
@@ -23,10 +25,18 @@ import java.util.function.Predicate;
 
 public class TaskQuizController extends TaskController {
 
+    private ViewHandler viewHandler;
+
     private QuizDataAccessor quizDataAccessor;
+
+    //the questions generated and received from the Python program
+    private ArrayList<ArrayList<String>> questionList;
 
     @FXML
     private MFXFilterComboBox<Quiz> quizNameComboBox = new MFXFilterComboBox<>();
+
+    @FXML
+    private Hyperlink startQuizLink;
 
     public TaskQuizController(){
         quizDataAccessor = new QuizDataAccessor();
@@ -78,8 +88,8 @@ public class TaskQuizController extends TaskController {
 
         //show delete link because a created task should be able to be deleted
         deleteTaskLink.setVisible(true);
-        //show complete link because a created task should be able to be marked as complete
-        completeLink.setVisible(true);
+        //a scheduled quiz should be able to be started
+        startQuizLink.setVisible(true);
         //allow Confirm (Edit) Task button to process an edited task
         confirmButton.setOnAction((EventHandler<ActionEvent>) editTaskHandler);
     }
@@ -172,5 +182,32 @@ public class TaskQuizController extends TaskController {
             //process complete, so close TaskManagementView popup
             closeView(event);
         }
+    }
+
+    private void formatQuizFromDB(){
+        String quizID = quizNameComboBox.getSelectedItem().getQuizID();
+        //list of all questions in the quiz in the form [quizName, question 1, ... question n]
+        questionList = new ArrayList<>();
+        questionList.add(new ArrayList<>());
+        questionList.get(0).add(quizNameComboBox.getSelectedItem().getQuizName());
+        //every element after 0th in questionList is a question in the form [question, option 1, 2, 3, 4, answer]
+        ArrayList<Question> questions = quizDataAccessor.retrieveQuestionsDB(quizID);
+        ArrayList<ArrayList<String>> wholeQuiz = quizDataAccessor.reconstructQuizFromDB(questions);
+        questionList.addAll(wholeQuiz);
+    }
+
+    @FXML
+    private void startQuiz(ActionEvent event){
+        viewHandler.setQuizName(quizNameComboBox.getSelectedItem().getQuizName());
+        //The returned data needs to be formatted, so it can be passed as an ArrayList to QuizController
+        formatQuizFromDB();
+        viewHandler.setQuestionList(questionList);
+        //moving from Schedule to Quiz page so no need for TaskQuizManagementView
+        closeView(event);
+        viewHandler.openView("Quiz");
+    }
+
+    public void setViewHandler(ViewHandler viewHandler){
+        this.viewHandler = viewHandler;
     }
 }

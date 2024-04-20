@@ -95,8 +95,8 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="41.0" prefWidth="106.0" />
-                  <Hyperlink fx:id="deleteTaskLink" onAction="#confirmDeleteTask" text="Delete This Task" visible="false" />
+                  <VBox prefHeight="29.0" prefWidth="83.0" />
+                  <Hyperlink fx:id="deleteTaskLink" onAction="#confirmDeleteTask" text="Unschedule This Task" visible="false" />
                </children>
             </HBox>
          </children>

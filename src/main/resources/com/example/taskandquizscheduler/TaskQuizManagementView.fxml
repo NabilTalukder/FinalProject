@@ -36,7 +36,7 @@
                            <children>
                               <VBox prefHeight="33.0" prefWidth="302.0">
                                  <children>
-                                    <Hyperlink fx:id="completeLink" alignment="CENTER" onAction="#completeTask" prefHeight="23.0" prefWidth="302.0" text="Mark as Complete" visible="false" />
+                                    <Hyperlink fx:id="startQuizLink" alignment="CENTER" onAction="#startQuiz" prefHeight="23.0" prefWidth="302.0" text="Start Quiz to Mark as Complete" visible="false" />
                                  </children>
                               </VBox>
                            </children>
@@ -92,8 +92,8 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="41.0" prefWidth="106.0" />
-                  <Hyperlink fx:id="deleteTaskLink" onAction="#confirmDeleteTask" text="Delete This Task" visible="false" />
+                  <VBox prefHeight="29.0" prefWidth="86.0" />
+                  <Hyperlink fx:id="deleteTaskLink" onAction="#confirmDeleteTask" text="Unschedule This Quiz" visible="false" />
                </children>
             </HBox>
          </children>
