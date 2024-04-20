@@ -163,6 +163,11 @@ public class ScheduleController {
     }
 
     @FXML
+    protected void goToWebsiteBlocker(){
+        viewHandler.openView("WebsiteBlocker");
+    }
+
+    @FXML
     protected void logout() {
         viewHandler.setUser(null);
         viewHandler.openView("Login");

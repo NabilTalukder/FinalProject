@@ -130,6 +130,12 @@ public class ViewHandler extends Application {
                     //change scene to the new View
                     stage.getScene().setRoot(root);
                 }
+                case "WebsiteBlocker" -> {
+                    WebsiteBlockerController view = loader.getController();
+                    view.init(this);
+                    //change scene to the new View
+                    stage.getScene().setRoot(root);
+                }
             }
             stage.setTitle("Revision Scheduler");
             stage.setResizable(true);

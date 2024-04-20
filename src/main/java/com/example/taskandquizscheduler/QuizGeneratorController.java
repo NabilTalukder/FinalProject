@@ -202,6 +202,11 @@ public class QuizGeneratorController {
     }
 
     @FXML
+    protected void goToWebsiteBlocker(){
+        viewHandler.openView("WebsiteBlocker");
+    }
+
+    @FXML
     protected void logout() {
         pw.close();
         viewHandler.setUser(null);

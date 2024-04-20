@@ -67,6 +67,11 @@ public class ResultsController {
     }
 
     @FXML
+    protected void goToWebsiteBlocker(){
+        viewHandler.openView("WebsiteBlocker");
+    }
+
+    @FXML
     protected void goToSchedule(){
         viewHandler.openView("Schedule");
     }
