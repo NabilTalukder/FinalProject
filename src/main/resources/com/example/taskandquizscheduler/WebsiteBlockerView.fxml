@@ -67,7 +67,7 @@
                            <children>
                               <VBox>
                                  <children>
-                                    <Label fx:id="quizNameLabel" alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="549.0" text="Blocked Websites">
+                                    <Label alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="549.0" text="Enter each URL on a new line">
                                        <padding>
                                           <Insets bottom="20.0" />
                                        </padding>
@@ -76,7 +76,7 @@
                               </VBox>
                               <VBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="248.0">
                                  <children>
-                                    <MFXButton text="Confirm Blocked Websites" />
+                                    <MFXButton onAction="#blockWebsites" text="Save Changes" />
                                  </children>
                                  <padding>
                                     <Insets bottom="20.0" />
@@ -86,7 +86,7 @@
                         </HBox>
                         <HBox prefHeight="418.0" prefWidth="797.0">
                            <children>
-                              <TextArea prefHeight="100.0" prefWidth="800.0" promptText="Enter each URL on a new line" />
+                              <TextArea fx:id="blockedSitesTextArea" prefHeight="100.0" prefWidth="800.0" />
                            </children>
                         </HBox>
                      </children>
