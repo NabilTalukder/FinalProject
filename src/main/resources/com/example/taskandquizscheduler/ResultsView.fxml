@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,27 +15,42 @@
             <Label prefHeight="71.0" prefWidth="142.0" />
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <MFXButton fx:id="webBlockerButton" onAction="#goToWebsiteBlocker" prefHeight="31.0" prefWidth="142.0" text="Website Blocker" />
+                  <MFXButton fx:id="webBlockerButton" onAction="#goToWebsiteBlocker" prefHeight="31.0" prefWidth="142.0" text="Website Blocker">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MFXButton>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <MFXButton fx:id="scheduleButton" onAction="#goToSchedule" prefHeight="31.0" prefWidth="142.0" text="Schedule" />
+                  <MFXButton fx:id="scheduleButton" onAction="#goToSchedule" prefHeight="31.0" prefWidth="142.0" text="Schedule">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MFXButton>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <MFXButton onAction="#goToQuizGenerator" prefHeight="31.0" prefWidth="142.0" text="Quiz Generator" />
+                  <MFXButton onAction="#goToQuizGenerator" prefHeight="31.0" prefWidth="142.0" text="Quiz Generator">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MFXButton>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <MFXButton prefHeight="31.0" prefWidth="142.0" text="Friends" />
+                  <MFXButton prefHeight="31.0" prefWidth="142.0" text="Friends">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MFXButton>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <MFXButton fx:id="logoutButton" onAction="#logout" prefHeight="31.0" prefWidth="142.0" text="Logout" />
+                  <MFXButton fx:id="logoutButton" onAction="#logout" prefHeight="31.0" prefWidth="142.0" text="Logout">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MFXButton>
                </children>
             </HBox>
          </children>
@@ -104,12 +120,18 @@
                            <children>
                               <VBox prefHeight="100.0" prefWidth="65.0">
                                  <children>
-                                    <MFXButton fx:id="prevQuestionButton" onAction="#goToPrevQuestion" prefHeight="49.0" prefWidth="62.0" text="&lt;" />
+                                    <MFXButton fx:id="prevQuestionButton" onAction="#goToPrevQuestion" prefHeight="49.0" prefWidth="62.0" text="&lt;">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></MFXButton>
                                  </children>
                               </VBox>
                               <VBox prefHeight="100.0" prefWidth="65.0">
                                  <children>
-                                    <MFXButton fx:id="nextQuestionButton" onAction="#goToNextQuestion" prefHeight="49.0" prefWidth="62.0" text="&gt;" />
+                                    <MFXButton fx:id="nextQuestionButton" onAction="#goToNextQuestion" prefHeight="49.0" prefWidth="62.0" text="&gt;">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></MFXButton>
                                  </children></VBox>
                               <VBox prefHeight="100.0" prefWidth="284.0" />
                               <VBox prefHeight="200.0" prefWidth="100.0">

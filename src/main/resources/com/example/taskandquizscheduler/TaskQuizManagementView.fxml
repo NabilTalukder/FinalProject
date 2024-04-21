@@ -3,6 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
@@ -55,7 +56,10 @@
                         <VBox prefHeight="74.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
                      </right>
                      <center>
-                        <MFXFilterComboBox fx:id="quizNameComboBox" floatMode="BORDER" floatingText="Select a Saved Quiz" prefHeight="29.0" prefWidth="246.0" BorderPane.alignment="CENTER" />
+                        <MFXFilterComboBox fx:id="quizNameComboBox" floatMode="BORDER" floatingText="Select a Saved Quiz" prefHeight="29.0" prefWidth="246.0" BorderPane.alignment="CENTER">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></MFXFilterComboBox>
                      </center>
                   </BorderPane>
                </children>
@@ -73,7 +77,10 @@
                         <VBox prefHeight="74.0" prefWidth="27.0" BorderPane.alignment="CENTER" />
                      </right>
                      <center>
-                        <MFXDatePicker fx:id="dueDatePicker" allowEdit="false" floatMode="BORDER" floatingText="Due Date" prefHeight="38.0" prefWidth="245.0" BorderPane.alignment="CENTER" />
+                        <MFXDatePicker fx:id="dueDatePicker" allowEdit="false" floatMode="BORDER" floatingText="Due Date" prefHeight="38.0" prefWidth="245.0" BorderPane.alignment="CENTER">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></MFXDatePicker>
                      </center>
                   </BorderPane>
                </children>
@@ -87,7 +94,10 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <VBox prefHeight="28.0" prefWidth="103.0" />
-                  <MFXButton fx:id="confirmButton" text="Confirm Quiz" />
+                  <MFXButton fx:id="confirmButton" text="Confirm Quiz">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MFXButton>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">

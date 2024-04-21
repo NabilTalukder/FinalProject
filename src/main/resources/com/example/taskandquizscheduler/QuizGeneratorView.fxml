@@ -4,6 +4,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -19,12 +20,18 @@
             <Label prefHeight="71.0" prefWidth="142.0" />
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <MFXButton fx:id="webBlockerButton" onAction="#goToWebsiteBlocker" prefHeight="31.0" prefWidth="142.0" text="Website Blocker" />
+                  <MFXButton fx:id="webBlockerButton" onAction="#goToWebsiteBlocker" prefHeight="31.0" prefWidth="142.0" text="Website Blocker">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MFXButton>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <MFXButton fx:id="scheduleButton" onAction="#goToSchedule" prefHeight="31.0" prefWidth="142.0" text="Schedule" />
+                  <MFXButton fx:id="scheduleButton" onAction="#goToSchedule" prefHeight="31.0" prefWidth="142.0" text="Schedule">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MFXButton>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
@@ -39,7 +46,10 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <MFXButton fx:id="logoutButton" onAction="#logout" prefHeight="31.0" prefWidth="142.0" text="Logout" />
+                  <MFXButton fx:id="logoutButton" onAction="#logout" prefHeight="31.0" prefWidth="142.0" text="Logout">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MFXButton>
                </children>
             </HBox>
          </children>
@@ -90,7 +100,10 @@
                                     <VBox prefHeight="100.0" prefWidth="194.0">
                                        <children>
                                           <HBox prefHeight="35.0" prefWidth="200.0" />
-                                          <MFXButton fx:id="generateQuizButton" onAction="#generateQuiz" prefHeight="41.0" prefWidth="195.0" text="Generate Quiz" />
+                                          <MFXButton fx:id="generateQuizButton" onAction="#generateQuiz" prefHeight="41.0" prefWidth="195.0" text="Generate Quiz">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></MFXButton>
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="100.0" prefWidth="178.0">
@@ -101,7 +114,10 @@
                                     <VBox prefHeight="200.0" prefWidth="193.0">
                                        <children>
                                           <HBox prefHeight="35.0" prefWidth="200.0" />
-                                          <MFXFilterComboBox fx:id="loadQuizComboBox" floatMode="BORDER" floatingText="Load Quiz" onAction="#loadQuiz" prefHeight="40.0" prefWidth="182.0" />
+                                          <MFXFilterComboBox fx:id="loadQuizComboBox" floatMode="BORDER" floatingText="Load Quiz" onAction="#loadQuiz" prefHeight="40.0" prefWidth="182.0">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></MFXFilterComboBox>
                                        </children>
                                     </VBox>
                                  </children>
@@ -177,12 +193,18 @@
                                  <children>
                                     <VBox prefHeight="51.0" prefWidth="66.0">
                                        <children>
-                                          <MFXButton fx:id="prevQuestionButton" onAction="#goToPrevQuestion" prefHeight="38.0" prefWidth="61.0" text="&lt;" />
+                                          <MFXButton fx:id="prevQuestionButton" onAction="#goToPrevQuestion" prefHeight="38.0" prefWidth="61.0" text="&lt;">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></MFXButton>
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="51.0" prefWidth="66.0">
                                        <children>
-                                          <MFXButton fx:id="nextQuestionButton" onAction="#goToNextQuestion" prefHeight="38.0" prefWidth="61.0" text="&gt;" />
+                                          <MFXButton fx:id="nextQuestionButton" onAction="#goToNextQuestion" prefHeight="38.0" prefWidth="61.0" text="&gt;">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></MFXButton>
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="41.0" prefWidth="157.0" />
@@ -204,14 +226,20 @@
                                     <VBox prefHeight="200.0" prefWidth="193.0">
                                        <children>
                                           <HBox prefHeight="6.0" prefWidth="193.0" />
-                                          <MFXButton fx:id="saveQuizButton" onAction="#saveQuiz" prefHeight="41.0" prefWidth="195.0" text="Save Quiz" />
+                                          <MFXButton fx:id="saveQuizButton" onAction="#saveQuiz" prefHeight="41.0" prefWidth="195.0" text="Save Quiz">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></MFXButton>
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="51.0" prefWidth="112.0" />
                                     <VBox prefHeight="200.0" prefWidth="193.0">
                                        <children>
                                           <HBox prefHeight="6.0" prefWidth="193.0" />
-                                          <MFXButton fx:id="startQuizButton" onAction="#startQuiz" prefHeight="41.0" prefWidth="195.0" text="Start Quiz" />
+                                          <MFXButton fx:id="startQuizButton" onAction="#startQuiz" prefHeight="41.0" prefWidth="195.0" text="Start Quiz">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></MFXButton>
                                        </children>
                                     </VBox>
                                  </children>
