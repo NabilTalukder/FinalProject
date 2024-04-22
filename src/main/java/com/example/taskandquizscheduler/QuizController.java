@@ -1,6 +1,8 @@
 package com.example.taskandquizscheduler;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXProgressBar;
+import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -46,16 +48,16 @@ public class QuizController {
     private Label scoreCounter;
     //shows number of questions completed as a bar
     @FXML
-    private ProgressBar quizProgress;
+    private MFXProgressBar quizProgress;
     //buttons for user to choose an answer
     @FXML
-    private ToggleButton option1Button;
+    private MFXRectangleToggleNode option1Button;
     @FXML
-    private ToggleButton option2Button;
+    private MFXRectangleToggleNode option2Button;
     @FXML
-    private ToggleButton option3Button;
+    private MFXRectangleToggleNode option3Button;
     @FXML
-    private ToggleButton option4Button;
+    private MFXRectangleToggleNode option4Button;
 
 
     public void init(ViewHandler viewHandler){

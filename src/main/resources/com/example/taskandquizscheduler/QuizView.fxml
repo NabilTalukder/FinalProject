@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import javafx.geometry.Insets?>
+<?import io.github.palexdev.materialfx.controls.MFXProgressBar?>
+<?import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -74,40 +73,17 @@
                                  </children>
                               </HBox>
                            </top>
-                           <bottom>
-                              <ProgressBar fx:id="quizProgress" prefHeight="40.0" prefWidth="1136.0" progress="0.0" BorderPane.alignment="CENTER" />
-                           </bottom>
                            <left>
                               <VBox prefHeight="478.0" prefWidth="562.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <HBox prefHeight="220.0" prefWidth="562.0">
+                                    <HBox alignment="CENTER" prefHeight="220.0" prefWidth="562.0">
                                        <children>
-                                          <ToggleButton fx:id="option1Button" focusTraversable="false" mnemonicParsing="false" onAction="#clickOption" prefHeight="115.0" prefWidth="369.0" text="Option 1" wrapText="true">
-                                             <HBox.margin>
-                                                <Insets left="100.0" top="50.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </ToggleButton>
+                                          <MFXRectangleToggleNode fx:id="option1Button" onAction="#clickOption" prefHeight="115.0" prefWidth="369.0" text="Option 1" />
                                        </children>
                                     </HBox>
-                                    <HBox prefHeight="256.0" prefWidth="562.0">
+                                    <HBox alignment="CENTER" prefHeight="256.0" prefWidth="562.0">
                                        <children>
-                                          <ToggleButton fx:id="option3Button" focusTraversable="false" mnemonicParsing="false" onAction="#clickOption" prefHeight="115.0" prefWidth="369.0" text="Option 3" wrapText="true">
-                                             <HBox.margin>
-                                                <Insets left="100.0" top="50.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </ToggleButton>
+                                          <MFXRectangleToggleNode fx:id="option3Button" onAction="#clickOption" prefHeight="115.0" prefWidth="369.0" text="Option 3" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -116,28 +92,14 @@
                            <right>
                               <VBox prefHeight="478.0" prefWidth="574.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <HBox prefHeight="220.0" prefWidth="562.0">
+                                    <HBox alignment="CENTER" prefHeight="220.0" prefWidth="562.0">
                                        <children>
-                                          <ToggleButton fx:id="option2Button" focusTraversable="false" mnemonicParsing="false" onAction="#clickOption" prefHeight="115.0" prefWidth="369.0" text="Option 2" wrapText="true">
-                                             <HBox.margin>
-                                                <Insets left="100.0" top="50.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </ToggleButton>
+                                          <MFXRectangleToggleNode fx:id="option2Button" onAction="#clickOption" prefHeight="115.0" prefWidth="369.0" text="Option 2" />
                                        </children>
                                     </HBox>
-                                    <HBox prefHeight="256.0" prefWidth="562.0">
+                                    <HBox alignment="CENTER" prefHeight="256.0" prefWidth="562.0">
                                        <children>
-                                          <ToggleButton fx:id="option4Button" focusTraversable="false" mnemonicParsing="false" onAction="#clickOption" prefHeight="115.0" prefWidth="369.0" text="Option 4" wrapText="true">
-                                             <HBox.margin>
-                                                <Insets left="100.0" top="50.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </ToggleButton>
+                                          <MFXRectangleToggleNode fx:id="option4Button" onAction="#clickOption" prefHeight="115.0" prefWidth="369.0" text="Option 4" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -147,6 +109,9 @@
                      </children>
                   </VBox>
                </center>
+               <bottom>
+                  <MFXProgressBar fx:id="quizProgress" prefHeight="40.0" prefWidth="1136.0" BorderPane.alignment="CENTER" />
+               </bottom>
             </BorderPane>
          </children>
       </HBox>
