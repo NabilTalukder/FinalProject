@@ -38,6 +38,7 @@ public class ResultsController {
     @FXML
     private Label[] optionLabels;
 
+    //the number of questions the user answered correctly in the completed quiz
     @FXML
     private Label scoreCounter;
 

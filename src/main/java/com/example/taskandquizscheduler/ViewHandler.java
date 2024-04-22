@@ -15,10 +15,14 @@ import java.util.ArrayList;
 
 public class ViewHandler extends Application {
 
+    //main window of JavaFX application
     private Stage stage;
-    private Parent root;
+    //container for organising UI elements in window
     private Scene scene;
+    //top-level class for handling nodes (UI elements/containers) in JavaFX
+    private Parent root;
 
+    //used to access user-related data
     private User user;
 
     private String quizName;
@@ -36,7 +40,6 @@ public class ViewHandler extends Application {
 
     //flag to ensure scenes switch between pages instead of a new one being created
     private boolean createdInitialScene = false;
-
 
 
     @Override
@@ -61,10 +64,12 @@ public class ViewHandler extends Application {
         openView("Login");
     }
 
+    //used to switch between pages in response to user clicking navigation buttons across the application
     public void openView(String viewToOpen){
         FXMLLoader loader = new FXMLLoader();
 
         try {
+            //locate the FXML file and load it
             loader.setLocation(getClass().getResource(viewToOpen + "View.fxml"));
             root = loader.load();
 
@@ -72,6 +77,8 @@ public class ViewHandler extends Application {
                 case "Login" -> {
                     LoginController view = loader.getController();
                     view.init(this);
+                    /*the scene (window) needs to be created only once
+                    * the contents can then be switched out depending on the required*/
                     if (!createdInitialScene){
                         scene = new Scene(root, 1280, 720);
                         stage.setScene(scene);

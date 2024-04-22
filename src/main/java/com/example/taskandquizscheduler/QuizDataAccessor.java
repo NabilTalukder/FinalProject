@@ -10,7 +10,7 @@ public class QuizDataAccessor {
     private final String usernameDB = "root";
     private final String passwordDB = "";
 
-
+    //used for allowing a user to select from their saved quizzes in Quiz Generator and Schedule
     public ArrayList<Quiz> retrieveQuizzesDB(User user){
         ArrayList<Quiz> quizzes = new ArrayList<>();
         try {
@@ -36,29 +36,7 @@ public class QuizDataAccessor {
         return quizzes;
     }
 
-    public String retrieveQuizIDDB(User user, String quizName){
-        String quizID = "";
-        try {
-            Connection connection = DriverManager.getConnection(connectionURL,
-                    usernameDB, passwordDB);
-            String sql = "SELECT quiz_ID FROM quiz WHERE user_ID = ? AND name = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, user.getUser_ID());
-            preparedStatement.setString(2, quizName);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()){
-                quizID = resultSet.getString("quiz_ID");
-            }
-            preparedStatement.close();
-            connection.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return quizID;
-    }
-
+    //used for reconstructing a quiz with its associated questions
     public ArrayList<Question> retrieveQuestionsDB(String quizID){
         ArrayList<Question> questions = new ArrayList<>();
         try {
@@ -86,6 +64,7 @@ public class QuizDataAccessor {
         return questions;
     }
 
+    //used when taking a quiz the user has saved
     public ArrayList<ArrayList<String>> reconstructQuizFromDB(ArrayList<Question> questions){
         //contains questions and answers
         //in the form [[question 1, option 1, 2, 3, 4, answer], ... [question n, option 1, 2, 3, 4, answer]]
@@ -114,19 +93,16 @@ public class QuizDataAccessor {
                 }
 
                 //format into form [question, option 1, 2, 3, 4, answer]
-                //first is question
                 questionAndOptions.add(question.getDescription());
                 String answer = "";
-                //then the options
+
                 for (Option option : options){
                     questionAndOptions.add(option.getText());
                     if (option.isCorrect()){
                         answer = option.getText();
                     }
                 }
-                //finally, the answer
                 questionAndOptions.add(answer);
-                //add formatted question to the quiz
                 wholeQuiz.add(questionAndOptions);
             }
             preparedStatement.close();
@@ -138,6 +114,7 @@ public class QuizDataAccessor {
         return wholeQuiz;
     }
 
+    //used when a user wants to save a quiz
     public String addQuizDB(User user, String quizName){
         String quizID = "";
         try {
@@ -149,6 +126,7 @@ public class QuizDataAccessor {
             preparedStatement.setString(2, quizName);
             int rowsAffected = preparedStatement.executeUpdate();
 
+            //retrieve newly created ID so questions and options can be associated
             if (rowsAffected > 0){
                 ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
                 if (generatedKeys.next()){
@@ -166,6 +144,7 @@ public class QuizDataAccessor {
         return quizID;
     }
 
+    //save questions and associate to a newly saved quiz
     public String addQuestionDB(String quizID, String description){
         String questionID = "";
         try {
@@ -177,6 +156,7 @@ public class QuizDataAccessor {
             preparedStatement.setString(2, description);
             int rowsAffected = preparedStatement.executeUpdate();
 
+            //retrieve newly created ID so options can be associated with the question
             if (rowsAffected > 0){
                 ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
                 if (generatedKeys.next()){
@@ -194,6 +174,7 @@ public class QuizDataAccessor {
         return questionID;
     }
 
+    //save options and associate to the corresponding question in the newly saved quiz
     public void addOptionsDB(String questionID, ArrayList<String> questionAndOptions){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,

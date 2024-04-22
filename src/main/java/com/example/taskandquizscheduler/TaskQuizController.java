@@ -14,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
-import javax.swing.*;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
@@ -25,6 +24,7 @@ import java.util.function.Predicate;
 
 public class TaskQuizController extends TaskController {
 
+    //used to switch between scenes/pages
     private ViewHandler viewHandler;
 
     private QuizDataAccessor quizDataAccessor;
@@ -42,6 +42,7 @@ public class TaskQuizController extends TaskController {
         quizDataAccessor = new QuizDataAccessor();
     }
 
+    //disable confirm button unless user has entered into fields
     @FXML
     protected void initialize(){
         confirmButton.setDisable(true);

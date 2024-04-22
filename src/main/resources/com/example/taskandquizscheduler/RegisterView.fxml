@@ -108,7 +108,7 @@
                                                       </HBox>
                                                       <HBox prefHeight="100.0" prefWidth="200.0">
                                                          <children>
-                                                            <Hyperlink fx:id="signInRegisterLink" alignment="TOP_LEFT" contentDisplay="TOP" onAction="#goToLogin" prefHeight="33.0" prefWidth="155.0" text="Sign In">
+                                                            <Hyperlink fx:id="signInOrRegisterLink" alignment="TOP_LEFT" contentDisplay="TOP" onAction="#goToLogin" prefHeight="33.0" prefWidth="155.0" text="Sign In">
                                                                <opaqueInsets>
                                                                   <Insets />
                                                                </opaqueInsets>

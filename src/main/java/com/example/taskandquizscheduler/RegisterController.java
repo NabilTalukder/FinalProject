@@ -26,7 +26,11 @@ public class RegisterController extends LoginController {
 
     @FXML @Override
     protected void initialize(){
+        //Register page has same fields as Login, so they will also need to be initialized
         super.initialize();
+
+        //set constraints on email and password fields so the user inputs valid credentials
+        //fields display error message if the user-input is invalid
 
         Constraint formatConstraint = Constraint.Builder.build()
                 .setSeverity(Severity.ERROR)
@@ -86,7 +90,7 @@ public class RegisterController extends LoginController {
 
     }
 
-
+    //adds listener for email and password fields to validate them
     @FXML
     private void addValidationListener(MFXTextField textField, Label validationLabel) {
         textField.getValidator().validProperty().addListener((observable, oldValue, newValue) -> {
@@ -97,11 +101,15 @@ public class RegisterController extends LoginController {
         });
     }
 
+    //checks changes (new user-entered text) against constraints
     @FXML
     private void validateField(MFXTextField textField, Label validationLabel) {
         List<Constraint> constraints = textField.validate();
         if (!constraints.isEmpty()) {
+            //invalid pseudo class is CSS style to make fields appear red upon invalid input
             textField.pseudoClassStateChanged(INVALID_PSEUDO_CLASS, true);
+            //the 0th element is the constraint that is at the front of the list
+            //only one error message can be shown at once
             validationLabel.setText(constraints.get(0).getMessage());
             validationLabel.setVisible(true);
         }

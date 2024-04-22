@@ -7,6 +7,7 @@ public class Task {
     //used for marking the task as complete on the calendar if the user has completed it
     private String status;
 
+    //used to identify if a task is a quiz or not, so a quiz can be started from the Schedule
     private String taskType;
 
     public String getTaskName() {

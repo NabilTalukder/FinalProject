@@ -1,15 +1,9 @@
 package com.example.taskandquizscheduler;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXProgressBar;
 import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ToggleButton;
-import javafx.stage.Stage;
 import java.util.ArrayList;
 
 //handles the quiz process by showing a question and options for the user to select
@@ -18,12 +12,6 @@ public class QuizController {
     //used to switch between scenes/pages
     private ViewHandler viewHandler;
 
-    //main window of JavaFX application
-    private Stage stage;
-    //container for organising UI elements in window
-    private Scene scene;
-    //top-level class for handling nodes (UI elements/containers) in JavaFX
-    private Parent root;
     //the questions generated and received from the Python program
     private ArrayList<ArrayList<String>> questionList;
     //question number to iterate through the quiz
@@ -37,7 +25,7 @@ public class QuizController {
     //allows user to return to the page they came from
     private String previousView;
 
-    //header showing the type of quiz
+    //header showing the name of the quiz
     @FXML
     private Label quizTitle;
     //the actual text for the question being shown
@@ -64,7 +52,7 @@ public class QuizController {
         this.viewHandler = viewHandler;
     }
 
-    //returns to previous page for QoL
+    //returns to previous page (Schedule or Quiz Generator) for QoL
     @FXML
     protected void exitQuiz(){
         viewHandler.openView(previousView);
@@ -117,15 +105,14 @@ public class QuizController {
         }
     }
 
-    //iterate through the questions
     private void nextQuestion(){
         currentQuestion += 1;
         //update progress bar to represent percentage of questions
         //-1 because 0th element is the quiz title. Remaining elements are questions
         quizProgress.setProgress((float)currentQuestion / (float)(questionList.size() - 1));
-        //set title of quiz to let the user know it has started
+        //set title of quiz to let the user know that they have selected the quiz they intended
         quizTitle.setText(questionList.get(0).get(0));
-        //display the question
+        //display the question description
         questionDesc.setText(questionList.get(currentQuestion).get(0));
         //display current score. -1 because 0th element is the quiz title. Remaining elements are questions
         scoreCounter.setText("Score: " + score + "/" + (questionList.size() - 1));

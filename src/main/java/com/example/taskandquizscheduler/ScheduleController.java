@@ -29,14 +29,7 @@ public class ScheduleController {
 
     //used to switch between scenes/pages
     private ViewHandler viewHandler;
-
-    //main window of JavaFX application
-    private Stage stage;
-    //container for organising UI elements in window
-    private Scene scene;
-    //top-level class for handling nodes (UI elements/containers) in JavaFX
-    private Parent root;
-
+    //used to access user-related data
     private User user;
 
     //flag for when the days can start being displayed in the calendar cells
@@ -66,7 +59,7 @@ public class ScheduleController {
     @FXML
     private MFXButton scheduleButton = new MFXButton();
     @FXML
-    private Button addTaskButton;
+    private MFXButton addTaskButton;
     @FXML
     private MFXButton addQuizButton;
 
@@ -394,10 +387,6 @@ public class ScheduleController {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public HashMap<String, ArrayList<Task>> getTasksMap() {
-        return tasksMap;
     }
 
     public void setTasksMap(HashMap<String, ArrayList<Task>> tasksMap) {

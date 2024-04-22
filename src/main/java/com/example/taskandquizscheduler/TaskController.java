@@ -27,11 +27,8 @@ public class TaskController {
 
     //main window of JavaFX application
     private Stage stage;
-    //container for organising UI elements in window
-    private Scene scene;
-    //top-level class for handling nodes (UI elements/containers) in JavaFX
-    private Parent root;
 
+    //used to access user-related data
     protected User user;
 
     //queries database for tasks
@@ -51,11 +48,10 @@ public class TaskController {
     //label for indicating the action the user is taking when handling (adding/editing) a task
     @FXML
     protected Label taskTypeLabel;
-    //used for confirming changes done to a task, be it adding or editing
     @FXML
     protected MFXButton confirmButton;
     //allows user to select the date a task should be due and thus,
-    // where in the calendar it should be shown
+    //where in the calendar it should be shown
     @FXML
     protected MFXDatePicker dueDatePicker;
 
@@ -71,6 +67,7 @@ public class TaskController {
     @FXML
     protected Hyperlink completeLink;
 
+    //disable confirm button unless user has entered into fields
     @FXML
     protected void initialize(){
         confirmButton.setDisable(true);

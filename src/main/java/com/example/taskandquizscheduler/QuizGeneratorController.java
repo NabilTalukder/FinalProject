@@ -29,22 +29,14 @@ public class QuizGeneratorController {
     //used to switch between scenes/pages
     private ViewHandler viewHandler;
 
-    //main window of JavaFX application
-    private Stage stage;
-    //container for organising UI elements in window
-    private Scene scene;
-    //top-level class for handling nodes (UI elements/containers) in JavaFX
-    private Parent root;
     //the questions generated and received from the Python program
     private ArrayList<ArrayList<String>> questionList;
     //question number to iterate through the questions in the output area
     private int currentQuestion = 0;
-    //input from the user to be used in the prompt to generate a quiz
-    private String quizGenInput;
     //the output of the prompt (generated quiz)
     private String quizGenOutput;
     private String quizName = "Multiple Choice Quiz";
-
+    //used to access user-related data
     private User user;
     private QuizDataAccessor quizDataAccessor;
 
@@ -65,12 +57,15 @@ public class QuizGeneratorController {
     private MFXButton startQuizButton = new MFXButton();
     @FXML
     private MFXButton saveQuizButton = new MFXButton();
+
     //holds saved quizzes
     @FXML
     private MFXFilterComboBox<Quiz> loadQuizComboBox = new MFXFilterComboBox<>();
+
     //input area for user to enter text to be used in the prompt to generate a quiz
     @FXML
     private TextArea quizGenInputArea;
+    //used to specify the number of questions that should be generated
     @FXML
     private MFXTextField numQuestionsField;
     @FXML
@@ -78,6 +73,7 @@ public class QuizGeneratorController {
     @FXML
     private MFXTextField quizNameField;
 
+    //text fields for specifying what each option should be for any given question
     @FXML
     private MFXTextField option1Field;
     @FXML
@@ -89,6 +85,7 @@ public class QuizGeneratorController {
     @FXML
     private MFXTextField[] optionFields;
 
+    //radio buttons for assigning the correct answer for a question
     @FXML
     private MFXRadioButton option1Radio;
     @FXML

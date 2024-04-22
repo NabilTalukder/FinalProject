@@ -1,5 +1,6 @@
 package com.example.taskandquizscheduler;
 
+//used for handling data related to multiple choice quizzes
 public class Quiz {
 
     private String quizName;

@@ -57,6 +57,7 @@ public class TaskDataAccessor {
         return tasksMap;
     }
 
+    //if a user has assigned a task, it's added to the database
     public void addTaskDB(String taskName, String dueDate, User user, String taskType){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,
@@ -80,6 +81,7 @@ public class TaskDataAccessor {
         System.out.println("added task");
     }
 
+    //editing a task in the Schedule is updated in the database
     public void editTaskDB(String oldTaskName, String newTaskName, String oldDueDate, String newDueDate, User user){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,

@@ -17,7 +17,7 @@ public class LoginController{
     protected String email;
     protected String password;
 
-    //queries database for users
+    //queries database to check credentials
     protected UserDataAccessor userDataAccessor = new UserDataAccessor();
 
     @FXML
@@ -25,11 +25,13 @@ public class LoginController{
     @FXML
     protected MFXPasswordField passwordField;
     @FXML
-    protected Hyperlink forgotPasswordLink;
-    @FXML
     protected MFXButton confirmButton;
+
+    //link that allows user to switch between login or register pages
     @FXML
-    protected Hyperlink signInRegisterLink;
+    protected Hyperlink signInOrRegisterLink;
+
+    //show error messages for the email and password fields
     @FXML
     protected Label emailValidationLabel;
     @FXML
@@ -38,6 +40,7 @@ public class LoginController{
 
     @FXML
     protected void initialize(){
+        //validation labels should be hidden by default
         emailValidationLabel.setTextFill(Paint.valueOf("red"));
         passwordValidationLabel.setTextFill(Paint.valueOf("red"));
         emailValidationLabel.setVisible(false);
@@ -74,7 +77,6 @@ public class LoginController{
         viewHandler.openView("Register");
     }
 
-
     @FXML
     protected void confirmDetails() {
         email = emailField.getText();
@@ -88,6 +90,7 @@ public class LoginController{
             validateBlankFields();
         }
         else {
+            //check if email exists in database
             boolean validEmail = userDataAccessor.validateEmailDB(email);
             if (!validEmail){
                 emailValidationLabel.setVisible(true);
@@ -97,6 +100,7 @@ public class LoginController{
             else {
                 emailValidationLabel.setVisible(false);
                 emailField.setStyle("-fx-border-color: -mfx-purple");
+                //retrieve userID for future data access (if password is correct)
                 String retrievedUserID = userDataAccessor.validatePasswordDB(email, password);
                 if (retrievedUserID.isBlank()) {
                     passwordValidationLabel.setVisible(true);

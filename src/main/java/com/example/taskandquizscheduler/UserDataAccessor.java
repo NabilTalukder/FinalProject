@@ -9,6 +9,7 @@ public class UserDataAccessor {
     private final String usernameDB = "root";
     private final String passwordDB = "";
 
+    //at login, check if user-entered email exists
     public boolean validateEmailDB(String enteredEmail){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,
@@ -33,6 +34,7 @@ public class UserDataAccessor {
         return false;
     }
 
+    //at login, check if password matches for the entered email
     public String validatePasswordDB(String enteredEmail, String enteredPassword){
         try {
             Connection connection = DriverManager.getConnection(connectionURL,

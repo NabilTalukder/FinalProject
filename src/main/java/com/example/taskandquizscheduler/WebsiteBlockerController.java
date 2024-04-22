@@ -10,6 +10,7 @@ public class WebsiteBlockerController {
     //used to switch between scenes/pages
     private ViewHandler viewHandler;
 
+    //used to take input (URLs) to block websites
     @FXML
     protected TextArea blockedSitesTextArea = new TextArea();
 

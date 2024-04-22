@@ -1,5 +1,6 @@
 package com.example.taskandquizscheduler;
 
+//used for handling data related to users
 public class User {
 
     private String user_ID;
