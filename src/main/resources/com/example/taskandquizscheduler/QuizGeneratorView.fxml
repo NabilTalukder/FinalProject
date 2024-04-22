@@ -41,11 +41,6 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
                <children>
-                  <MFXButton fx:id="friendsButton" prefHeight="31.0" prefWidth="142.0" text="Friends" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="56.0" prefWidth="88.0">
-               <children>
                   <MFXButton fx:id="logoutButton" onAction="#logout" prefHeight="31.0" prefWidth="142.0" text="Logout">
                      <cursor>
                         <Cursor fx:constant="HAND" />

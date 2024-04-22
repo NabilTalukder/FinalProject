@@ -64,7 +64,7 @@
                                              <children>
                                                 <HBox>
                                                    <children>
-                                                      <Hyperlink alignment="TOP_LEFT" prefHeight="30.0" prefWidth="109.0" text="Forgot Password?" />
+                                                      <HBox prefHeight="30.0" prefWidth="105.0" />
                                                       <HBox prefHeight="30.0" prefWidth="225.0">
                                                          <children>
                                                             <Label fx:id="passwordValidationLabel" alignment="TOP_RIGHT" prefHeight="31.0" prefWidth="224.0" text="passwordValidation" />
