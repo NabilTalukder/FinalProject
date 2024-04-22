@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class WebsiteBlockerController {
 

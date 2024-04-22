@@ -71,6 +71,14 @@ public class TaskController {
     @FXML
     protected Hyperlink completeLink;
 
+    @FXML
+    protected void initialize(){
+        confirmButton.setDisable(true);
+        confirmButton.disableProperty()
+                .bind(taskNameField.textProperty().isEmpty()
+                .or(dueDatePicker.valueProperty().isNull()));
+    }
+
     //prepare UI elements to add a task to the calendar
     @FXML
     protected void addTask(String monthVal, String yearVal, String taskType){

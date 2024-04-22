@@ -3,7 +3,6 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -84,39 +83,36 @@
                                           </Label>
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="70.0" prefWidth="87.0">
+                                    <VBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="87.0">
                                        <children>
-                                          <Button fx:id="prevMonthButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#goToPrevMonth" prefHeight="25.0" prefWidth="48.0" text="/\">
-                                             <VBox.margin>
-                                                <Insets left="23.0" top="22.0" />
-                                             </VBox.margin>
+                                          <MFXButton fx:id="prevMonthButton" alignment="CENTER" contentDisplay="CENTER" onAction="#goToPrevMonth" prefHeight="25.0" prefWidth="48.0" text="/\">
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
-                                          </Button>
+                                          </MFXButton>
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="70.0" prefWidth="85.0">
+                                    <VBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="85.0">
                                        <children>
-                                          <Button fx:id="nextMonthButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#goToNextMonth" prefHeight="25.0" prefWidth="48.0" text="\\/">
-                                             <VBox.margin>
-                                                <Insets left="23.0" top="22.0" />
-                                             </VBox.margin>
-                                          </Button>
+                                          <MFXButton fx:id="nextMonthButton" alignment="CENTER" contentDisplay="CENTER" onAction="#goToNextMonth" prefHeight="25.0" prefWidth="48.0" text="\\/">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </MFXButton>
                                        </children>
                                     </VBox>
                                     <VBox prefHeight="70.0" prefWidth="664.0" />
-                                    <VBox prefHeight="70.0" prefWidth="134.0">
-                                       <children>
-                                          <Button fx:id="addTaskButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Add Task">
-                                             <VBox.margin>
-                                                <Insets left="17.0" top="22.0" />
-                                             </VBox.margin>
-                                          </Button>
-                                       </children>
+                                    <VBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="134.0">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
+                                       <children>
+                                          <MFXButton fx:id="addTaskButton" alignment="CENTER" prefHeight="24.0" prefWidth="104.0" text="Add Task">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </MFXButton>
+                                       </children>
                                     </VBox>
                                     <VBox alignment="CENTER_RIGHT" prefHeight="70.0" prefWidth="134.0">
                                        <children>

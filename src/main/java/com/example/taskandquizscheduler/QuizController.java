@@ -1,5 +1,6 @@
 package com.example.taskandquizscheduler;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,7 +32,7 @@ public class QuizController {
     private String answer;
     //holds all user's answers
     private ArrayList<String> userAnswers = new ArrayList<>();
-    ////allows user to return to the page they came from
+    //allows user to return to the page they came from
     private String previousView;
 
     //header showing the type of quiz
@@ -55,6 +56,7 @@ public class QuizController {
     private ToggleButton option3Button;
     @FXML
     private ToggleButton option4Button;
+
 
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;

@@ -43,6 +43,14 @@ public class TaskQuizController extends TaskController {
     }
 
     @FXML
+    protected void initialize(){
+        confirmButton.setDisable(true);
+        confirmButton.disableProperty()
+                .bind(quizNameComboBox.valueProperty().isNull()
+                .or(dueDatePicker.valueProperty().isNull()));
+    }
+
+    @FXML
     protected void initialiseComboBox(){
         //retrieve all the user's saved quizzes
         ArrayList<Quiz> quizzesFromDB = quizDataAccessor.retrieveQuizzesDB(user);
