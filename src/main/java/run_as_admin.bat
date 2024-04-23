@@ -1,3 +1,4 @@
+REM This entire file is AI-generated
 @echo off
 :: BatchGotAdmin
 :-------------------------------------
