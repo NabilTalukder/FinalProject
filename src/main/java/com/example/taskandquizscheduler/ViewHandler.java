@@ -46,6 +46,7 @@ public class ViewHandler extends Application {
     public void start(Stage stage) {
         this.stage = stage;
 
+        // ### start code block from MaterialFX library
         //apply CSS to all stages/scenes of the app
         UserAgentBuilder.builder()
                 //adds JavaFX default theme
@@ -60,10 +61,16 @@ public class ViewHandler extends Application {
                 .build()
                 // Finally, sets the produced stylesheet as the global User-Agent stylesheet
                 .setGlobal();
+        // ### end block
 
         openView("Login");
     }
 
+
+    /*This method was adapted from code by Mortensen, T.
+    * The basic structure is the same - FXMLLoader initialisation and the 2 lines directly beneath the
+    * "locate the FXML file and load it" comment
+    * as well as the basic idea of switching scenes */
     //used to switch between pages in response to user clicking navigation buttons across the application
     public void openView(String viewToOpen){
         FXMLLoader loader = new FXMLLoader();
@@ -73,6 +80,14 @@ public class ViewHandler extends Application {
             loader.setLocation(getClass().getResource(viewToOpen + "View.fxml"));
             root = loader.load();
 
+            /*This switch-case was initially an if-else for each page but IntelliJ suggestion
+            * modified it. The basic structure is the same from the source;
+            * initialising the relevant controller method for the requested page (string of FXML filename)
+            * ExampleController view = loader.getController();
+            * view.init(this);
+            * Each case has specific lines pertaining to the View made by me
+            * The stage.getScene().setRoot(root); are also by me
+            * */
             switch (viewToOpen){
                 case "Login" -> {
                     LoginController view = loader.getController();

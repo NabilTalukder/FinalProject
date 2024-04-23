@@ -14,6 +14,7 @@ public class WebsiteBlockerController {
     @FXML
     protected TextArea blockedSitesTextArea = new TextArea();
 
+    //This method was reused from Mortensen, T.
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;
     }
@@ -37,6 +38,8 @@ public class WebsiteBlockerController {
     @FXML
     protected void blockWebsites() {
         String[] blockedSitesList = blockedSitesTextArea.getText().split("\n");
+
+        // ### start AI-generated code, changed List name to blockedSitesList to fit the line above
 
         // Path to the hosts file
         String hostsFilePath = "C:\\Windows\\System32\\drivers\\etc\\hosts";
@@ -73,6 +76,7 @@ public class WebsiteBlockerController {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        // ### end AI-generated code
 
     }
 }

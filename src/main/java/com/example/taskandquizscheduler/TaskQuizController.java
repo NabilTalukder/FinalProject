@@ -42,6 +42,9 @@ public class TaskQuizController extends TaskController {
         quizDataAccessor = new QuizDataAccessor();
     }
 
+
+    /*This method adapted from AI-generated initialize method in TaskController
+    taskNameField replaced with quizNameComboBox*/
     //disable confirm button unless user has entered into fields
     @FXML
     protected void initialize(){

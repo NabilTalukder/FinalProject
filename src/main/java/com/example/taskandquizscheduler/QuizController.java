@@ -47,7 +47,7 @@ public class QuizController {
     @FXML
     private MFXRectangleToggleNode option4Button;
 
-
+    //This method was reused from Mortensen, T.
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;
     }

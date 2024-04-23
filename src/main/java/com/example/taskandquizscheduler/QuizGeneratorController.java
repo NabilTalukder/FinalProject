@@ -119,6 +119,7 @@ public class QuizGeneratorController {
 
     }
 
+    //This method was reused from Mortensen, T.
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;
     }
@@ -135,6 +136,9 @@ public class QuizGeneratorController {
     protected void initialiseComboBox(){
         //retrieve all the user's saved quizzes
         ArrayList<Quiz> quizzesFromDB = quizDataAccessor.retrieveQuizzesDB(user);
+
+        // ### start: from MaterialFX library, edited with my Quiz class and quizzesFromDB variable
+
         //add the quizzes to the combobox
         ObservableList<Quiz> loadedQuizzes = FXCollections.observableArrayList();
         loadedQuizzes.addAll(quizzesFromDB);
@@ -145,12 +149,16 @@ public class QuizGeneratorController {
         loadQuizComboBox.setItems(loadedQuizzes);
         loadQuizComboBox.setConverter(converter);
         loadQuizComboBox.setFilterFunction(filterFunction);
+
+        // ### end
     }
 
     @FXML
     protected void initialiseTextFields(){
         optionFields = new MFXTextField[] {option1Field, option2Field, option3Field, option4Field};
         optionRadios = new MFXRadioButton[] {option1Radio, option2Radio, option3Radio, option4Radio};
+
+        // ### start AI-generated
 
         // Add event listeners to text fields and radio buttons to save edits
         quizNameField.textProperty().addListener((obs, oldText, newText) -> saveQuizNameEdit(quizNameField));
@@ -159,15 +167,19 @@ public class QuizGeneratorController {
             final int index = i + 1; // To capture the correct index in the lambda expression
             optionFields[i].textProperty().addListener((obs, oldText, newText)
                     -> saveOptionEdits(optionFields[index - 1], index));
+            //this line (optionRadios) by me, inspired by the AI-generated code block above
             optionRadios[i].setOnAction(e -> saveAnswerEdit(optionFields[index - 1]));
         }
+        // ### end AI-generated
 
+        // ### start AI-generated, changed field name to numQuestionsField
         //add filter to prevent non-numerical input
         numQuestionsField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
             if (!event.getCharacter().matches("[0-9]")) {
                 event.consume();
             }
         });
+        // ### end AI-generated
     }
 
     @FXML
@@ -353,6 +365,7 @@ public class QuizGeneratorController {
     }
 
 
+    //This method was AI-generated but with names changed to currentQuestionList, questionList and currentQuestion
     private void saveOptionEdits(MFXTextField optionField, int index) {
         //get the option's corresponding question
         ArrayList<String> currentQuestionList = questionList.get(currentQuestion);

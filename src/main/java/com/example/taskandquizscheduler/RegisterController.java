@@ -15,15 +15,23 @@ import static io.github.palexdev.materialfx.utils.StringUtils.containsAny;
 
 public class RegisterController extends LoginController {
 
+    // ### start code from MaterialFX library
     //validation
     private static final PseudoClass INVALID_PSEUDO_CLASS = PseudoClass.getPseudoClass("invalid");
+
+    // ### start AI-generated code, except the regex from StackOverflow
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$");
+    // ### end AI-generated code
+
     private static final String[] upperChar = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(" ");
     private static final String[] lowerChar = "a b c d e f g h i j k l m n o p q r s t u v w x y z".split(" ");
     private static final String[] digits = "0 1 2 3 4 5 6 7 8 9".split(" ");
     private static final String[] specialCharacters = "! @ # & ( ) – [ { } ]: ; ' , ? / * ~ $ ^ + = < > - .".split(" ");
+    // ### MaterialFX end
 
+    //All code in this method is from MaterialFX library unless otherwise stated to be inspired/modified
+    //or fully written by me
     @FXML @Override
     protected void initialize(){
         //Register page has same fields as Login, so they will also need to be initialized
@@ -32,6 +40,8 @@ public class RegisterController extends LoginController {
         //set constraints on email and password fields so the user inputs valid credentials
         //fields display error message if the user-input is invalid
 
+        // ### start AI-generated code - inspired by the constraints from MaterialFX within this method
+        // the output initially said !EMAIL_PATTERN, but I changed it, so it was usable properly
         Constraint formatConstraint = Constraint.Builder.build()
                 .setSeverity(Severity.ERROR)
                 .setMessage("Invalid email format")
@@ -40,11 +50,13 @@ public class RegisterController extends LoginController {
                         emailField.textProperty()
                 ))
                 .get();
+        // ### end AI-generated code
 
+        //This was also inspired by the passwordField.getValidator() by MaterialFX further down in this method
         emailField.getValidator()
                 .constraint(formatConstraint);
         
-
+        //this line by me
         addValidationListener(emailField, emailValidationLabel);
 
         Constraint lengthConstraint = Constraint.Builder.build()
@@ -86,10 +98,14 @@ public class RegisterController extends LoginController {
                 .constraint(specialCharactersConstraint)
                 .constraint(lengthConstraint);
 
+        //this line by me
         addValidationListener(passwordField, passwordValidationLabel);
 
     }
 
+
+    /*This method was originally part of the intialize() method from MaterialFX library but
+    * adapted by me to become a separate method so it can be used for email and password fields*/
     //adds listener for email and password fields to validate them
     @FXML
     private void addValidationListener(MFXTextField textField, Label validationLabel) {
@@ -101,6 +117,8 @@ public class RegisterController extends LoginController {
         });
     }
 
+    /*This method was originally part of the intialize() method from MaterialFX library but
+     * adapted by me to become a separate method so it can be used for email and password fields*/
     //checks changes (new user-entered text) against constraints
     @FXML
     private void validateField(MFXTextField textField, Label validationLabel) {

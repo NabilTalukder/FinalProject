@@ -68,6 +68,7 @@ public class LoginController{
         });
     }
 
+    //This method was reused from Mortensen, T.
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;
     }

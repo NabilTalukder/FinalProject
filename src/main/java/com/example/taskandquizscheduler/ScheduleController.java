@@ -63,6 +63,7 @@ public class ScheduleController {
     @FXML
     private MFXButton addQuizButton;
 
+    //This method was reused from Mortensen, T.
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;
     }
@@ -309,6 +310,7 @@ public class ScheduleController {
             //set instantiated schedulerController object to taskController so the tasksMap can be received
             taskController.setScheduleController(this);
 
+            // ### AI-generated start (popupStage was called primaryStage in prompt output)
             //set border
             root.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
             Stage popupStage = new Stage();
@@ -326,6 +328,7 @@ public class ScheduleController {
             Scene popupScene = new Scene(root, 300, 325);
             popupStage.initStyle(StageStyle.UNDECORATED);
             popupStage.setScene(popupScene);
+            // ### AI-generated end
             popupStage.setResizable(false);
             popupStage.show();
 
