@@ -44,7 +44,7 @@ public class TaskQuizController extends TaskController {
 
 
     /*This method adapted from AI-generated initialize method in TaskController
-    taskNameField replaced with quizNameComboBox*/
+    * taskNameField line replaced with quizNameComboBox.valueProperty().isNull() by me*/
     //disable confirm button unless user has entered into fields
     @FXML
     protected void initialize(){
@@ -58,6 +58,9 @@ public class TaskQuizController extends TaskController {
     protected void initialiseComboBox(){
         //retrieve all the user's saved quizzes
         ArrayList<Quiz> quizzesFromDB = quizDataAccessor.retrieveQuizzesDB(user);
+
+        // ### start: from MaterialFX library (palexdev, 2024), edited with my Quiz class and quizzesFromDB variable
+
         //add the quizzes to the combobox
         ObservableList<Quiz> loadedQuizzes = FXCollections.observableArrayList();
         loadedQuizzes.addAll(quizzesFromDB);
@@ -68,6 +71,8 @@ public class TaskQuizController extends TaskController {
         quizNameComboBox.setItems(loadedQuizzes);
         quizNameComboBox.setConverter(converter);
         quizNameComboBox.setFilterFunction(filterFunction);
+
+        // ### end
     }
 
     //Retrieve task information for the selected task on the calendar

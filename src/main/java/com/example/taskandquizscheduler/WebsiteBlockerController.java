@@ -14,7 +14,7 @@ public class WebsiteBlockerController {
     @FXML
     protected TextArea blockedSitesTextArea = new TextArea();
 
-    //This method was reused from Mortensen, T.
+    //This method was reused from (Troels Mortensen, 2019)
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;
     }

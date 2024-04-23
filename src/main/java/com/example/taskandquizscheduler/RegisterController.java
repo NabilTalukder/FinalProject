@@ -15,11 +15,11 @@ import static io.github.palexdev.materialfx.utils.StringUtils.containsAny;
 
 public class RegisterController extends LoginController {
 
-    // ### start code from MaterialFX library
+    // ### start code from MaterialFX library (palexdev, 2024)
     //validation
     private static final PseudoClass INVALID_PSEUDO_CLASS = PseudoClass.getPseudoClass("invalid");
 
-    // ### start AI-generated code, except the regex from StackOverflow
+    // ### start AI-generated code, except the regex from StackOverflow (Good Person, 2012)
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$");
     // ### end AI-generated code
@@ -30,7 +30,7 @@ public class RegisterController extends LoginController {
     private static final String[] specialCharacters = "! @ # & ( ) – [ { } ]: ; ' , ? / * ~ $ ^ + = < > - .".split(" ");
     // ### MaterialFX end
 
-    //All code in this method is from MaterialFX library unless otherwise stated to be inspired/modified
+    //All code in this method is from MaterialFX library (palexdev, 2024) unless otherwise stated to be inspired/modified
     //or fully written by me
     @FXML @Override
     protected void initialize(){
@@ -40,7 +40,7 @@ public class RegisterController extends LoginController {
         //set constraints on email and password fields so the user inputs valid credentials
         //fields display error message if the user-input is invalid
 
-        // ### start AI-generated code - inspired by the constraints from MaterialFX within this method
+        // ### start AI-generated code - inspired by the constraints from MaterialFX (palexdev, 2024) within this method
         // the output initially said !EMAIL_PATTERN, but I changed it, so it was usable properly
         Constraint formatConstraint = Constraint.Builder.build()
                 .setSeverity(Severity.ERROR)
@@ -52,11 +52,11 @@ public class RegisterController extends LoginController {
                 .get();
         // ### end AI-generated code
 
-        //This was also inspired by the passwordField.getValidator() by MaterialFX further down in this method
+        //This was also inspired by the passwordField.getValidator() by MaterialFX (palexdev, 2024) further down in this method
         emailField.getValidator()
                 .constraint(formatConstraint);
         
-        //this line by me
+        //this line fully by me
         addValidationListener(emailField, emailValidationLabel);
 
         Constraint lengthConstraint = Constraint.Builder.build()
@@ -98,14 +98,14 @@ public class RegisterController extends LoginController {
                 .constraint(specialCharactersConstraint)
                 .constraint(lengthConstraint);
 
-        //this line by me
+        //this line fully by me
         addValidationListener(passwordField, passwordValidationLabel);
 
     }
 
 
-    /*This method was originally part of the intialize() method from MaterialFX library but
-    * adapted by me to become a separate method so it can be used for email and password fields*/
+    /*This method was originally part of the intialize() method from MaterialFX library (palexdev, 2024) but
+    * adapted by me to become a separate method, so it can be used for email and password fields*/
     //adds listener for email and password fields to validate them
     @FXML
     private void addValidationListener(MFXTextField textField, Label validationLabel) {
@@ -117,8 +117,8 @@ public class RegisterController extends LoginController {
         });
     }
 
-    /*This method was originally part of the intialize() method from MaterialFX library but
-     * adapted by me to become a separate method so it can be used for email and password fields*/
+    /*This method was originally part of the intialize() method from MaterialFX library (palexdev, 2024) but
+     * adapted by me to become a separate method, so it can be used for email and password fields*/
     //checks changes (new user-entered text) against constraints
     @FXML
     private void validateField(MFXTextField textField, Label validationLabel) {

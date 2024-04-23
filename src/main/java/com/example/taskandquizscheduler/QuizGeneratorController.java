@@ -119,7 +119,7 @@ public class QuizGeneratorController {
 
     }
 
-    //This method was reused from Mortensen, T.
+    //This method was reused from (Troels Mortensen, 2019)
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;
     }
@@ -137,7 +137,7 @@ public class QuizGeneratorController {
         //retrieve all the user's saved quizzes
         ArrayList<Quiz> quizzesFromDB = quizDataAccessor.retrieveQuizzesDB(user);
 
-        // ### start: from MaterialFX library, edited with my Quiz class and quizzesFromDB variable
+        // ### start: from MaterialFX library (palexdev, 2024), edited with my Quiz class and quizzesFromDB variable
 
         //add the quizzes to the combobox
         ObservableList<Quiz> loadedQuizzes = FXCollections.observableArrayList();

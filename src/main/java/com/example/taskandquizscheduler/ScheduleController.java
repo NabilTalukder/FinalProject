@@ -63,7 +63,7 @@ public class ScheduleController {
     @FXML
     private MFXButton addQuizButton;
 
-    //This method was reused from Mortensen, T.
+    //This method was reused from (Troels Mortensen, 2019)
     public void init(ViewHandler viewHandler){
         this.viewHandler = viewHandler;
     }
